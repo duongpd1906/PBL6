@@ -49,4 +49,136 @@ export const listComment = [
             },
         ],
     },
-]
+];
+
+export const listChatBar = [
+    {
+        name: "Hieu",
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/280374790_1477115089370427_2274356777150785265_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BGiT7grLdloAX9IRJ_q&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9cSGOCa9XgxlLhOaqjXNYXm19qGb65c2eSuzlvgQuLGQ&oe=63279F08",
+        message: "Di chua",
+        time: "3 giờ",
+    },
+    {
+        name: "Chinh",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Lam xong task chưa á",
+        time: "5 giờ",
+    },
+    {
+        name: "Duong",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Vào review code đi cậu",
+        time: "12 giờ",
+    },
+    {
+        name: "Hieu",
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/280374790_1477115089370427_2274356777150785265_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BGiT7grLdloAX9IRJ_q&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9cSGOCa9XgxlLhOaqjXNYXm19qGb65c2eSuzlvgQuLGQ&oe=63279F08",
+        message: "Di chua",
+        time: "3 giờ",
+    },
+    {
+        name: "Chinh",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Lam xong task chưa á",
+        time: "5 giờ",
+    },
+    {
+        name: "Duong",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Vào review code đi cậu",
+        time: "12 giờ",
+    },
+    {
+        name: "Hieu",
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/280374790_1477115089370427_2274356777150785265_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BGiT7grLdloAX9IRJ_q&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9cSGOCa9XgxlLhOaqjXNYXm19qGb65c2eSuzlvgQuLGQ&oe=63279F08",
+        message: "Di chua",
+        time: "3 giờ",
+    },
+    {
+        name: "Chinh",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Lam xong task chưa á",
+        time: "5 giờ",
+    },
+    {
+        name: "Duong",
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/295441581_3326414374248805_3619395398620134247_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vidoig9Hyt8AX-N1L52&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_jV5GrdKEwQPcBmHaspats-9b3wHuHpDjmkZWvSjqfLA&oe=6329B7FA",
+        message: "Vào review code đi cậu",
+        time: "12 giờ",
+    },
+];
+
+export const chatHistory = [
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "aloo",
+        time: "1h",
+    },
+    {
+        name: "Duong",
+        avatar: "",
+        message: "sao a",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "chi choi khong",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "di xem phim",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "t bao",
+        time: "1h",
+    },
+    {
+        name: "Duong",
+        avatar: "",
+        message: "oke",
+        time: "1h",
+    },
+    {
+      name: "Hieu",
+      avatar: "",
+      message: "aloo",
+      time: "1h",
+  },
+  {
+      name: "Duong",
+      avatar: "",
+      message: "sao a",
+      time: "1h",
+  },
+  {
+      name: "Hieu",
+      avatar: "",
+      message: "chi choi khong",
+      time: "1h",
+  },
+  {
+      name: "Hieu",
+      avatar: "",
+      message: "di xem phim",
+      time: "1h",
+  },
+  {
+      name: "Hieu",
+      avatar: "",
+      message: "t bao",
+      time: "1h",
+  },
+  {
+      name: "Duong",
+      avatar: "",
+      message: "oke",
+      time: "1h",
+  },
+];
