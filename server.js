@@ -8,7 +8,8 @@ dotenv.config();
 
 import connectDB from "./db/connect.js";
 
-
+import cors from "cors"
+app.use(cors())
 
 //routers
 import authRouters from "./routes/authRoutes.js";
