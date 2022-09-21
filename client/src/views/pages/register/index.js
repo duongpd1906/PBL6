@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./register.scss";
 import { useAppContext } from "../../../context/appContext";
 import Alert from "../../../components/alert";
-import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [inputEmailState, setInputEmailState] = useState(false);
@@ -14,17 +13,7 @@ function Register() {
     const [inputPasswordConfirmState, setInputPasswordConfirmState] =
         useState(false);
 
-    const { isLoading, showAlert, user, registerUser } = useAppContext();
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (user) {
-            setTimeout(() => {
-                navigate("/");
-            }, 3000);
-        }
-    }, [user, navigate]);
+    const { isLoading, showAlert, registerUser } = useAppContext();
 
     const onFinish = (values) => {
         const { email, username, password } = values;
