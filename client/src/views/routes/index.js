@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import MainLayout from "../../components/layout"
 import Chat from "../pages/chat";
 import Home from "../pages/home";
 import Login from "../pages/login";
@@ -14,8 +15,8 @@ function AllRoutes() {
                 <Route path="/register" element={<Register />} />
             </Route>
             <Route  path="/" element={<AuthenticatedRoute />}>
-                <Route index element={<Home />} />
-                <Route path="chat" element={<Chat />} />
+            <Route index element={<MainLayout component={Home} />}/>
+            <Route path="chat"element={<MainLayout component={Chat} />}/>
             </Route>
         </Routes>
     );

@@ -6,8 +6,6 @@ import "./home.scss";
 function Home() {
     return (
         <div className="home-container">
-            <div className="home-container__header">
-            </div>
             <Post/>
         </div>
     );
