@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./login.scss";
 import { useAppContext } from "../../../context/appContext";
 import Alert from "../../../components/alert";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [inputEmailState, setInputEmailState] = useState(false);
     const [inputPasswordState, setInputPasswordState] = useState(false);
-    const { isLoading, showAlert, loginUser, user } = useAppContext();
+    const { isLoading, showAlert, loginUser } = useAppContext();
 
     const onFinish = (values) => {
         const { email, password } = values;
@@ -20,16 +19,6 @@ function Login() {
             alertText: "Login Successful! Redirecting...",
         });
     };
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (user) {
-            setTimeout(() => {
-                navigate("/");
-            }, 3000);
-        }
-    }, [user, navigate]);
 
     return (
         <div className="login-container">
