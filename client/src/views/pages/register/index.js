@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./register.scss";
 import { useAppContext } from "../../../context/appContext";
 import Alert from "../../../components/alert";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [inputEmailState, setInputEmailState] = useState(false);
@@ -13,16 +14,25 @@ function Register() {
     const [inputPasswordConfirmState, setInputPasswordConfirmState] =
         useState(false);
 
-    const { isLoading, showAlert, displayAlert } = useAppContext();
+    const { isLoading, showAlert, user, registerUser } = useAppContext();
 
-    const onFinish = (values) => {};
+    const navigate = useNavigate();
 
-    const onFinishFailed = (values) => {
-        const { email, password } = values;
-        if (!email || !password) {
-            displayAlert();
-            return;
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
         }
+    }, [user, navigate]);
+
+    const onFinish = (values) => {
+        const { email, username, password } = values;
+        const currentUser = { email, username, password };
+        registerUser({
+            currentUser,
+            alertText: "User Created! Redirecting...",
+        });
     };
 
     return (
@@ -38,7 +48,6 @@ function Register() {
                     <Form
                         className="d-flex flex-column col-7 mt-5"
                         onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                     >
                         {showAlert && <Alert />}
                         <div

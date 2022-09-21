@@ -1,25 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./login.scss";
 import { useAppContext } from "../../../context/appContext";
 import Alert from "../../../components/alert";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [inputEmailState, setInputEmailState] = useState(false);
     const [inputPasswordState, setInputPasswordState] = useState(false);
-    const { isLoading, showAlert, displayAlert } = useAppContext();
+    const { isLoading, showAlert, loginUser, user } = useAppContext();
 
-    const onFinish = (values) => {};
-
-    const onFinishFailed = (values) => {
+    const onFinish = (values) => {
         const { email, password } = values;
-        if (!email || !password) {
-            displayAlert();
-            return;
-        }
+        const currentUser = { email, password };
+        loginUser({
+            currentUser,
+            alertText: "Login Successful! Redirecting...",
+        });
     };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
+        }
+    }, [user, navigate]);
 
     return (
         <div className="login-container">
@@ -34,7 +44,6 @@ function Login() {
                     <Form
                         className="d-flex flex-column col-7 mt-5"
                         onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                     >
                         {showAlert && <Alert />}
 
