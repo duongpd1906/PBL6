@@ -8,6 +8,7 @@ function MainLayout(props) {
         <div className="main-layout-container d-flex flex-column">
             <Header/>
             <div className="main-layout-content">
+                <SideBar/>
                 <div className="main-layout-content__main">
                     <props.component/>
                 </div>

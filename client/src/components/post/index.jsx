@@ -12,11 +12,11 @@ function Post() {
     <div className="post-container">
       <div className="mx-3">
         <div className="d-flex align-items-center">
-          <div className="col-1 shape-circle">
+          <div className="shape-circle">
             <img
-              className="col-12 img-circle"
-              alt=""
-              src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/278373151_5503087279715838_7561715020076563791_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=KEVB6h_f4YcAX-pkpLI&_nc_ht=scontent.fdad1-4.fna&oh=00_AT8VLiMXcNYC1C1sxJ2gfoALj-9tqS5sAQRewELb6UZaoQ&oe=63267E1C"
+              className="img-circle"
+              style={{width: "55px", height: "55px"}}
+              src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286"
             />
           </div>
           <div className="ms-3">
@@ -37,7 +37,7 @@ function Post() {
       <img
         className="col-12"
         alt=""
-        src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/306659234_5943750155649546_3519050989164955402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=730e14&_nc_ohc=A9VbacK7Y6YAX__CSVv&tn=fQqaHM4RDMemO35s&_nc_ht=scontent.fdad1-4.fna&oh=00_AT_4tDkjcwnJv-HnzL8e51U9vXkn0gT3pR7nhi7u_dfLSg&oe=6326642C"
+        src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/307006168_630438035267025_2885652568492571628_n.jpg?stp=cp6_dst-jpg&_nc_cat=1&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=Y06aGAO0ESAAX_Nisqr&_nc_ht=scontent.fdad1-4.fna&oh=00_AT9aSuXYuO3dS7fv4akIP8gjvPLalrA2r9bK4g_TWGlpcQ&oe=6330A1B8"
       />
       <div className="post-container__bottom mx-3">
         <div className="d-flex align-item-center">
