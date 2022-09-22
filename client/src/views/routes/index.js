@@ -7,6 +7,7 @@ import Login from "../pages/login";
 import Register from "../pages/register";
 import GuestRoute from "../routes/guest-route";
 import AuthenticatedRoute from "../routes/authenticated-route";
+import Error from "../pages/error";
 function AllRoutes() {
     return (
         <Routes>
@@ -15,9 +16,10 @@ function AllRoutes() {
                 <Route path="/register" element={<Register />} />
             </Route>
             <Route  path="/" element={<AuthenticatedRoute />}>
-            <Route index element={<MainLayout component={Home} />}/>
-            <Route path="chat"element={<MainLayout component={Chat} />}/>
+                <Route index element={<MainLayout component={Home} />}/>
+                <Route path="chat"element={<MainLayout component={Chat} />}/>
             </Route>
+            <Route path="*" element={<Error />} />
         </Routes>
     );
 }
