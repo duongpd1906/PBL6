@@ -24,11 +24,11 @@ function Header() {
             <Menu class="header-menu">
                 <Menu.Item key="1" className="header-menu__item">
                     <UserOutlined className="icon"/>
-                    <a to="/">Thông tin cá nhân</a>
+                    <a href="/">Thông tin cá nhân</a>
                 </Menu.Item>
                 <Menu.Item key="2" className="header-menu__item">
                     <LockOutlined className="icon"/>
-                    <a to="/">Đổi mật khẩu</a>
+                    <a href="/">Đổi mật khẩu</a>
                 </Menu.Item>
                 <Menu.Item
                     key="3"
@@ -44,10 +44,10 @@ function Header() {
 
     return (
         <div className="header-container">
-            <h2 className="col-4">
+            <h2 className="col-3">
                 <a href="/">DuongGanhTeam</a>
             </h2>
-            <div className="header-container__center col-4">
+            <div className="header-container__center col-5">
                 <SearchOutlined />
                 <input type="text" placeholder="Tìm kiếm" />
             </div>
@@ -70,7 +70,7 @@ function Header() {
                 </div>
                 <Dropdown overlay={menu} trigger={["click"]}>
                     <div className="avatar">
-                        <img src="https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg" />
+                        <img src="https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg" alt=""/>
                     </div>
                 </Dropdown>
             </div>

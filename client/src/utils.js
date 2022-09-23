@@ -182,3 +182,32 @@ export const chatHistory = [
       time: "1h",
   },
 ];
+
+export const listFriendTag = [
+    {
+        avatar: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+        name: "Nguyễn Hoàng Phú",
+        status: true,
+    },
+    {
+        avatar: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+        name: "Nguyễn Đặng Tuấn Kiệt",
+        status: false,
+    },
+    {
+        avatar: "https://media.istockphoto.com/photos/wild-grass-in-the-mountains-at-sunset-picture-id1322277517?k=20&m=1322277517&s=612x612&w=0&h=ZdxT3aGDGLsOAn3mILBS6FD7ARonKRHe_EKKa-V-Hws=",
+        name: "Đình Dương",
+        status: true,
+    },
+    {
+        avatar: "https://i.pinimg.com/originals/eb/e4/a3/ebe4a37984a8745e78555906765df486.jpg",
+        name: "Nguyễn Đức Chinh",
+        status: true,
+    },
+    {
+        avatar: "https://images.unsplash.com/photo-1551945326-df678a97c3af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHw%3D&w=1000&q=80",
+        name: "Xuân Nhật",
+        status: false,
+    },
+
+]
