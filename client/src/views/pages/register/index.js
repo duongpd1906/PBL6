@@ -3,12 +3,27 @@ import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./register.scss";
+import { useAppContext } from "../../../context/appContext";
+import Alert from "../../../components/alert";
 
 function Register() {
     const [inputEmailState, setInputEmailState] = useState(false);
     const [inputUsernameState, setInputUsernameState] = useState(false);
     const [inputPasswordState, setInputPasswordState] = useState(false);
-    const [inputPasswordConfirmState, setInputPasswordConfirmState] = useState(false);
+    const [inputPasswordConfirmState, setInputPasswordConfirmState] =
+        useState(false);
+
+    const { isLoading, showAlert, registerUser } = useAppContext();
+
+    const onFinish = (values) => {
+        const { email, username, password } = values;
+        const currentUser = { email, username, password };
+        registerUser({
+            currentUser,
+            alertText: "User Created! Redirecting...",
+        });
+    };
+
     return (
         <div className="register-container">
             <div className="register-container__content">
@@ -19,7 +34,11 @@ function Register() {
                 </div>
                 <div className="d-flex flex-column align-items-center col-6">
                     <h1>WELCOME</h1>
-                    <Form className="d-flex flex-column col-7 mt-5">
+                    <Form
+                        className="d-flex flex-column col-7 mt-5"
+                        onFinish={onFinish}
+                    >
+                        {showAlert && <Alert />}
                         <div
                             className={
                                 inputEmailState
@@ -160,6 +179,7 @@ function Register() {
                                 type="primary"
                                 htmlType="submit"
                                 className="btn-submit mt-4 mb-3"
+                                disabled={isLoading}
                             >
                                 REGISTER
                             </Button>

@@ -3,10 +3,23 @@ import { Button, Form, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "./login.scss";
+import { useAppContext } from "../../../context/appContext";
+import Alert from "../../../components/alert";
 
 function Login() {
     const [inputEmailState, setInputEmailState] = useState(false);
     const [inputPasswordState, setInputPasswordState] = useState(false);
+    const { isLoading, showAlert, loginUser } = useAppContext();
+
+    const onFinish = (values) => {
+        const { email, password } = values;
+        const currentUser = { email, password };
+        loginUser({
+            currentUser,
+            alertText: "Login Successful! Redirecting...",
+        });
+    };
+
     return (
         <div className="login-container">
             <div className="login-container__content">
@@ -17,7 +30,12 @@ function Login() {
                 </div>
                 <div className="d-flex flex-column align-items-center col-6">
                     <h1>WELCOME</h1>
-                    <Form className="d-flex flex-column col-7 mt-5">
+                    <Form
+                        className="d-flex flex-column col-7 mt-5"
+                        onFinish={onFinish}
+                    >
+                        {showAlert && <Alert />}
+
                         <div
                             className={
                                 inputEmailState
@@ -85,6 +103,7 @@ function Login() {
                                 type="primary"
                                 htmlType="submit"
                                 className="btn-submit my-3"
+                                disabled={isLoading}
                             >
                                 LOGIN
                             </Button>
