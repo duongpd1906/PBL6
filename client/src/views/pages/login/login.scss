@@ -34,6 +34,7 @@
             align-items: center;
             .ant-form-item {
                 width: 100%;
+                margin: 0;
             }
             .input {
                 padding-left: 20px;
@@ -52,8 +53,8 @@
             }
             .ant-form-item-explain-error {
                 position: absolute;
-                top: 110%;
-                left: 45px;
+                top: 120%;
+                left: 20px;
                 color: red;
             }
         }
@@ -95,6 +96,7 @@
         letter-spacing: 1px;
         background-color: #38b3ef;
         transition: all 0.5s ease;
+        height: fit-content;
         span {
             color: #fff;
         }
@@ -106,4 +108,16 @@
             color: #fff !important;
         }
     }
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    box-shadow: none !important;
+}
+.ant-input{
+    width: 100% !important;
+}
+.ant-input:focus, .ant-input:not(:hover){
+    box-shadow: none !important;
+}
+.ant-input:not(:hover){
+    box-shadow: none !important;
 }
