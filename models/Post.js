@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
-    createdBy: {
+    user: {
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: [true, "Please provide user"],
@@ -12,14 +12,14 @@ const PostSchema = new mongoose.Schema({
     likes: [
         {
             user: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Types.ObjectId,
             },
         },
     ],
     comments: [
         {
             user: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Types.ObjectId,
             },
             text: {
                 type: String,
