@@ -24,7 +24,7 @@ function Header() {
             <Menu class="header-menu">
                 <Menu.Item key="1" className="header-menu__item">
                     <UserOutlined className="icon"/>
-                    <a href="/">Thông tin cá nhân</a>
+                    <a href="/profile">Thông tin cá nhân</a>
                 </Menu.Item>
                 <Menu.Item key="2" className="header-menu__item">
                     <LockOutlined className="icon"/>

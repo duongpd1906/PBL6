@@ -57,6 +57,7 @@
         }
         .avatar{
             padding: 0;
+            cursor: pointer;
             img{
                 height: 40px;
                 width: 40px;
@@ -100,6 +101,9 @@
         align-items: center;
         gap: 15px;
         padding: 5px 10px ;
+    }
+    a{
+        text-decoration: none;
     }
 }
 a:hover{

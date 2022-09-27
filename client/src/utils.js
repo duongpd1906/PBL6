@@ -146,41 +146,41 @@ export const chatHistory = [
         time: "1h",
     },
     {
-      name: "Hieu",
-      avatar: "",
-      message: "aloo",
-      time: "1h",
-  },
-  {
-      name: "Duong",
-      avatar: "",
-      message: "sao a",
-      time: "1h",
-  },
-  {
-      name: "Hieu",
-      avatar: "",
-      message: "chi choi khong",
-      time: "1h",
-  },
-  {
-      name: "Hieu",
-      avatar: "",
-      message: "di xem phim",
-      time: "1h",
-  },
-  {
-      name: "Hieu",
-      avatar: "",
-      message: "t bao",
-      time: "1h",
-  },
-  {
-      name: "Duong",
-      avatar: "",
-      message: "oke",
-      time: "1h",
-  },
+        name: "Hieu",
+        avatar: "",
+        message: "aloo",
+        time: "1h",
+    },
+    {
+        name: "Duong",
+        avatar: "",
+        message: "sao a",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "chi choi khong",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "di xem phim",
+        time: "1h",
+    },
+    {
+        name: "Hieu",
+        avatar: "",
+        message: "t bao",
+        time: "1h",
+    },
+    {
+        name: "Duong",
+        avatar: "",
+        message: "oke",
+        time: "1h",
+    },
 ];
 
 export const listFriendTag = [
@@ -209,5 +209,58 @@ export const listFriendTag = [
         name: "Xuân Nhật",
         status: false,
     },
+];
 
-]
+export const listFriendAvatar = [
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286",
+    },
+    {
+        avatar: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-1/278928972_891043992293151_6156534136019732424_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=105&ccb=1-7&_nc_sid=7206a8&_nc_ohc=Zfznd-He77QAX8Rdxd8&tn=fQqaHM4RDMemO35s&_nc_ht=scontent.fdad1-4.fna&oh=00_AT_vtazNyINgHyFg_bMTjng3oRl_9akD-bL4qFGTBADDIA&oe=63370112",
+    },
+    {
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-1/75380172_1201505700050192_9177000975766913024_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=111&ccb=1-7&_nc_sid=7206a8&_nc_ohc=rUYTZPZmVW0AX87SvYX&_nc_ht=scontent.fdad1-3.fna&oh=00_AT9ejWAsUqWRONmMTDtLSLMXR_a_AGSKs3mjIJ3CSipGGw&oe=63574631",
+    },
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/298527361_1495099160919596_6013977828286157850_n.jpg?stp=cp6_dst-jpg_p48x48&_nc_cat=107&ccb=1-7&_nc_sid=7206a8&_nc_ohc=xznMX_eu_7MAX-T0fPY&tn=fQqaHM4RDMemO35s&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8ZYZkfxYQ2Vz5z9_Njft_awAjmpbCcLrYNJvxTqc1qSA&oe=63385817",
+    },
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/294878607_1213425769392191_8056754022126032415_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=s3a5i_bGpPIAX9qX7Jl&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8tEqurZnteYiU6FsqQQcKq9m2iSxsP2OdsPrk2ei16EQ&oe=6336D8D3",
+    },
+    {
+        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.6435-1/106212243_1178117782553901_5146711121558487328_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=MknIcUu8B9cAX-As5j6&_nc_ht=scontent.fdad1-1.fna&oh=00_AT8oruXYhRmTlw84SHQmTtRpku1HJEW6DcEQpBuCJEkrRQ&oe=6359F232",
+    },
+];
+
+export const listFriends = [
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286",
+        name: "Hieu",
+        mutual_friend: 2,
+    },
+    {
+        avatar: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-1/278928972_891043992293151_6156534136019732424_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=105&ccb=1-7&_nc_sid=7206a8&_nc_ohc=Zfznd-He77QAX8Rdxd8&tn=fQqaHM4RDMemO35s&_nc_ht=scontent.fdad1-4.fna&oh=00_AT_vtazNyINgHyFg_bMTjng3oRl_9akD-bL4qFGTBADDIA&oe=63370112",
+        name: "Anh Huyen",
+        mutual_friend: 20,
+    },
+    {
+        avatar: "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-1/75380172_1201505700050192_9177000975766913024_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=111&ccb=1-7&_nc_sid=7206a8&_nc_ohc=rUYTZPZmVW0AX87SvYX&_nc_ht=scontent.fdad1-3.fna&oh=00_AT9ejWAsUqWRONmMTDtLSLMXR_a_AGSKs3mjIJ3CSipGGw&oe=63574631",
+        name: "Ayaka Kutachi",
+        mutual_friend: 5,
+    },
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/298527361_1495099160919596_6013977828286157850_n.jpg?stp=cp6_dst-jpg_p48x48&_nc_cat=107&ccb=1-7&_nc_sid=7206a8&_nc_ohc=xznMX_eu_7MAX-T0fPY&tn=fQqaHM4RDMemO35s&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8ZYZkfxYQ2Vz5z9_Njft_awAjmpbCcLrYNJvxTqc1qSA&oe=63385817",
+        name: "Bich Chi",
+        mutual_friend: 25,
+    },
+    {
+        avatar: "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/294878607_1213425769392191_8056754022126032415_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=s3a5i_bGpPIAX9qX7Jl&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8tEqurZnteYiU6FsqQQcKq9m2iSxsP2OdsPrk2ei16EQ&oe=6336D8D3",
+        name: "Meo Meo",
+        mutual_friend: 15,
+    },
+    {
+        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.6435-1/106212243_1178117782553901_5146711121558487328_n.jpg?stp=cp0_dst-jpg_p48x48&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=MknIcUu8B9cAX-As5j6&_nc_ht=scontent.fdad1-1.fna&oh=00_AT8oruXYhRmTlw84SHQmTtRpku1HJEW6DcEQpBuCJEkrRQ&oe=6359F232",
+        name: "Ayo Ayo",
+        mutual_friend: 5,
+    },
+];

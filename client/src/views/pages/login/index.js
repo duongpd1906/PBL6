@@ -26,6 +26,7 @@ function Login() {
                 <div className="col-6">
                     <img
                         src={require("../../../assets/images/Account-amico.png")}
+                        alt=""
                     />
                 </div>
                 <div className="d-flex flex-column align-items-center col-6">

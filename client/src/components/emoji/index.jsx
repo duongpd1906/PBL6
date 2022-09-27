@@ -22,6 +22,7 @@ function Emoji({ state }) {
           className="img-circle"
           style={{ width: "35px" }}
           src={require("../../assets/images/haha.png")}
+          alt=""
         />
         <img
           className="img-circle"
