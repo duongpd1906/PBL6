@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import Emoji from "../../emoji";
 import "./replied-comment.scss";
 function RepliedComment(props) {
-  const { name, comment, time, reply } = props.data;
+  const { name, comment, time } = props.data;
   const [showEmoji, setShowEmoji] = useState(false);
   return (
     <div className="reply-comment-container">
@@ -15,7 +15,7 @@ function RepliedComment(props) {
       />
       <div className="ms-2">
         <div className="reply-comment-container__text">
-          <a className="user-name" href="#">
+          <a className="user-name" href="/">
             {name}
           </a>
           <p>{comment}</p>
@@ -23,13 +23,14 @@ function RepliedComment(props) {
         <div className="reply-comment-container__reply-action ms-3">
           <a
             className="position-relative"
+            href="/"
             onMouseEnter={() => setShowEmoji(true)}
             onMouseLeave={() => setShowEmoji(false)}
           >
             <Emoji state={showEmoji} />
             Thích
           </a>
-          <a href="#">Phản hồi</a>
+          <a href="/">Phản hồi</a>
           <label>{time}</label>
         </div>
       </div>

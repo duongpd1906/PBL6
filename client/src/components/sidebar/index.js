@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 import {
@@ -16,6 +17,7 @@ const largeSideBar = 230
 const smallSideBar = 80
 
 function SideBar() {
+    const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Sider
@@ -25,7 +27,7 @@ function SideBar() {
             onCollapse={() => setCollapsed(!collapsed)}
         >
             <Menu className="side-bar-container">
-                <Menu.Item key="1" className="item" icon={<HomeOutlined className="icon"/>}>
+                <Menu.Item key="1" className="item" icon={<HomeOutlined className="icon"/>} onClick={() => navigate("/")}>
                     <p>Trang chủ</p>
                 </Menu.Item>
                 <Menu.Item key="2"className="item" icon={<CompassOutlined className="icon"/>}>

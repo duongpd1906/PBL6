@@ -7,7 +7,7 @@ function ChatBar(props) {
     return (
         <div className="chat-bar-content px-3">
             <div className="avatar">
-                <img src={avatar} />
+                <img src={avatar} alt=""/>
             </div>
             <div className="name">
                 <div>{name}</div>
