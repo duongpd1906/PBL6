@@ -4,6 +4,7 @@ import { listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
 import FriendCard from "../../../components/friend/card";
+import EditProfile from "../../../components/modal/edit-profile";
 import "./profile.scss";
 
 const POST_TAB = 1;
@@ -12,6 +13,10 @@ const FRIEND_TAB = 3;
 
 function Profile() {
     const [tab, setTab] = useState(POST_TAB);
+    const [ isModalOpen, setisModalOpen ] = useState(false)
+    const handleOpenModal = state => {
+        setisModalOpen(state)
+    }
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
@@ -36,11 +41,12 @@ function Profile() {
                             />
                         ))}
                     </div>
-                    <button>Chỉnh sửa thông tin </button>
+                    <button onClick={() => handleOpenModal(true)}>Chỉnh sửa thông tin </button>
+                    <EditProfile isModalOpen={isModalOpen} handleOpenModal={handleOpenModal}/>
                 </div>
             </div>
             <div className="profile-container__content">
-                <div className="profile-container__content__tab col-2">
+                <div className="profile-container__content__tab col-3">
                     <button
                         className={tab === POST_TAB && "active"}
                         onClick={() => setTab(POST_TAB)}
@@ -60,13 +66,10 @@ function Profile() {
                         Bạn bè
                     </button>
                 </div>
-                <div className="col-10 mb-5">
+                <div className="col-9 mb-5">
                     { tab === POST_TAB && <Post />}
                     { tab === INFO_TAB && <Info />}
-                    { 
-                        tab === FRIEND_TAB && 
-                        <div className="ms-2">{listFriends.map((friend) => <FriendCard data={friend} />)}</div>
-                    }
+                    { tab === FRIEND_TAB && listFriends.map((friend) => <FriendCard data={friend} />)}
                 </div>
             </div>
         </div>

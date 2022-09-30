@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/appContext";
+import ChangePassword from "../modal/change-password";
 import { Menu, Dropdown } from "antd";
 import {
     SearchOutlined,
@@ -15,6 +16,10 @@ import "./header.scss";
 function Header() {
     const navigate = useNavigate();
     const { logoutUser } = useAppContext();
+    const [isModalOpen, setisModalOpen] = useState(false);
+    const handleOpenModal = (state) => {
+        setisModalOpen(state);
+    };
     const handleLogout = () => {
         logoutUser();
         navigate("/login");
@@ -22,21 +27,31 @@ function Header() {
     const menu = () => {
         return (
             <Menu class="header-menu">
-                <Menu.Item key="1" className="header-menu__item">
-                    <UserOutlined className="icon"/>
-                    <a href="/profile">Thông tin cá nhân</a>
+                <Menu.Item
+                    key="1"
+                    className="header-menu__item"
+                    onClick={() => navigate("/profile")}
+                >
+                    <UserOutlined className="icon" />
+                    <span>Thông tin cá nhân</span>
                 </Menu.Item>
                 <Menu.Item key="2" className="header-menu__item">
-                    <LockOutlined className="icon"/>
-                    <a href="/">Đổi mật khẩu</a>
+                    <LockOutlined className="icon" />
+                    <span onClick={() => handleOpenModal(true)}>
+                        Đổi mật khẩu
+                    </span>
+                    <ChangePassword
+                        isModalOpen={isModalOpen}
+                        handleOpenModal={handleOpenModal}
+                    />
                 </Menu.Item>
                 <Menu.Item
                     key="3"
                     onClick={handleLogout}
                     className="header-menu__item"
                 >
-                    <LogoutOutlined className="icon"/>
-                    Đăng xuất
+                    <LogoutOutlined className="icon" />
+                    <span>Đăng xuất</span>
                 </Menu.Item>
             </Menu>
         );
@@ -45,7 +60,7 @@ function Header() {
     return (
         <div className="header-container">
             <h2 className="col-3">
-                <a href="/">DuongGanhTeam</a>
+                <a href="/">KuruKu</a>
             </h2>
             <div className="header-container__center col-5">
                 <SearchOutlined />
@@ -70,7 +85,10 @@ function Header() {
                 </div>
                 <Dropdown overlay={menu} trigger={["click"]}>
                     <div className="avatar">
-                        <img src="https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg" alt=""/>
+                        <img
+                            src="https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg"
+                            alt=""
+                        />
                     </div>
                 </Dropdown>
             </div>
