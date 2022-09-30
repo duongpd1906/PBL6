@@ -46,7 +46,7 @@ function Profile() {
                 </div>
             </div>
             <div className="profile-container__content">
-                <div className="profile-container__content__tab col-2">
+                <div className="profile-container__content__tab col-3">
                     <button
                         className={tab === POST_TAB && "active"}
                         onClick={() => setTab(POST_TAB)}
@@ -66,13 +66,10 @@ function Profile() {
                         Bạn bè
                     </button>
                 </div>
-                <div className="col-10 mb-5">
+                <div className="col-9 mb-5">
                     { tab === POST_TAB && <Post />}
                     { tab === INFO_TAB && <Info />}
-                    { 
-                        tab === FRIEND_TAB && 
-                        <div className="ms-2">{listFriends.map((friend) => <FriendCard data={friend} />)}</div>
-                    }
+                    { tab === FRIEND_TAB && listFriends.map((friend) => <FriendCard data={friend} />)}
                 </div>
             </div>
         </div>
