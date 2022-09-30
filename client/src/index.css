@@ -22,7 +22,7 @@ span{
   color: #65676b;
 }
 .txt-blue{
-  color: #1876f2
+  color: #0b628e
 }
 p{
   margin-bottom: 0 !important;
@@ -47,4 +47,15 @@ a:hover{
   height: 1px;
   width: 30px;
   background-color: #65676b;
+}
+.btn:hover{
+  background-color: #dbdbdb;
+}
+.btn-blue{
+  background-color: #0f83bd !important;
+  color: #fff !important;
+  outline: none;
+}
+.btn-blue:hover{
+  background-color: #0b628e !important;
 }

@@ -8,6 +8,9 @@ import {
     LOGIN_USER_BEGIN,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_ERROR, 
+    GET_ALL_POSTS_BEGIN,
+    GET_ALL_POSTS_SUCCESS,
+    GET_ALL_POSTS_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -91,6 +94,29 @@ const reducer = (state, action) => {
             alertText: action.payload.msg,
         };
     }
+
+    if (action.type === GET_ALL_POSTS_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === GET_ALL_POSTS_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            listsPost: action.payload.listsPost,
+        };
+    }
+
+    if (action.type === GET_ALL_POSTS_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+        };
+    }
+
 
     throw new Error(`no such action : ${action.type}`);
 };

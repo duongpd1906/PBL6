@@ -264,3 +264,8 @@ export const listFriends = [
         mutual_friend: 5,
     },
 ];
+
+export const listsPostImages = [
+    "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/307006168_630438035267025_2885652568492571628_n.jpg?stp=cp6_dst-jpg&_nc_cat=1&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=Y06aGAO0ESAAX_Nisqr&_nc_ht=scontent.fdad1-4.fna&oh=00_AT9aSuXYuO3dS7fv4akIP8gjvPLalrA2r9bK4g_TWGlpcQ&oe=6330A1B8",
+    "https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg",
+];

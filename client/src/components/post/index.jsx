@@ -1,13 +1,19 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import React, { useState, useRef } from "react";
+import { Carousel } from "antd";
 import Comment from "../comment";
 import Emoji from "../emoji";
-import { listComment } from "../../utils";
+import { getDate } from "../../helpers/formatDate";
+import { listComment, listsPostImages } from "../../utils";
 import "./post.scss";
-function Post() {
+function Post(props) {
+    const slider = useRef();
+    const { user, text, createdAt } = props.data;
     const [showComment, setShowComment] = useState(false);
     const [showEmoji, setShowEmoji] = useState(false);
+    const dateOfPost = new Date(createdAt)
+    const days = (new Date()).getDate() - dateOfPost.getDate()
+    const hours = (new Date()).getHours() - dateOfPost.getHours() + 7
+    
     return (
         <div className="post-container">
             <div className="mx-3">
@@ -17,29 +23,60 @@ function Post() {
                             className="img-circle"
                             style={{ width: "50px", height: "50px" }}
                             alt=""
-                            src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286"
+                            src={user.avatar}
                         />
                     </div>
                     <div className="ms-3">
                         <a className="user-name" href="/">
-                            Lotte Cinema
+                            {user.username}
                         </a>
                         <br />
-                        <span>9 Tháng 9 lúc 06:00</span>
+                        <span>
+                            { 
+                                (new Date()).getYear() > dateOfPost.getYear() ||
+                                (new Date()).getMonth() > dateOfPost.getMonth() ||
+                                (new Date()).getDate() < dateOfPost.getDate() + 7
+                                    ?   (new Date()).getDate() === dateOfPost.getDate()
+                                        ? hours + " giờ trước"
+                                        : days + " ngày trước" 
+                                    : getDate(createdAt)
+                                    
+                            }
+                        </span>
                     </div>
                 </div>
-                <p className="mt-2">
-                    Quái thú khổng lồ đến từ Thái Lan bắt đầu đổ bộ.
-                    <br />
-                    Cự Đà Triệu Baht | KC 23.09.2022
-                    <p className="txt-blue">#Leio #Cudatrieubaht </p>
-                </p>
+                <p className="mt-2">{text}</p>
             </div>
-            <img
-                className="col-12"
-                alt=""
-                src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/307006168_630438035267025_2885652568492571628_n.jpg?stp=cp6_dst-jpg&_nc_cat=1&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=Y06aGAO0ESAAX_Nisqr&_nc_ht=scontent.fdad1-4.fna&oh=00_AT9aSuXYuO3dS7fv4akIP8gjvPLalrA2r9bK4g_TWGlpcQ&oe=6330A1B8"
-            />
+            <div className="position-relative">
+                <Carousel
+                    className="post-container__list-images"
+                    ref={(ref) => {
+                        slider.current = ref;
+                    }}
+                >
+                    {listsPostImages.map((image) => (
+                        <img alt="" src={image} />
+                    ))}
+                </Carousel>
+                <div
+                    className="post-container__list-images__btn-prev"
+                    onClick={() => slider.current.prev()}
+                >
+                    <img
+                        alt=""
+                        src={require("../../assets/images/btn-prev.png")}
+                    />
+                </div>
+                <div
+                    className="post-container__list-images__btn-next"
+                    onClick={() => slider.current.next()}
+                >
+                    <img
+                        alt=""
+                        src={require("../../assets/images/btn-next.png")}
+                    />
+                </div>
+            </div>
             <div className="post-container__bottom mx-3">
                 <div className="d-flex align-item-center">
                     <img
