@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { listFriendAvatar } from "../../../utils";
-import { listFriends } from "../../../utils";
+import React, { useState, useEffect } from "react";
+import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
 import FriendCard from "../../../components/friend/card";
 import EditProfile from "../../../components/modal/edit-profile";
+import { useAppContext } from "../../../context/appContext";
 import "./profile.scss";
 
 const POST_TAB = 1;
@@ -14,6 +14,10 @@ const FRIEND_TAB = 3;
 function Profile() {
     const [tab, setTab] = useState(POST_TAB);
     const [ isModalOpen, setisModalOpen ] = useState(false)
+    const { listsPost, getAllPosts } = useAppContext();
+    useEffect(() => {
+        getAllPosts();
+    }, []);
     const handleOpenModal = state => {
         setisModalOpen(state)
     }
@@ -67,7 +71,7 @@ function Profile() {
                     </button>
                 </div>
                 <div className="col-9 mb-5">
-                    { tab === POST_TAB && <Post />}
+                    { tab === POST_TAB && listsPost.map((post) => (<Post data={post} />))}
                     { tab === INFO_TAB && <Info />}
                     { tab === FRIEND_TAB && listFriends.map((friend) => <FriendCard data={friend} />)}
                 </div>
