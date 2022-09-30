@@ -4,6 +4,7 @@ import { listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
 import FriendCard from "../../../components/friend/card";
+import EditProfile from "../../../components/modal/edit-profile";
 import "./profile.scss";
 
 const POST_TAB = 1;
@@ -12,6 +13,10 @@ const FRIEND_TAB = 3;
 
 function Profile() {
     const [tab, setTab] = useState(POST_TAB);
+    const [ isModalOpen, setisModalOpen ] = useState(false)
+    const handleOpenModal = state => {
+        setisModalOpen(state)
+    }
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
@@ -36,7 +41,8 @@ function Profile() {
                             />
                         ))}
                     </div>
-                    <button>Chỉnh sửa thông tin </button>
+                    <button onClick={() => handleOpenModal(true)}>Chỉnh sửa thông tin </button>
+                    <EditProfile isModalOpen={isModalOpen} handleOpenModal={handleOpenModal}/>
                 </div>
             </div>
             <div className="profile-container__content">

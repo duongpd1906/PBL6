@@ -48,3 +48,14 @@ a:hover{
   width: 30px;
   background-color: #65676b;
 }
+.btn:hover{
+  background-color: #dbdbdb;
+}
+.btn-blue{
+  background-color: #0f83bd !important;
+  color: #fff !important;
+  outline: none;
+}
+.btn-blue:hover{
+  background-color: #0b628e !important;
+}
