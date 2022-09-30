@@ -60,7 +60,7 @@ function Header() {
     return (
         <div className="header-container">
             <h2 className="col-3">
-                <a href="/">DuongGanhTeam</a>
+                <a href="/">KuruKu</a>
             </h2>
             <div className="header-container__center col-5">
                 <SearchOutlined />

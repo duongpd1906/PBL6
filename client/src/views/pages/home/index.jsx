@@ -10,7 +10,7 @@ function Home() {
     listFriendTag.sort((a, b) => b.status - a.status);
     return (
         <div className="home-container">
-            <div className="m-auto">
+            <div className="m-auto col-6">
                 <Posting/>
                 <Post/>
             </div>
