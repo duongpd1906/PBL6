@@ -11,6 +11,9 @@ import {
     LOGIN_USER_BEGIN,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_ERROR,
+    GET_ALL_POSTS_BEGIN,
+    GET_ALL_POSTS_SUCCESS,
+    GET_ALL_POSTS_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -22,6 +25,7 @@ const initialState = {
     alertType: "",
     user: user ? JSON.parse(user) : null,
     token: token,
+    listsPost: [],
 };
 
 const AppContext = React.createContext();
@@ -101,6 +105,22 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
     };
 
+    const getAllPosts = async () => {
+        dispatch({ type: GET_ALL_POSTS_BEGIN });
+        try {
+            const { data } = await axios.get("/api/post");
+            dispatch({
+                type: GET_ALL_POSTS_SUCCESS,
+                payload: { listsPost: data },
+            });
+        } catch (error) {
+            dispatch({
+                type: GET_ALL_POSTS_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -109,6 +129,7 @@ const AppProvider = ({ children }) => {
                 registerUser,
                 logoutUser,
                 loginUser,
+                getAllPosts,
             }}
         >
             {children}

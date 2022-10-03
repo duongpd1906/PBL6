@@ -12,9 +12,11 @@ import cors from "cors"
 app.use(cors())
 
 //routers
-import authRouters from "./routes/authRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import postRoutes from "./routes/postRoutes.js"
 
-app.use("/api/auth", authRouters);
+app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes)
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
