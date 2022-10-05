@@ -14,7 +14,7 @@ function Friends() {
             <div className="friend-container__tabs">
                 <div
                     className={
-                        tab === ALL_FRIENDS_TAB ? "col-4 active" : "col-4"
+                        tab === ALL_FRIENDS_TAB ? "col-4 tab-active" : "col-4"
                     }
                     onClick={() => setTab(ALL_FRIENDS_TAB)}
                 >
@@ -22,7 +22,7 @@ function Friends() {
                 </div>
                 <div
                     className={
-                        tab === hadInvitation_TAB ? "col-4 active" : "col-4"
+                        tab === hadInvitation_TAB ? "col-4 tab-active" : "col-4"
                     }
                     onClick={() => setTab(hadInvitation_TAB)}
                 >
@@ -30,7 +30,7 @@ function Friends() {
                 </div>
                 <div
                     className={
-                        tab === SUGGESTIONS_TAB ? "col-4 active" : "col-4"
+                        tab === SUGGESTIONS_TAB ? "col-4 tab-active" : "col-4"
                     }
                     onClick={() => setTab(SUGGESTIONS_TAB)}
                 >

@@ -10,10 +10,12 @@ function Post(props) {
     const { user, text, createdAt } = props.data;
     const [showComment, setShowComment] = useState(false);
     const [showEmoji, setShowEmoji] = useState(false);
-    const dateOfPost = new Date(createdAt)
-    const days = (new Date()).getDate() - dateOfPost.getDate()
-    const hours = (new Date()).getHours() - dateOfPost.getHours() + 7
-    
+    const dateOfPost = new Date(createdAt);
+    var minutes = Math.floor((new Date() - dateOfPost) / 60000);
+    if (minutes===0) minutes = 1
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    // 7
     return (
         <div className="post-container">
             <div className="mx-3">
@@ -32,16 +34,15 @@ function Post(props) {
                         </a>
                         <br />
                         <span>
-                            { 
-                                (new Date()).getYear() > dateOfPost.getYear() ||
-                                (new Date()).getMonth() > dateOfPost.getMonth() ||
-                                (new Date()).getDate() < dateOfPost.getDate() + 7
-                                    ?   (new Date()).getDate() === dateOfPost.getDate()
-                                        ? hours + " giờ trước"
-                                        : days + " ngày trước" 
-                                    : getDate(createdAt)
-                                    
-                            }
+                            {new Date().getYear() > dateOfPost.getYear() ||
+                            new Date().getMonth() > dateOfPost.getMonth() ||
+                            new Date().getDate() < dateOfPost.getDate() + 7
+                                ? new Date().getDate() === dateOfPost.getDate()
+                                    ? hours <= 0
+                                        ? minutes + " phút trước"
+                                        : hours + " giờ trước"
+                                    : days + " ngày trước"
+                                : getDate(createdAt)}
                         </span>
                     </div>
                 </div>
