@@ -7,10 +7,13 @@ import {
     LOGOUT_USER,
     LOGIN_USER_BEGIN,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_ERROR, 
+    LOGIN_USER_ERROR,
     GET_ALL_POSTS_BEGIN,
     GET_ALL_POSTS_SUCCESS,
     GET_ALL_POSTS_ERROR,
+    CREATE_POST_BEGIN,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -117,6 +120,29 @@ const reducer = (state, action) => {
         };
     }
 
+    if (action.type === CREATE_POST_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
+    if (action.type === CREATE_POST_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "success",
+            alertText: "New Job Created!",
+        };
+    }
+
+    if (action.type === CREATE_POST_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "danger",
+            alertText: action.payload.msg,
+        };
+    }
 
     throw new Error(`no such action : ${action.type}`);
 };
