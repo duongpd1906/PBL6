@@ -8,11 +8,9 @@ import {
     getPostById,
     updatePost,
     deletePost,
-    getPostByUserId,
 } from "../controllers/postController.js";
 
 router.route("/").post(authenticateUser, createPost).get(getAllPosts);
-router.route("/userId/:id").get(getPostByUserId);
 router
     .route("/:id")
     .get(getPostById)

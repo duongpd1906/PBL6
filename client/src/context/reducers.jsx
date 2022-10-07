@@ -17,6 +17,9 @@ import {
     UPDATE_AVATAR_BEGIN,
     UPDATE_AVATAR_SUCCESS,
     UPDATE_AVATAR_ERROR,
+    GET_USER_PROFILE_BEGIN,
+    GET_USER_PROFILE_SUCCESS,
+    GET_USER_PROFILE_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -98,6 +101,28 @@ const reducer = (state, action) => {
             showAlert: true,
             alertType: "danger",
             alertText: action.payload.msg,
+        };
+    }
+
+    
+    if (action.type === GET_USER_PROFILE_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === GET_USER_PROFILE_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            userProfile: action.payload.userProfile,
+        };
+    }
+    if (action.type === GET_USER_PROFILE_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
         };
     }
 

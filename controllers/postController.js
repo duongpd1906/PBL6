@@ -91,30 +91,10 @@ const deletePost = async (req, res) => {
     }
 };
 
-const getPostByUserId = async (req, res) => {
-    try {
-        const post = await Post.find({ user: req.params.id })
-            .populate("user")
-            .sort({ createdAt: -1 });
-
-        if (!post) {
-            return res
-                .status(StatusCodes.NOT_FOUND)
-                .json({ msg: "Post not found" });
-        }
-
-        res.status(StatusCodes.OK).json(post);
-    } catch (err) {
-        console.error(err.message);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
-    }
-};
-
 export {
     createPost,
     getAllPosts,
     getPostById,
     updatePost,
     deletePost,
-    getPostByUserId,
 };

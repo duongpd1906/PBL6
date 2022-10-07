@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
@@ -12,10 +13,13 @@ const INFO_TAB = 2;
 const FRIEND_TAB = 3;
 
 function Profile() {
+    const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { listsPost, getAllPosts, user } = useAppContext();
+    const { user, userProfile, getProfileById, listsPost, getAllPosts } = useAppContext();
+    const userId = id ? id : user._id
     useEffect(() => {
+        getProfileById(userId);
         getAllPosts();
     }, []);
     const handleOpenModal = (state) => {
@@ -24,9 +28,9 @@ function Profile() {
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img src={user.avatar} alt="" />
+                <img src={userProfile?.avatar} alt="" />
                 <div className="mt-auto ms-4">
-                    <h2>Hieu</h2>
+                    <h2>{userProfile?.fullName}</h2>
                     <h6>240 Ban be</h6>
                     <div className="profile-container__top__list-image">
                         <img
@@ -43,7 +47,7 @@ function Profile() {
                         ))}
                     </div>
                     <button onClick={() => handleOpenModal(true)}>
-                        Chỉnh sửa thông tin{" "}
+                        Chỉnh sửa
                     </button>
                     <EditProfile
                         isModalOpen={isModalOpen}
@@ -74,7 +78,9 @@ function Profile() {
                 </div>
                 <div className="col-9 mb-5">
                     {tab === POST_TAB &&
-                        listsPost.map((post) => <Post data={post} />)}
+                        listsPost
+                            .filter((post) => post.user._id == userId)
+                            .map((post) => <Post data={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&
                         listFriends.map((friend) => (

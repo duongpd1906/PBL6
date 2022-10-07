@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import Profile from "../models/Profile.js";
 import User from "../models/User.js";
 
-const update_user_avatar = async (req, res) => {
+const updateUserAvatar = async (req, res) => {
     try {
         const currentUser = await User.findOne({ _id: req.user.userId });
         currentUser.avatar =
@@ -21,11 +21,10 @@ const update_user_avatar = async (req, res) => {
     }
 };
 
-const send_invitation = async (req, res) => {
+const sendInvitation = async (req, res) => {
     try {
         const friend = await Profile.findOne({ user: req.body.userId });
         const me = await Profile.findOne({ user: req.user.userId });
-        console.log(me);
         if (!me.invitation_send.includes(req.body.userId)) {
             await me.updateOne({ $push: { invitation_send: req.body.userId } });
             await friend.updateOne({
@@ -44,5 +43,15 @@ const send_invitation = async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
     }
 };
+const getProfileById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        const userProfile = await Profile.findOne({ user: req.params.id });
+        res.status(StatusCodes.OK).json({user, userProfile});
+    } catch (error) {
+        console.error(error.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
 
-export { update_user_avatar, send_invitation };
+export { updateUserAvatar, sendInvitation, getProfileById };
