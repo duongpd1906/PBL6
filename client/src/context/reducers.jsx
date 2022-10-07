@@ -14,6 +14,9 @@ import {
     CREATE_POST_BEGIN,
     CREATE_POST_SUCCESS,
     CREATE_POST_ERROR,
+    UPDATE_AVATAR_BEGIN,
+    UPDATE_AVATAR_SUCCESS,
+    UPDATE_AVATAR_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -82,6 +85,7 @@ const reducer = (state, action) => {
             ...state,
             isLoading: false,
             user: action.payload.user,
+            user_ava: action.payload.user.avatar,
             token: action.payload.token,
             showAlert: true,
             alertType: "success",
@@ -142,6 +146,34 @@ const reducer = (state, action) => {
             alertType: "danger",
             alertText: action.payload.msg,
         };
+    }
+
+    if (action.type === UPDATE_AVATAR_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === UPDATE_AVATAR_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "success",
+            alertText: "Update avatar success",
+            user_ava: action.payload.user_ava,
+        }
+    }
+
+    if (action.type === UPDATE_AVATAR_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: "danger",
+            alertText: action.payload.msg,
+        }
     }
 
     throw new Error(`no such action : ${action.type}`);
