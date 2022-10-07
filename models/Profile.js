@@ -21,7 +21,7 @@ const ProfileSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
     },
-    hoppy: {
+    hobby: {
         type: String,
     },
     friends: {
