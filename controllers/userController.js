@@ -13,7 +13,7 @@ const update_user_avatar = async (req, res) => {
                 new: true,
             }
         );
-        res.status(StatusCodes.OK).json(currentUser.avatar);
+        res.status(StatusCodes.OK).json(currentUser);
     } catch (error) {
         console.error(error.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");

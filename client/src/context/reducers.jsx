@@ -85,7 +85,6 @@ const reducer = (state, action) => {
             ...state,
             isLoading: false,
             user: action.payload.user,
-            user_ava: action.payload.user.avatar,
             token: action.payload.token,
             showAlert: true,
             alertType: "success",
@@ -162,7 +161,7 @@ const reducer = (state, action) => {
             showAlert: true,
             alertType: "success",
             alertText: "Update avatar success",
-            user_ava: action.payload.user_ava,
+            user: action.payload.user,
         }
     }
 

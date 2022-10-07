@@ -9,7 +9,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
         updateImage();
     };
 
-    const { updateAvatar } = useAppContext();
+    const { updateAvatar, user } = useAppContext();
 
     const [selectedImage, setSelectedImage] = useState();
 
@@ -21,8 +21,10 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
 
     const updateImage = () => {
         const formData = new FormData();
-        formData.append("image", selectedImage);
-        updateAvatar(formData);
+        if(selectedImage) {
+            formData.append("image", selectedImage);
+            updateAvatar(formData);
+        }
     };
 
     return (
@@ -36,7 +38,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
             <div className="edit-profile__avatar">
                 <img
                     id="user-avatar"
-                    src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286"
+                    src={user.avatar}
                     alt=""
                 />
                 <label for="image-input">
