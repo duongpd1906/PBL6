@@ -15,7 +15,7 @@ import "./header.scss";
 
 function Header() {
     const navigate = useNavigate();
-    const { logoutUser } = useAppContext();
+    const { logoutUser, user } = useAppContext();
     const [isModalOpen, setisModalOpen] = useState(false);
     const handleOpenModal = (state) => {
         setisModalOpen(state);
@@ -86,7 +86,7 @@ function Header() {
                 <Dropdown overlay={menu} trigger={["click"]}>
                     <div className="avatar">
                         <img
-                            src="https://thumbs.dreamstime.com/b/lonely-elephant-against-sunset-beautiful-sun-clouds-savannah-serengeti-national-park-africa-tanzania-artistic-imag-image-106950644.jpg"
+                            src={user.avatar}
                             alt=""
                         />
                     </div>

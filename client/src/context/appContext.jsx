@@ -160,7 +160,7 @@ const AppProvider = ({ children }) => {
     const createPost = async (post) => {
         dispatch({ type: CREATE_POST_BEGIN });
         try {
-            const { data } = await authFetch.post("/post", post);
+            await authFetch.post("/post", post);
             dispatch({ type: CREATE_POST_SUCCESS });
         } catch (error) {
             if (error.response.status === 401) return;
@@ -179,12 +179,13 @@ const AppProvider = ({ children }) => {
                 `/user/avatar`,
                 file
             );
-            const user_ava = res.data;
+            const user = res.data;
             dispatch({
                 type: UPDATE_AVATAR_SUCCESS,
-                payload: { user_ava: user_ava },
+                payload: { user: user },
             });
-            console.log(user_ava);
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.reload(false)
         } catch (error) {
             if (error.response.status === 401) return;
             dispatch({

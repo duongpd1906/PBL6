@@ -14,7 +14,7 @@ const FRIEND_TAB = 3;
 function Profile() {
     const [tab, setTab] = useState(POST_TAB);
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { listsPost, getAllPosts, user_ava } = useAppContext();
+    const { listsPost, getAllPosts, user } = useAppContext();
     useEffect(() => {
         getAllPosts();
     }, []);
@@ -24,7 +24,7 @@ function Profile() {
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img src={user_ava} alt="" />
+                <img src={user.avatar} alt="" />
                 <div className="mt-auto ms-4">
                     <h2>Hieu</h2>
                     <h6>240 Ban be</h6>
