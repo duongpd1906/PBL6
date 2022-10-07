@@ -27,13 +27,11 @@ function Header() {
     const menu = () => {
         return (
             <Menu class="header-menu">
-                <Menu.Item
-                    key="1"
-                    className="header-menu__item"
-                    onClick={() => navigate("/profile")}
-                >
-                    <UserOutlined className="icon" />
-                    <span>Thông tin cá nhân</span>
+                <Menu.Item key="1" className="header-menu__item">
+                    <a href="/profile" className="tag-a">
+                        <UserOutlined className="icon" />
+                        <span>Thông tin cá nhân</span>
+                    </a>
                 </Menu.Item>
                 <Menu.Item key="2" className="header-menu__item">
                     <LockOutlined className="icon" />
@@ -85,10 +83,7 @@ function Header() {
                 </div>
                 <Dropdown overlay={menu} trigger={["click"]}>
                     <div className="avatar">
-                        <img
-                            src={user.avatar}
-                            alt=""
-                        />
+                        <img src={user.avatar} alt="" />
                     </div>
                 </Dropdown>
             </div>

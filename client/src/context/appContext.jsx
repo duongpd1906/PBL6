@@ -20,6 +20,12 @@ import {
     UPDATE_AVATAR_BEGIN,
     UPDATE_AVATAR_ERROR,
     UPDATE_AVATAR_SUCCESS,
+    GET_ALL_USER_POSTS_BEGIN,
+    GET_ALL_USER_POSTS_SUCCESS,
+    GET_ALL_USER_POSTS_ERROR,
+    GET_USER_PROFILE_BEGIN,
+    GET_USER_PROFILE_SUCCESS,
+    GET_USER_PROFILE_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -32,7 +38,7 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     listsPost: [],
-    user_ava: "",
+    userProfile: null,
 };
 
 const AppContext = React.createContext();
@@ -141,6 +147,28 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
     };
 
+    const getProfileById = async ( userId ) => {
+        dispatch({ type: GET_USER_PROFILE_BEGIN });
+        try {
+            const { data } = await authFetch.get(`/user/${userId}`);
+            var { user, userProfile } = data
+            userProfile.username = user.username
+            userProfile.avatar = user.avatar
+            userProfile.email = user.email
+            dispatch({
+                type: GET_USER_PROFILE_SUCCESS,
+                payload: { userProfile: userProfile },
+            });
+
+        } catch (error) {
+            dispatch({
+                type: GET_USER_PROFILE_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
+
     const getAllPosts = async () => {
         dispatch({ type: GET_ALL_POSTS_BEGIN });
         try {
@@ -202,8 +230,9 @@ const AppProvider = ({ children }) => {
                 ...state,
                 displayAlert,
                 registerUser,
-                logoutUser,
                 loginUser,
+                logoutUser,
+                getProfileById,
                 getAllPosts,
                 createPost,
                 updateAvatar,

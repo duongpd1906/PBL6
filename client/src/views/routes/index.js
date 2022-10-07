@@ -21,6 +21,7 @@ function AllRoutes() {
                 <Route index element={<MainLayout component={Home} />}/>
                 <Route path="chat"element={<MainLayout component={Chat} />}/>
                 <Route path="profile"element={<MainLayout component={Profile} />}/>
+                <Route path="users/:id"element={<MainLayout component={Profile} />}/>
                 <Route path="friend"element={<MainLayout component={Friends} />}/>
             </Route>
             <Route path="*" element={<Error />} />

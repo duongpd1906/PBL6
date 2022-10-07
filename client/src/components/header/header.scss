@@ -86,11 +86,12 @@
     font-weight: 600;
     border-radius: 5px;
     box-shadow: 0 5px 10px 5px rgba($color: #000000,   $alpha: 0.05);
-    &__item{
+    &__item, .tag-a{
         display: flex;
         align-items: center;
         cursor: pointer;
         border-radius: 5px;
+        gap: 15px
     }
     &__item:hover{
         background-color: #e7f6fd !important;
