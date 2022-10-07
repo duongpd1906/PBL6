@@ -58,7 +58,6 @@ const AppProvider = ({ children }) => {
             return response;
         },
         (error) => {
-            // console.log(error.response)
             if (error.response.status === 401) {
                 logoutUser();
             }
@@ -115,7 +114,10 @@ const AppProvider = ({ children }) => {
     const loginUser = async ({ currentUser }) => {
         dispatch({ type: LOGIN_USER_BEGIN });
         try {
-            const { data } = await axios.post("/api/auth/login", currentUser);
+            const { data } = await axios.post(
+                "/api/auth/login",
+                currentUser
+            );
             const { user, token } = data;
 
             dispatch({
@@ -158,7 +160,6 @@ const AppProvider = ({ children }) => {
         dispatch({ type: CREATE_POST_BEGIN });
         try {
             const { data } = await authFetch.post("/post", post);
-            console.log(data);
             dispatch({ type: CREATE_POST_SUCCESS })
         } catch (error) {
             if (error.response.status === 401) return;
