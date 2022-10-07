@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import Profile from "../models/Profile.js";
 import User from "../models/User.js";
 
 const update_user_avatar = async (req, res) => {
@@ -20,4 +21,28 @@ const update_user_avatar = async (req, res) => {
     }
 };
 
-export { update_user_avatar };
+const send_invitation = async (req, res) => {
+    try {
+        const friend = await Profile.findOne({ user: req.body.userId });
+        const me = await Profile.findOne({ user: req.user.userId });
+        console.log(me);
+        if (!me.invitation_send.includes(req.body.userId)) {
+            await me.updateOne({ $push: { invitation_send: req.body.userId } });
+            await friend.updateOne({
+                $push: { invitation_receive: req.user.userId },
+            });
+            res.status(200).json("Send invitation success");
+        } else {
+            await me.updateOne({ $pull: { invitation_send: req.body.userId } });
+            await friend.updateOne({
+                $pull: { invitation_receive: req.user.userId },
+            });
+            res.status(200).json("Cancel invitation success");
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
+
+export { update_user_avatar, send_invitation };
