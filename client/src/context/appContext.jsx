@@ -17,6 +17,9 @@ import {
     CREATE_POST_BEGIN,
     CREATE_POST_SUCCESS,
     CREATE_POST_ERROR,
+    UPDATE_AVATAR_BEGIN,
+    UPDATE_AVATAR_ERROR,
+    UPDATE_AVATAR_SUCCESS,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -29,6 +32,7 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     listsPost: [],
+    user_ava: "",
 };
 
 const AppContext = React.createContext();
@@ -114,10 +118,7 @@ const AppProvider = ({ children }) => {
     const loginUser = async ({ currentUser }) => {
         dispatch({ type: LOGIN_USER_BEGIN });
         try {
-            const { data } = await axios.post(
-                "/api/auth/login",
-                currentUser
-            );
+            const { data } = await axios.post("/api/auth/login", currentUser);
             const { user, token } = data;
 
             dispatch({
@@ -160,11 +161,34 @@ const AppProvider = ({ children }) => {
         dispatch({ type: CREATE_POST_BEGIN });
         try {
             const { data } = await authFetch.post("/post", post);
-            dispatch({ type: CREATE_POST_SUCCESS })
+            dispatch({ type: CREATE_POST_SUCCESS });
         } catch (error) {
             if (error.response.status === 401) return;
             dispatch({
                 type: CREATE_POST_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
+
+    const updateAvatar = async (file) => {
+        dispatch({ type: UPDATE_AVATAR_BEGIN });
+        try {
+            const res = await authFetch.patch(
+                `/user/avatar`,
+                file
+            );
+            const user_ava = res.data;
+            dispatch({
+                type: UPDATE_AVATAR_SUCCESS,
+                payload: { user_ava: user_ava },
+            });
+            console.log(user_ava);
+        } catch (error) {
+            if (error.response.status === 401) return;
+            dispatch({
+                type: UPDATE_AVATAR_ERROR,
                 payload: { msg: error.response.data.msg },
             });
         }
@@ -181,6 +205,7 @@ const AppProvider = ({ children }) => {
                 loginUser,
                 getAllPosts,
                 createPost,
+                updateAvatar,
             }}
         >
             {children}
