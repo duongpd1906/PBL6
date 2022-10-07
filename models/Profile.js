@@ -26,7 +26,15 @@ const ProfileSchema = new mongoose.Schema({
     },
     friends: {
         type: Array,
-        default: []
-    }
+        default: [],
+    },
+    invitation_send: {
+        type: Array,
+        default: [],
+    },
+    invitation_receive: {
+        type: Array,
+        default: [],
+    },
 });
 export default mongoose.model("Profile", ProfileSchema);
