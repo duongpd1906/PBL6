@@ -4,14 +4,16 @@ import upload from "../middleware/upload.js";
 import authenticateUser from "../middleware/auth.js";
 
 import {
-    update_user_avatar,
-    send_invitation,
+    getProfileById,
+    updateUserAvatar,
+    sendInvitation,
 } from "../controllers/userController.js";
 
+router.route("/:id").get(authenticateUser, getProfileById);
+router.route("/send-invitation").patch(authenticateUser, sendInvitation);
 router
     .route("/avatar")
-    .patch(upload.single("image"), authenticateUser, update_user_avatar);
+    .patch(upload.single("image"), authenticateUser, updateUserAvatar);
 
-router.route("/add-friend").patch(authenticateUser, send_invitation);
 
 export default router;

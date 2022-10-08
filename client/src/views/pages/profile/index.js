@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
@@ -12,21 +13,24 @@ const INFO_TAB = 2;
 const FRIEND_TAB = 3;
 
 function Profile() {
+    const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { listsPost, getAllPosts, user } = useAppContext();
+    const { user, userProfile, getProfileById, listsPost, getAllUserPosts } = useAppContext();
     useEffect(() => {
-        getAllPosts();
+        getProfileById(id ? id : user._id);
+        getAllUserPosts(id ? id : user._id);
     }, []);
     const handleOpenModal = (state) => {
         setisModalOpen(state);
     };
+    const userInfo = id ? userProfile : user;
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img src={user.avatar} alt="" />
+                <img src={userInfo?.avatar} alt="" />
                 <div className="mt-auto ms-4">
-                    <h2>Hieu</h2>
+                    <h2>{userInfo?.fullName}</h2>
                     <h6>240 Ban be</h6>
                     <div className="profile-container__top__list-image">
                         <img
@@ -43,7 +47,7 @@ function Profile() {
                         ))}
                     </div>
                     <button onClick={() => handleOpenModal(true)}>
-                        Chỉnh sửa thông tin{" "}
+                        Chỉnh sửa
                     </button>
                     <EditProfile
                         isModalOpen={isModalOpen}
