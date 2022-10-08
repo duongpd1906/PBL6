@@ -16,21 +16,21 @@ function Profile() {
     const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { user, userProfile, getProfileById, listsPost, getAllUserPosts } = useAppContext();
+    const { user, userProfile, getProfileById, listsPost, getAllPosts } = useAppContext();
+    const userId = id ? id : user._id
     useEffect(() => {
-        getProfileById(id ? id : user._id);
-        getAllUserPosts(id ? id : user._id);
+        getProfileById(userId);
+        getAllPosts();
     }, []);
     const handleOpenModal = (state) => {
         setisModalOpen(state);
     };
-    const userInfo = id ? userProfile : user;
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img src={userInfo?.avatar} alt="" />
+                <img src={userProfile?.avatar} alt="" />
                 <div className="mt-auto ms-4">
-                    <h2>{userInfo?.fullName}</h2>
+                    <h2>{userProfile?.fullName}</h2>
                     <h6>240 Ban be</h6>
                     <div className="profile-container__top__list-image">
                         <img
@@ -78,7 +78,9 @@ function Profile() {
                 </div>
                 <div className="col-9 mb-5">
                     {tab === POST_TAB &&
-                        listsPost.map((post) => <Post data={post} />)}
+                        listsPost
+                            .filter((post) => post.user._id == userId)
+                            .map((post) => <Post data={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&
                         listFriends.map((friend) => (

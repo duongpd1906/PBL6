@@ -25,7 +25,6 @@ const sendInvitation = async (req, res) => {
     try {
         const friend = await Profile.findOne({ user: req.body.userId });
         const me = await Profile.findOne({ user: req.user.userId });
-        console.log(me);
         if (!me.invitation_send.includes(req.body.userId)) {
             await me.updateOne({ $push: { invitation_send: req.body.userId } });
             await friend.updateOne({
