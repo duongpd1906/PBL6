@@ -3,7 +3,7 @@ import { Carousel } from "antd";
 import Comment from "../comment";
 import Emoji from "../emoji";
 import { getDate } from "../../helpers/formatDate";
-import { listComment, listsPostImages } from "../../utils";
+import { listComment, listPostsImages } from "../../utils";
 import "./post.scss";
 function Post(props) {
     const slider = useRef();
@@ -55,7 +55,7 @@ function Post(props) {
                         slider.current = ref;
                     }}
                 >
-                    {listsPostImages.map((image) => (
+                    {listPostsImages.map((image) => (
                         <img alt="" src={image} />
                     ))}
                 </Carousel>

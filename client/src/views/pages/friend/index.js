@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FriendCard from "../../../components/friend/card";
-import { listFriends } from "../../../utils";
+import { useAppContext } from "../../../context/appContext";
 import "./friend.scss";
 
 const ALL_FRIENDS_TAB = 1;
-const hadInvitation_TAB = 2;
+const INVITATION_TAB = 2;
 const SUGGESTIONS_TAB = 3;
 
 function Friends() {
     const [tab, setTab] = useState(ALL_FRIENDS_TAB);
+    const { user, listUsers, getAllUsers } = useAppContext();
+    useEffect(() => {
+        getAllUsers();
+    }, []);
     return (
         <div className="friend-container col-8">
             <div className="friend-container__tabs">
@@ -22,9 +26,9 @@ function Friends() {
                 </div>
                 <div
                     className={
-                        tab === hadInvitation_TAB ? "col-4 tab-active" : "col-4"
+                        tab === INVITATION_TAB ? "col-4 tab-active" : "col-4"
                     }
-                    onClick={() => setTab(hadInvitation_TAB)}
+                    onClick={() => setTab(INVITATION_TAB)}
                 >
                     Lời mời kết bạn
                 </div>
@@ -39,15 +43,36 @@ function Friends() {
             </div>
             <div className="friend-container__content">
                 {tab !== ALL_FRIENDS_TAB
-                    ? tab === hadInvitation_TAB
-                        ? listFriends.map((friend) => !friend.isFriend &&
-                                                        friend.hadInvitation && 
-                                                        <FriendCard data={friend} />)
-                        : listFriends.map((friend) => !friend.hadInvitation && 
-                                                        <FriendCard data={friend} />)
-                    : listFriends.map((friend) => friend.isFriend && 
-                                                    <FriendCard data={friend} />)
-                }
+                    ? tab === INVITATION_TAB
+                        ? listUsers.map(
+                              (record) =>
+                                  record.invitation_send.includes(user._id) && (
+                                      <FriendCard
+                                          data={record}
+                                          tabStatus={tab}
+                                      />
+                                  )
+                          )
+                        : listUsers.map(
+                              (record) =>
+                                  !record.invitation_send.includes(user._id) &&
+                                  !record.invitation_receive.includes(
+                                      user._id
+                                  ) &&
+                                  !record.friends.includes(user._id) &&
+                                  record.user._id !== user._id && (
+                                      <FriendCard
+                                          data={record}
+                                          tabStatus={tab}
+                                      />
+                                  )
+                          )
+                    : listUsers.map(
+                          (record) =>
+                              record.friends.includes(user._id) && (
+                                  <FriendCard data={record} tabStatus={tab} />
+                              )
+                      )}
             </div>
         </div>
     );

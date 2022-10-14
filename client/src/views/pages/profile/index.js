@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
@@ -15,8 +15,9 @@ const FRIEND_TAB = 3;
 function Profile() {
     const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
+    const navigate = useNavigate();
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { user, userProfile, getProfileById, listsPost, getAllPosts } = useAppContext();
+    const { user, userProfile, getProfileById, listPosts, getAllPosts } = useAppContext();
     const userId = id ? id : user._id
     useEffect(() => {
         getProfileById(userId);
@@ -30,7 +31,7 @@ function Profile() {
             <div className="profile-container__top">
                 <img src={userProfile?.avatar} alt="" />
                 <div className="mt-auto ms-4">
-                    <h2>{userProfile?.fullName}</h2>
+                    <h2>{userProfile?.fullName !=="" ? userProfile?.fullName: userProfile.user.username}</h2>
                     <h6>240 Ban be</h6>
                     <div className="profile-container__top__list-image">
                         <img
@@ -46,9 +47,22 @@ function Profile() {
                             />
                         ))}
                     </div>
-                    <button onClick={() => handleOpenModal(true)}>
-                        Chỉnh sửa
-                    </button>
+                    {
+                        !id 
+                            ? <button onClick={() => handleOpenModal(true)}>Chỉnh sửa</button>
+                            : !userProfile?.friends.includes(user._id) 
+                                ? !userProfile?.invitation_send.includes(user._id) 
+                                    ? !userProfile?.invitation_receive.includes(user._id) 
+                                        ? <button>Kết bạn</button>
+                                        : <button>Hủy lời mời</button>
+                                    : <button>Xác nhận lời mời</button>
+                                : <div>
+                                    <button className="btn-gray">Hủy kết bạn</button>
+                                    <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                </div>
+
+                    }
+                    
                     <EditProfile
                         isModalOpen={isModalOpen}
                         handleOpenModal={handleOpenModal}
@@ -78,8 +92,8 @@ function Profile() {
                 </div>
                 <div className="col-9 mb-5">
                     {tab === POST_TAB &&
-                        listsPost
-                            .filter((post) => post.user._id == userId)
+                        listPosts
+                            .filter((post) => post.user._id === userId)
                             .map((post) => <Post data={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&

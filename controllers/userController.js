@@ -43,11 +43,21 @@ const sendInvitation = async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
     }
 };
+
+const getAll = async (req, res) => {
+    try {
+        const listUsers = await Profile.find().populate("user")
+        res.status(StatusCodes.OK).json(listUsers);
+    } catch (error) {
+        console.error(error.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
+
 const getProfileById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        const userProfile = await Profile.findOne({ user: req.params.id });
-        res.status(StatusCodes.OK).json({ user, userProfile });
+        const userProfile = await Profile.findOne({user : req.params.id}).populate("user")
+        res.status(StatusCodes.OK).json(userProfile);
     } catch (error) {
         console.error(error.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -71,4 +81,4 @@ const getMyInvitation = async (req, res) => {
     }
 };
 
-export { updateUserAvatar, sendInvitation, getProfileById, getMyInvitation };
+export { updateUserAvatar, sendInvitation, getAll, getProfileById, getMyInvitation };
