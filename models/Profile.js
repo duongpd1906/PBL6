@@ -8,21 +8,27 @@ const ProfileSchema = new mongoose.Schema({
     },
     fullName: {
         type: String,
+        default: "",
     },
     gender: {
         type: Boolean,
+        default: true,
     },
     dayOfBirth: {
         type: Date,
+        default: Date.now,
     },
     address: {
         type: String,
+        default: "",
     },
     phoneNumber: {
         type: String,
+        default: "",
     },
     hoppy: {
         type: String,
+        default: "",
     },
     friends: {
         type: Array,
