@@ -23,6 +23,12 @@ import {
     GET_USER_PROFILE_BEGIN,
     GET_USER_PROFILE_SUCCESS,
     GET_USER_PROFILE_ERROR,
+    GET_ALL_USERS_BEGIN,
+    GET_ALL_USERS_SUCCESS,
+    GET_ALL_USERS_ERROR,
+    SEND_INVITATION_BEGIN,
+    SEND_INVITATION_SUCCESS,
+    SEND_INVITATION_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -34,7 +40,8 @@ const initialState = {
     alertType: "",
     user: user ? JSON.parse(user) : null,
     token: token,
-    listsPost: [],
+    listPosts: [],
+    listUsers: [],
     userProfile: null,
 };
 
@@ -144,17 +151,29 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
     };
 
+    const getAllUsers = async () => {
+        dispatch({ type: GET_ALL_USERS_BEGIN });
+        try {
+            const {data} = await axios.get("/api/user");
+            dispatch({
+                type: GET_ALL_USERS_SUCCESS,
+                payload: { listUsers: data },
+            });
+        } catch (error) {
+            dispatch({
+                type: GET_ALL_USERS_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
     const getProfileById = async ( userId ) => {
         dispatch({ type: GET_USER_PROFILE_BEGIN });
         try {
             const { data } = await authFetch.get(`/user/${userId}`);
-            var { user, userProfile } = data
-            userProfile.username = user.username
-            userProfile.avatar = user.avatar
-            userProfile.email = user.email
             dispatch({
                 type: GET_USER_PROFILE_SUCCESS,
-                payload: { userProfile: userProfile },
+                payload: { userProfile: data },
             });
 
         } catch (error) {
@@ -172,7 +191,7 @@ const AppProvider = ({ children }) => {
             const { data } = await axios.get("/api/post");
             dispatch({
                 type: GET_ALL_POSTS_SUCCESS,
-                payload: { listsPost: data },
+                payload: { listPosts: data },
             });
         } catch (error) {
             dispatch({
@@ -221,6 +240,21 @@ const AppProvider = ({ children }) => {
         clearAlert();
     };
 
+    const sendInvitation = async (userId) => {
+        dispatch({ type: SEND_INVITATION_BEGIN });
+        try {
+            await authFetch.patch("/user/send-invitation", {userId});
+            dispatch({
+                type: SEND_INVITATION_SUCCESS,
+            });
+        } catch (error) {
+            dispatch({
+                type: SEND_INVITATION_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -230,9 +264,11 @@ const AppProvider = ({ children }) => {
                 loginUser,
                 logoutUser,
                 getProfileById,
+                getAllUsers,
                 getAllPosts,
                 createPost,
                 updateAvatar,
+                sendInvitation,
             }}
         >
             {children}

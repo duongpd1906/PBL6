@@ -20,6 +20,12 @@ import {
     GET_USER_PROFILE_BEGIN,
     GET_USER_PROFILE_SUCCESS,
     GET_USER_PROFILE_ERROR,
+    GET_ALL_USERS_BEGIN,
+    GET_ALL_USERS_SUCCESS,
+    GET_ALL_USERS_ERROR,
+    SEND_INVITATION_BEGIN,
+    SEND_INVITATION_SUCCESS,
+    SEND_INVITATION_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -103,7 +109,6 @@ const reducer = (state, action) => {
             alertText: action.payload.msg,
         };
     }
-
     
     if (action.type === GET_USER_PROFILE_BEGIN) {
         return {
@@ -126,6 +131,28 @@ const reducer = (state, action) => {
         };
     }
 
+    
+    if (action.type === GET_ALL_USERS_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === GET_ALL_USERS_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            listUsers: action.payload.listUsers,
+        };
+    }
+    if (action.type === GET_ALL_USERS_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+        };
+    }
+
     if (action.type === GET_ALL_POSTS_BEGIN) {
         return {
             ...state,
@@ -137,7 +164,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            listsPost: action.payload.listsPost,
+            listPosts: action.payload.listPosts,
         };
     }
 
@@ -198,6 +225,28 @@ const reducer = (state, action) => {
             alertType: "danger",
             alertText: action.payload.msg,
         }
+    }
+
+    
+    if (action.type === SEND_INVITATION_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === SEND_INVITATION_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+        };
+    }
+
+    if (action.type === SEND_INVITATION_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+        };
     }
 
     throw new Error(`no such action : ${action.type}`);

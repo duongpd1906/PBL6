@@ -30,7 +30,7 @@ function Info() {
             <div className="d-flex my-4">
                 <img src={require("../../assets/images/email.png")} alt="" />
                 <div className="ms-4">
-                    <p>{userProfile.email}</p>
+                    <p>{userProfile.user.email}</p>
                     <span className="text">Email</span>
                 </div>
             </div>

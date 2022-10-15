@@ -8,7 +8,7 @@ import { listFriendTag } from "../../../utils";
 import { useAppContext } from "../../../context/appContext";
 import "./home.scss";
 function Home() {
-    const { listsPost, getAllPosts } = useAppContext();
+    const { listPosts, getAllPosts } = useAppContext();
     useEffect(() => {
         getAllPosts();
     }, []);
@@ -16,7 +16,7 @@ function Home() {
         <div className="home-container">
             <div className="home-container__posts col-6">
                 <Posting />
-                {listsPost.map((post) => (
+                {listPosts.map((post) => (
                     <Post data={post} />
                 ))}
             </div>

@@ -4,12 +4,14 @@ import upload from "../middleware/upload.js";
 import authenticateUser from "../middleware/auth.js";
 
 import {
+    getAll,
     getProfileById,
     updateUserAvatar,
     sendInvitation,
     getMyInvitation,
 } from "../controllers/userController.js";
 
+router.route("/").get(getAll);
 router.route("/:id").get(getProfileById);
 router.route("/send-invitation").patch(authenticateUser, sendInvitation);
 router.route("/invitation/me").get(authenticateUser,getMyInvitation);
