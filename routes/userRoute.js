@@ -8,11 +8,13 @@ import {
     getProfileById,
     updateUserAvatar,
     sendInvitation,
+    acceptInvitation,
     getMyInvitation,
 } from "../controllers/userController.js";
 
 router.route("/").get(getAll);
 router.route("/:id").get(getProfileById);
+router.route("/accept-invitation").patch(authenticateUser, acceptInvitation);
 router.route("/send-invitation").patch(authenticateUser, sendInvitation);
 router.route("/invitation/me").get(authenticateUser,getMyInvitation);
 router

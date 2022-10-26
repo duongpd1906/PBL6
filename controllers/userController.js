@@ -44,6 +44,32 @@ const sendInvitation = async (req, res) => {
     }
 };
 
+const acceptInvitation = async (req, res) => {
+    try {
+
+        const friend = await Profile.findOne({ user: req.body.userId });
+        const me = await Profile.findOne({ user: req.user.userId });
+        if (!me.friends.includes(req.body.userId)) {
+            await me.updateOne({ $push: { friends: req.body.userId } });
+            await friend.updateOne({
+                $push: { friends: req.user.userId },
+            });
+            await me.updateOne({ $pull: { invitation_receive: req.body.userId }});
+            await friend.updateOne({ $pull: { invitation_send: req.user.userId } });
+            res.status(200).json("Accept invitation success");
+        } else {
+            await me.updateOne({ $pull: { friends: req.body.userId } });
+            await friend.updateOne({
+                $pull: { friends: req.user.userId },
+            });
+            res.status(200).json("Unfriend success");
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
+
 const getAll = async (req, res) => {
     try {
         const listUsers = await Profile.find().populate("user")
@@ -81,4 +107,4 @@ const getMyInvitation = async (req, res) => {
     }
 };
 
-export { updateUserAvatar, sendInvitation, getAll, getProfileById, getMyInvitation };
+export { updateUserAvatar, sendInvitation, acceptInvitation,  getAll, getProfileById, getMyInvitation };
