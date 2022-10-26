@@ -26,6 +26,9 @@ import {
     SEND_INVITATION_BEGIN,
     SEND_INVITATION_SUCCESS,
     SEND_INVITATION_ERROR,
+    ACCEPT_INVITATION_BEGIN,
+    ACCEPT_INVITATION_SUCCESS,
+    ACCEPT_INVITATION_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -243,6 +246,27 @@ const reducer = (state, action) => {
     }
 
     if (action.type === SEND_INVITATION_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+        };
+    }
+
+    if (action.type === ACCEPT_INVITATION_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === ACCEPT_INVITATION_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+        };
+    }
+
+    if (action.type === ACCEPT_INVITATION_ERROR) {
         return {
             ...state,
             isLoading: false,

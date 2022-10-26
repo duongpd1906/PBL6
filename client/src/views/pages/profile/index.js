@@ -17,51 +17,81 @@ function Profile() {
     const [tab, setTab] = useState(POST_TAB);
     const navigate = useNavigate();
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { user, userProfile, getProfileById, listPosts, getAllPosts } = useAppContext();
+    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
     const userId = id ? id : user._id
     useEffect(() => {
         getProfileById(userId);
         getAllPosts();
+        getAllUsers();
     }, []);
     const handleOpenModal = (state) => {
         setisModalOpen(state);
     };
+    const handleSendInvitation = () => {
+        sendInvitation(userId);
+        window.location.reload(false)
+    }
+    const handleAcceptInvitation = () => {
+        acceptInvitation(userId);
+        window.location.reload(false)
+    }
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img src={userProfile?.avatar} alt="" />
+                <img src={userProfile?.user.avatar} alt="" />
                 <div className="mt-auto ms-4">
                     <h2>{userProfile?.fullName !=="" ? userProfile?.fullName: userProfile.user.username}</h2>
-                    <h6>240 Ban be</h6>
+                    <h6>{userProfile?.friends.length} Ban be</h6>
                     <div className="profile-container__top__list-image">
-                        <img
-                            className="icon-dots"
-                            src={require("../../../assets/images/dots.png")}
-                            alt=""
-                        />
-                        {listFriendAvatar.map((friend) => (
+                        {
+                            userProfile?.friends.length >=6 &&
                             <img
-                                className="avatar"
-                                src={friend.avatar}
+                                className="icon-dots"
+                                src={require("../../../assets/images/dots.png")}
                                 alt=""
                             />
-                        ))}
+                        }
+                        
+                        {
+                            listUsers.map(
+                                (record) =>
+                                    record.friends.includes(user._id) && (
+                                        <img
+                                        className="avatar"
+                                        src={record.user.avatar}
+                                        alt=""
+                                    />
+                                    )
+                                    
+                        )}
+                        
                     </div>
-                    {
-                        !id 
+                    <div  className="button">
+                        {id === user._id || !id
                             ? <button onClick={() => handleOpenModal(true)}>Chỉnh sửa</button>
                             : !userProfile?.friends.includes(user._id) 
                                 ? !userProfile?.invitation_send.includes(user._id) 
                                     ? !userProfile?.invitation_receive.includes(user._id) 
-                                        ? <button>Kết bạn</button>
-                                        : <button>Hủy lời mời</button>
-                                    : <button>Xác nhận lời mời</button>
+                                        ? <div>
+                                            <button onClick={handleSendInvitation}>Kết bạn</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                        </div>
+                                        : <div>
+                                            <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                            <button onClick={handleSendInvitation} className="btn-gray">Hủy lời mời</button>
+                                        </div>
+                                    : 
+                                    <div>
+                                            <button onClick={handleAcceptInvitation}>Đồng ý kết bạn</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                        </div>
                                 : <div>
-                                    <button className="btn-gray">Hủy kết bạn</button>
                                     <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                    <button className="btn-gray" onClick={handleAcceptInvitation}>Hủy kết bạn</button>
                                 </div>
 
-                    }
+                        }
+                    </div>
                     
                     <EditProfile
                         isModalOpen={isModalOpen}
@@ -97,9 +127,10 @@ function Profile() {
                             .map((post) => <Post data={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&
-                        listFriends.map((friend) => (
-                            <FriendCard data={friend} />
-                        ))}
+                        listUsers.map((record) =>
+                            record.friends.includes(user._id) && <FriendCard data={record} tabStatus={1}/>)
+                        }
+                        
                 </div>
             </div>
         </div>
