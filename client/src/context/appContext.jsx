@@ -29,6 +29,9 @@ import {
     SEND_INVITATION_BEGIN,
     SEND_INVITATION_SUCCESS,
     SEND_INVITATION_ERROR,
+    ACCEPT_INVITATION_BEGIN,
+    ACCEPT_INVITATION_SUCCESS,
+    ACCEPT_INVITATION_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -255,6 +258,21 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const acceptInvitation = async (userId) => {
+        dispatch({ type: ACCEPT_INVITATION_BEGIN });
+        try {
+            await authFetch.patch("/user/accept-invitation", {userId});
+            dispatch({
+                type: ACCEPT_INVITATION_SUCCESS,
+            });
+        } catch (error) {
+            dispatch({
+                type: ACCEPT_INVITATION_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -269,6 +287,7 @@ const AppProvider = ({ children }) => {
                 createPost,
                 updateAvatar,
                 sendInvitation,
+                acceptInvitation,
             }}
         >
             {children}
