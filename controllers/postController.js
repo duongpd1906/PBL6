@@ -5,7 +5,9 @@ import checkPermissions from "../utils/checkPermissions.js";
 
 const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find().populate("user").sort({ date: -1 });
+        const posts = await Post.find()
+            .populate("user")
+            .sort({ createdAt: -1 });
         res.status(StatusCodes.OK).json(posts);
     } catch (err) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -89,4 +91,10 @@ const deletePost = async (req, res) => {
     }
 };
 
-export { createPost, getAllPosts, getPostById, updatePost, deletePost };
+export {
+    createPost,
+    getAllPosts,
+    getPostById,
+    updatePost,
+    deletePost,
+};

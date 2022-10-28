@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
@@ -12,41 +13,90 @@ const INFO_TAB = 2;
 const FRIEND_TAB = 3;
 
 function Profile() {
+    const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
-    const [ isModalOpen, setisModalOpen ] = useState(false)
-    const { listsPost, getAllPosts } = useAppContext();
+    const navigate = useNavigate();
+    const [isModalOpen, setisModalOpen] = useState(false);
+    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
+    const userId = id ? id : user._id
     useEffect(() => {
+        getProfileById(userId);
         getAllPosts();
+        getAllUsers();
     }, []);
-    const handleOpenModal = state => {
-        setisModalOpen(state)
+    const handleOpenModal = (state) => {
+        setisModalOpen(state);
+    };
+    const handleSendInvitation = () => {
+        sendInvitation(userId);
+        window.location.reload(false)
+    }
+    const handleAcceptInvitation = () => {
+        acceptInvitation(userId);
+        window.location.reload(false)
     }
     return (
         <div className="profile-container col-8">
             <div className="profile-container__top">
-                <img
-                    src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286"
-                    alt=""
-                />
+                <img src={userProfile?.user.avatar} alt="" />
                 <div className="mt-auto ms-4">
-                    <h2>Hieu</h2>
-                    <h6>240 Ban be</h6>
+                    <h2>{userProfile?.fullName !=="" ? userProfile?.fullName: userProfile.user.username}</h2>
+                    <h6>{userProfile?.friends.length} Ban be</h6>
                     <div className="profile-container__top__list-image">
-                        <img
-                            className="icon-dots"
-                            src={require("../../../assets/images/dots.png")}
-                            alt=""
-                        />
-                        {listFriendAvatar.map((friend) => (
+                        {
+                            userProfile?.friends.length >=6 &&
                             <img
-                                className="avatar"
-                                src={friend.avatar}
+                                className="icon-dots"
+                                src={require("../../../assets/images/dots.png")}
                                 alt=""
                             />
-                        ))}
+                        }
+                        
+                        {
+                            listUsers.map(
+                                (record) =>
+                                    record.friends.includes(user._id) && (
+                                        <img
+                                        className="avatar"
+                                        src={record.user.avatar}
+                                        alt=""
+                                    />
+                                    )
+                                    
+                        )}
+                        
                     </div>
-                    <button onClick={() => handleOpenModal(true)}>Chỉnh sửa thông tin </button>
-                    <EditProfile isModalOpen={isModalOpen} handleOpenModal={handleOpenModal}/>
+                    <div  className="button">
+                        {id === user._id || !id
+                            ? <button onClick={() => handleOpenModal(true)}>Chỉnh sửa</button>
+                            : !userProfile?.friends.includes(user._id) 
+                                ? !userProfile?.invitation_send.includes(user._id) 
+                                    ? !userProfile?.invitation_receive.includes(user._id) 
+                                        ? <div>
+                                            <button onClick={handleSendInvitation}>Kết bạn</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                        </div>
+                                        : <div>
+                                            <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                            <button onClick={handleSendInvitation} className="btn-gray">Hủy lời mời</button>
+                                        </div>
+                                    : 
+                                    <div>
+                                            <button onClick={handleAcceptInvitation}>Đồng ý kết bạn</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                        </div>
+                                : <div>
+                                    <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                    <button className="btn-gray" onClick={handleAcceptInvitation}>Hủy kết bạn</button>
+                                </div>
+
+                        }
+                    </div>
+                    
+                    <EditProfile
+                        isModalOpen={isModalOpen}
+                        handleOpenModal={handleOpenModal}
+                    />
                 </div>
             </div>
             <div className="profile-container__content">
@@ -71,9 +121,16 @@ function Profile() {
                     </button>
                 </div>
                 <div className="col-9 mb-5">
-                    { tab === POST_TAB && listsPost.map((post) => (<Post data={post} />))}
-                    { tab === INFO_TAB && <Info />}
-                    { tab === FRIEND_TAB && listFriends.map((friend) => <FriendCard data={friend} />)}
+                    {tab === POST_TAB &&
+                        listPosts
+                            .filter((post) => post.user._id === userId)
+                            .map((post) => <Post data={post} />)}
+                    {tab === INFO_TAB && <Info />}
+                    {tab === FRIEND_TAB &&
+                        listUsers.map((record) =>
+                            record.friends.includes(user._id) && <FriendCard data={record} tabStatus={1}/>)
+                        }
+                        
                 </div>
             </div>
         </div>

@@ -14,6 +14,24 @@ import {
     GET_ALL_POSTS_BEGIN,
     GET_ALL_POSTS_SUCCESS,
     GET_ALL_POSTS_ERROR,
+    CREATE_POST_BEGIN,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR,
+    UPDATE_AVATAR_BEGIN,
+    UPDATE_AVATAR_ERROR,
+    UPDATE_AVATAR_SUCCESS,
+    GET_USER_PROFILE_BEGIN,
+    GET_USER_PROFILE_SUCCESS,
+    GET_USER_PROFILE_ERROR,
+    GET_ALL_USERS_BEGIN,
+    GET_ALL_USERS_SUCCESS,
+    GET_ALL_USERS_ERROR,
+    SEND_INVITATION_BEGIN,
+    SEND_INVITATION_SUCCESS,
+    SEND_INVITATION_ERROR,
+    ACCEPT_INVITATION_BEGIN,
+    ACCEPT_INVITATION_SUCCESS,
+    ACCEPT_INVITATION_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -25,13 +43,44 @@ const initialState = {
     alertType: "",
     user: user ? JSON.parse(user) : null,
     token: token,
-    listsPost: [],
+    listPosts: [],
+    listUsers: [],
+    userProfile: null,
 };
 
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    // axios
+    const authFetch = axios.create({
+        baseURL: "/api",
+    });
+    // request
+
+    authFetch.interceptors.request.use(
+        (config) => {
+            config.headers.common["Authorization"] = `Bearer ${state.token}`;
+            return config;
+        },
+        (error) => {
+            return Promise.reject(error);
+        }
+    );
+    // response
+
+    authFetch.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            if (error.response.status === 401) {
+                logoutUser();
+            }
+            return Promise.reject(error);
+        }
+    );
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT });
@@ -105,17 +154,120 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
     };
 
+    const getAllUsers = async () => {
+        dispatch({ type: GET_ALL_USERS_BEGIN });
+        try {
+            const {data} = await axios.get("/api/user");
+            dispatch({
+                type: GET_ALL_USERS_SUCCESS,
+                payload: { listUsers: data },
+            });
+        } catch (error) {
+            dispatch({
+                type: GET_ALL_USERS_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
+    const getProfileById = async ( userId ) => {
+        dispatch({ type: GET_USER_PROFILE_BEGIN });
+        try {
+            const { data } = await authFetch.get(`/user/${userId}`);
+            dispatch({
+                type: GET_USER_PROFILE_SUCCESS,
+                payload: { userProfile: data },
+            });
+
+        } catch (error) {
+            dispatch({
+                type: GET_USER_PROFILE_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
+
     const getAllPosts = async () => {
         dispatch({ type: GET_ALL_POSTS_BEGIN });
         try {
             const { data } = await axios.get("/api/post");
             dispatch({
                 type: GET_ALL_POSTS_SUCCESS,
-                payload: { listsPost: data },
+                payload: { listPosts: data },
             });
         } catch (error) {
             dispatch({
                 type: GET_ALL_POSTS_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
+    const createPost = async (post) => {
+        dispatch({ type: CREATE_POST_BEGIN });
+        try {
+            await authFetch.post("/post", post);
+            dispatch({ type: CREATE_POST_SUCCESS });
+        } catch (error) {
+            if (error.response.status === 401) return;
+            dispatch({
+                type: CREATE_POST_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
+
+    const updateAvatar = async (file) => {
+        dispatch({ type: UPDATE_AVATAR_BEGIN });
+        try {
+            const res = await authFetch.patch(
+                `/user/avatar`,
+                file
+            );
+            const user = res.data;
+            dispatch({
+                type: UPDATE_AVATAR_SUCCESS,
+                payload: { user: user },
+            });
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.reload(false)
+        } catch (error) {
+            if (error.response.status === 401) return;
+            dispatch({
+                type: UPDATE_AVATAR_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
+
+    const sendInvitation = async (userId) => {
+        dispatch({ type: SEND_INVITATION_BEGIN });
+        try {
+            await authFetch.patch("/user/send-invitation", {userId});
+            dispatch({
+                type: SEND_INVITATION_SUCCESS,
+            });
+        } catch (error) {
+            dispatch({
+                type: SEND_INVITATION_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+    };
+
+    const acceptInvitation = async (userId) => {
+        dispatch({ type: ACCEPT_INVITATION_BEGIN });
+        try {
+            await authFetch.patch("/user/accept-invitation", {userId});
+            dispatch({
+                type: ACCEPT_INVITATION_SUCCESS,
+            });
+        } catch (error) {
+            dispatch({
+                type: ACCEPT_INVITATION_ERROR,
                 payload: { msg: error.response.data.msg },
             });
         }
@@ -127,9 +279,15 @@ const AppProvider = ({ children }) => {
                 ...state,
                 displayAlert,
                 registerUser,
-                logoutUser,
                 loginUser,
+                logoutUser,
+                getProfileById,
+                getAllUsers,
                 getAllPosts,
+                createPost,
+                updateAvatar,
+                sendInvitation,
+                acceptInvitation,
             }}
         >
             {children}

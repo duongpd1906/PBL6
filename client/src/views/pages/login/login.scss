@@ -112,12 +112,14 @@
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
     box-shadow: none !important;
 }
-.ant-input{
+.ant-input {
     width: 100% !important;
 }
-.ant-input:focus, .ant-input:not(:hover){
+.ant-input:focus,
+.ant-input:not(:hover) {
     box-shadow: none !important;
 }
-.ant-input:not(:hover){
+.ant-input:not(:hover) {
     box-shadow: none !important;
 }
+

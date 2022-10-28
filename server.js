@@ -1,22 +1,26 @@
 import express from "express";
 import "express-async-errors";
 const app = express();
-app.use(express.json())
+app.use(express.json());
+
+app.use(express.static("public"));
 
 import dotenv from "dotenv";
 dotenv.config();
 
 import connectDB from "./db/connect.js";
 
-import cors from "cors"
-app.use(cors())
+import cors from "cors";
+app.use(cors());
 
 //routers
 import authRoutes from "./routes/authRoutes.js";
-import postRoutes from "./routes/postRoutes.js"
+import postRoutes from "./routes/postRoutes.js";
+import userRoutes from "./routes/userRoute.js";
 
 app.use("/api/auth", authRoutes);
-app.use("/api/post", postRoutes)
+app.use("/api/post", postRoutes);
+app.use("/api/user", userRoutes);
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -28,14 +32,14 @@ app.use(errorHandleMiddleware);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
-  try {
-    await connectDB(process.env.MONGO_URL);
-    app.listen(port, () => {
-      console.log(`Server is listening on port ${port}...`);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        await connectDB(process.env.MONGO_URL);
+        app.listen(port, () => {
+            console.log(`Server is listening on port ${port}...`);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 start();

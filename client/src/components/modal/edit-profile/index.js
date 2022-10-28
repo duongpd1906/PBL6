@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Radio, DatePicker, Form, Input } from "antd";
 import { CameraFilled } from "@ant-design/icons";
 import "./edit-profile.scss";
+import { useAppContext } from "../../../context/appContext";
 
 function EditProfile({ isModalOpen, handleOpenModal }) {
     const onSubmit = (values) => {
-        window.location.reload(false);
+        updateImage();
     };
+
+    const { updateAvatar, user } = useAppContext();
+
+    const [selectedImage, setSelectedImage] = useState();
+
     const handleUploadImage = (e) => {
         const userAvatar = document.getElementById("user-avatar");
         userAvatar.src = URL.createObjectURL(e.target.files[0]);
+        setSelectedImage(e.target.files[0]);
     };
+
+    const updateImage = () => {
+        const formData = new FormData();
+        if(selectedImage) {
+            formData.append("image", selectedImage);
+            updateAvatar(formData);
+        }
+    };
+
     return (
         <Modal
             className="edit-profile"
@@ -22,7 +38,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
             <div className="edit-profile__avatar">
                 <img
                     id="user-avatar"
-                    src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-1/280374790_1477115089370427_2274356777150785265_n.jpg?stp=dst-jpg_p240x240&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=5unFC2K8Uz0AX985xRG&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_yrPH4BTO8V4F6vu03OSS2rmKC5ktOW7sK16WaUTWmUw&oe=63301286"
+                    src={user.avatar}
                     alt=""
                 />
                 <label for="image-input">

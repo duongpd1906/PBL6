@@ -1,8 +1,9 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
-import gravatar from "gravatar"
-import normalize from "normalize-url"
+import gravatar from "gravatar";
+import normalize from "normalize-url";
+import Profile from "../models/Profile.js";
 
 const register = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -24,6 +25,7 @@ const register = async (req, res, next) => {
     );
 
     const user = await User.create({ username, email, password, avatar });
+    await Profile.create({ user: user._id });
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({
         user: {
