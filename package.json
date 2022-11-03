@@ -23,6 +23,7 @@
   "homepage": "https://github.com/duong1906ltv/PBL6#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "child_process": "^1.0.2",
     "concurrently": "^7.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",

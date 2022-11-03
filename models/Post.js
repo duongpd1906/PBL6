@@ -9,6 +9,9 @@ const PostSchema = new mongoose.Schema({
     text: {
         type: String,
     },
+    status: {
+        type: String,
+    },
     likes: [
         {
             user: {
