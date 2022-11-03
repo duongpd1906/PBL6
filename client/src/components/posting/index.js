@@ -15,8 +15,10 @@ function Posting() {
     };
     const handleSubmit = (values) => {
         const text = values.text
-        createPost({ text, images});
-        window.location.reload(false)
+        createPost({ text});
+        setTimeout(() => {
+            window.location.reload(false)
+        }, 1000);
     };
     return (
         <Form className="posting-container" onFinish={handleSubmit}>
