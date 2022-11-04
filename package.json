@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server --ignore client",
     "client": "npm start --prefix client",
-    "start": "concurrently --kill-others-on-fail \" npm run server\" \"npm run client\" "
+    "socket": "npm start --prefix socket",
+    "start": "concurrently --kill-others-on-fail \" npm run server\" \"npm run client\" \" npm run socket\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/duong1906ltv/PBL6#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "child_process": "^1.0.2",
     "concurrently": "^7.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
@@ -38,7 +40,6 @@
     "normalize-url": "^7.2.0",
     "path": "^0.12.7",
     "query-string": "^7.1.1",
-    "socket.io": "^4.5.2",
     "validator": "^13.7.0"
   }
 }
