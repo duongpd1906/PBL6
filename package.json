@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server --ignore client",
     "client": "npm start --prefix client",
-    "start": "concurrently --kill-others-on-fail \" npm run server\" \"npm run client\" "
+    "socket": "npm start --prefix socket",
+    "start": "concurrently --kill-others-on-fail \" npm run server\" \"npm run client\" \" npm run socket\""
   },
   "repository": {
     "type": "git",
@@ -39,7 +40,6 @@
     "normalize-url": "^7.2.0",
     "path": "^0.12.7",
     "query-string": "^7.1.1",
-    "socket.io": "^4.5.2",
     "validator": "^13.7.0"
   }
 }

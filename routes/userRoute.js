@@ -10,9 +10,11 @@ import {
     sendInvitation,
     acceptInvitation,
     getMyInvitation,
+    getUserById,
 } from "../controllers/userController.js";
 
 router.route("/").get(getAll);
+router.route("/byid/").get(getUserById);
 router.route("/:id").get(getProfileById);
 router.route("/accept-invitation").patch(authenticateUser, acceptInvitation);
 router.route("/send-invitation").patch(authenticateUser, sendInvitation);
