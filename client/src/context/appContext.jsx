@@ -35,6 +35,9 @@ import {
 	GET_CONVERSATION_BEGIN,
 	GET_CONVERSATION_SUCCESS,
 	GET_CONVERSATION_ERROR,
+	GET_LIST_CONVERSATIONS_BEGIN,
+	GET_LIST_CONVERSATIONS_SUCCESS,
+	GET_LIST_CONVERSATIONS_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -50,6 +53,7 @@ const initialState = {
 	listUsers: [],
 	userProfile: null,
 	listConversations: [],
+	conversation: null,
 };
 
 const AppContext = React.createContext();
@@ -138,20 +142,20 @@ const AppProvider = ({ children }) => {
 			const { data } = await axios.post("/api/auth/login", currentUser);
 			const { user, token } = data;
 
-			dispatch({
-				type: LOGIN_USER_SUCCESS,
-				payload: { user, token },
-			});
-
-			addUserToLocalStorage({ user, token });
-		} catch (error) {
-			dispatch({
-				type: LOGIN_USER_ERROR,
-				payload: { msg: error.response.data.msg },
-			});
-		}
-		clearAlert();
-	};
+            dispatch({
+                type: LOGIN_USER_SUCCESS,
+                payload: { user, token },
+            });
+            getProfileById(user._id)
+            addUserToLocalStorage({ user, token });
+        } catch (error) {
+            dispatch({
+                type: LOGIN_USER_ERROR,
+                payload: { msg: error.response.data.msg },
+            });
+        }
+        clearAlert();
+    };
 
 	const logoutUser = () => {
 		dispatch({ type: LOGOUT_USER });
@@ -274,14 +278,33 @@ const AppProvider = ({ children }) => {
 	};
 
 	const getMyConversation = async () => {
-		dispatch({ type: GET_CONVERSATION_BEGIN });
+		dispatch({ type: GET_LIST_CONVERSATIONS_BEGIN });
 		try {
 			const { data } = await authFetch.get("/conversation");
-			console.log(data);
 			dispatch({
-				type: GET_CONVERSATION_SUCCESS,
+				type: GET_LIST_CONVERSATIONS_SUCCESS,
 				payload: { conversation: data },
 			});
+		} catch (error) {
+			if (error.response.status === 401) return;
+			dispatch({
+				type: GET_LIST_CONVERSATIONS_ERROR,
+				payload: { msg: error.response.data.msg },
+			});
+		}
+		clearAlert();
+	};
+
+	const getConversationFromTwoUser = async (user_id, friend_id) => {
+		dispatch({ type: GET_CONVERSATION_BEGIN });
+		try {
+			if(user_id && friend_id){
+				const { data } = await authFetch.get(`/conversation/find/${user_id}/${friend_id}`);
+				dispatch({
+					type: GET_CONVERSATION_SUCCESS,
+					payload: { conversation: data },
+				});
+			}
 		} catch (error) {
 			if (error.response.status === 401) return;
 			dispatch({
@@ -308,6 +331,7 @@ const AppProvider = ({ children }) => {
 				sendInvitation,
 				acceptInvitation,
 				getMyConversation,
+				getConversationFromTwoUser,
 			}}
 		>
 			{children}

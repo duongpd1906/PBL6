@@ -26,6 +26,7 @@
         justify-content: end;
         gap: 15px;
         &__item{
+            cursor: pointer;
             position: relative;
             &__icon{
                 font-size: 20px;
