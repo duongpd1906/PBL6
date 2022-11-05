@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
 import FriendCard from "../../../components/friend/card";
@@ -74,10 +73,10 @@ function Profile() {
                                     ? !userProfile?.invitation_receive.includes(user._id) 
                                         ? <div>
                                             <button onClick={handleSendInvitation}>Kết bạn</button>
-                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                         </div>
                                         : <div>
-                                            <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                             <button onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                             <button onClick={handleSendInvitation} className="btn-gray">Hủy lời mời</button>
                                         </div>
                                     : 
@@ -86,7 +85,7 @@ function Profile() {
                                             <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
                                         </div>
                                 : <div>
-                                    <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                     <button onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                     <button className="btn-gray" onClick={handleAcceptInvitation}>Hủy kết bạn</button>
                                 </div>
 

@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Conversation from "../models/Conversation.js";
+import { BadRequestError } from "../errors/index.js";
 
 const addNewConversation = async (req, res) => {
   const newConversation = new Conversation({
@@ -39,9 +40,19 @@ const getConversationFromUser = async (req, res) => {
 
 const getConversationFromTwoUser = async (req, res) => {
   try {
-    const conversation = await Conversation.findOne({
+    if(!req.params.firstUserId || !req.params.secondUserId) {
+      throw new BadRequestError("Invalid id value");
+      return
+    }
+    var conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
     });
+    if(!conversation){
+      const newConversation = new Conversation({
+        members: [req.params.firstUserId, req.params.secondUserId],
+      });
+      conversation = await newConversation.save();
+    }
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);

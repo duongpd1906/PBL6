@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import FriendMessages from "./friend";
 import MyMessages from "./my";
@@ -7,7 +7,14 @@ import "./messenger.scss";
 import axios from "axios";
 
 function Messages(props) {
+	const [messageHeight, setMessageHeight] = useState(515);
 	const [friend, setFriend] = useState([]);
+	const bottomRef = useRef(null);
+	bottomRef.current?.scrollIntoView({block: "end"});
+
+	useEffect(() => {
+		bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+	}, [props.newMessage]);
 
 	useEffect(() => {
 		const getUser = async () => {
@@ -23,6 +30,9 @@ function Messages(props) {
 		getUser();
 	}, [props.friendId]);
 
+	const onHeightChange = (values) => {
+		setMessageHeight(515 - (values-32))
+	}
 	return (
 		<div className="messages-content">
 			<div className="messages-content__header">
@@ -32,7 +42,7 @@ function Messages(props) {
 				<div className="name">{friend.username}</div>
 				<AiOutlineInfoCircle className="icon" />
 			</div>
-			<div className="messages-content__messanges">
+			<div className="messages-content__messanges py-2" style={{height: messageHeight}}>
 				{props.listmessages.map((item) =>
 					item.sender !== props.friendId ? (
 						<MyMessages message={item.text} />
@@ -43,12 +53,15 @@ function Messages(props) {
 						/>
 					)
 				)}
+				<div ref={bottomRef} />
 			</div>
 			<ChatFooter
 				handleSubmit={props.handleSubmit}
+				onHeightChange={onHeightChange}
 				setNewMessage={props.setNewMessage}
 				newMessage={props.newMessage}
 			/>
+			
 		</div>
 	);
 }

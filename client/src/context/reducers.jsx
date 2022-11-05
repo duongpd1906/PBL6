@@ -30,8 +30,11 @@ import {
 	ACCEPT_INVITATION_SUCCESS,
 	ACCEPT_INVITATION_ERROR,
 	GET_CONVERSATION_BEGIN,
-    GET_CONVERSATION_SUCCESS,
-    GET_CONVERSATION_ERROR,
+	GET_CONVERSATION_SUCCESS,
+	GET_CONVERSATION_ERROR,
+	GET_LIST_CONVERSATIONS_BEGIN,
+    GET_LIST_CONVERSATIONS_SUCCESS,
+    GET_LIST_CONVERSATIONS_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -274,6 +277,31 @@ const reducer = (state, action) => {
 		};
 	}
 
+	if (action.type === GET_LIST_CONVERSATIONS_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === GET_LIST_CONVERSATIONS_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+            listConversations: action.payload.conversation,
+            showAlert: true,
+			alertType: "success",
+			alertText: "get conversation success",
+		};
+	}
+
+	if (action.type === GET_LIST_CONVERSATIONS_ERROR) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
 	if (action.type === GET_CONVERSATION_BEGIN) {
 		return {
 			...state,
@@ -285,7 +313,7 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			isLoading: false,
-            listConversations: action.payload.conversation,
+            conversation: action.payload.conversation,
             showAlert: true,
 			alertType: "success",
 			alertText: "get conversation success",

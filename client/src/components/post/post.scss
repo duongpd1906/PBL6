@@ -53,7 +53,6 @@ body {
         }
     }
     &__list-images {
-        // max-height: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -94,7 +93,7 @@ body {
     &.is-hidden {
         position: relative;
         .post-content {
-            opacity: 0.2;
+            opacity: 0.1;
         }
         .post-overlay {
             display: flex;

@@ -19,8 +19,6 @@ function Post(props) {
 
   const [showHiddenPost, setShowHiddenPost] = useState(false);
 
-
-  // 7
   return (
     <div className={"post-container " + (!showHiddenPost && status === "0" ? "is-hidden" : "")}>
       <div className="post-content">

@@ -65,7 +65,7 @@ function Header() {
                 <input type="text" placeholder="Tìm kiếm" />
             </div>
             <div className="header-container__right col-4">
-                <div className="header-container__right__item">
+                <div className="header-container__right__item" onClick={() => navigate('/chat')}>
                     <MessageOutlined className="header-container__right__item__icon" />
                     <div className="header-container__right__item__notification">
                         <div className="position-relative">
