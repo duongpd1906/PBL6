@@ -35,6 +35,12 @@ import {
 	GET_LIST_CONVERSATIONS_BEGIN,
     GET_LIST_CONVERSATIONS_SUCCESS,
     GET_LIST_CONVERSATIONS_ERROR,
+	GET_COMMENTS_OF_POST_BEGIN,
+	GET_COMMENTS_OF_POST_SUCCESS,
+	GET_COMMENTS_OF_POST_ERROR,
+	COMMENT_POST_BEGIN,
+	COMMENT_POST_SUCCESS,
+	COMMENT_POST_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -324,6 +330,49 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			isLoading: true,
+		};
+	}
+	
+	if (action.type === GET_COMMENTS_OF_POST_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === GET_COMMENTS_OF_POST_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			comments: action.payload.comments
+		};
+	}
+
+	if (action.type === GET_COMMENTS_OF_POST_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+
+	if (action.type === COMMENT_POST_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === COMMENT_POST_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+
+	if (action.type === COMMENT_POST_ERROR) {
+		return {
+			...state,
+			isLoading: false,
 		};
 	}
 

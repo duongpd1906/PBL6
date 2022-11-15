@@ -17,6 +17,6 @@ router
     .get(getPostById)
     .delete(authenticateUser, deletePost)
     .put(authenticateUser, updatePost);
-router.route("/predict").post(predict)
+router.route("/predict").post(predict);
 
 export default router;
