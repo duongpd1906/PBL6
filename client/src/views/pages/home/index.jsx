@@ -17,7 +17,7 @@ function Home() {
             <div className="home-container__posts col-6">
                 <Posting />
                 {listPosts.map((post) => (
-                    <Post data={post} />
+                    <Post post={post}/>
                 ))}
             </div>
             <div className="home-container__list-friend">

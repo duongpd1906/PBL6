@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
 import { StatusCodes } from "http-status-codes";
 import { spawn } from "child_process";
 import checkPermissions from "../utils/checkPermissions.js";
@@ -118,7 +119,6 @@ const predict = async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
     }
 };
-
 export {
     createPost,
     getAllPosts,

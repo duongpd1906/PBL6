@@ -1,18 +1,27 @@
 .replying-comment{
     display: flex;
     align-items: center;
+    width: 100%;
+    margin-top: 10px;
     img{
         height: 30px !important;
         width: 30px !important;
     }
-    input{
-        margin-left: 10px;
-        height: 40px;
-        border-radius: 20px;
-        border: none;
-        width: 530px;
+    .comment{
         background-color: #f0f2f5;
-        padding: 0 15px;
+        border-radius: 20px;
+        padding: 5px 10px;
+        margin: auto 0;
+        margin-left: 10px;
+        width: 100%;
+    }        
+    .textarea {
+        height: fit-content;
         outline: none;
+        background-color: transparent;
+        border: none
+    }
+    .textarea:hover {
+        border: none !important;
     }
 }
