@@ -20,6 +20,7 @@ import userRoutes from "./routes/userRoute.js";
 import conversationRouter from "./routes/conversationRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
+import likeRouter from "./routes/likeRoutes.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
@@ -27,6 +28,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/conversation", conversationRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/comment", commentRouter);
+app.use("/api/like", likeRouter);
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";

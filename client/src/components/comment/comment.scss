@@ -14,23 +14,44 @@
     border-radius: 20px;
     background-color: #f0f2f5;
     position: relative;
+    .icon-like{
+      height: fit-content;
+      position: absolute;
+      left: 90%;
+      bottom: 3px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 3px;
+      span{
+        font-size: 13px;
+        margin-left: 3px;
+      }
+    }
   }
   &__reply-action {
     display: flex;
     gap: 15px;
-    a {
+    p {
       font-size: 12px;
       font-weight: 600;
       color: #65676b;
       text-decoration: none;
     }
-    a:hover {
+    p:hover {
       text-decoration: underline;
     }
     label {
       font-size: 12px;
       color: #65676b;
     }
+    .txt-blue {
+      color: #38b3ef;
+      font-weight: 700;
+    }
+
   }
   &__reply {
     display: flex;

@@ -38,9 +38,15 @@ import {
 	GET_COMMENTS_OF_POST_BEGIN,
 	GET_COMMENTS_OF_POST_SUCCESS,
 	GET_COMMENTS_OF_POST_ERROR,
+	GET_COMMENTS_OF_COMMENT_BEGIN,
+	GET_COMMENTS_OF_COMMENT_SUCCESS,
+	GET_COMMENTS_OF_COMMENT_ERROR,
 	COMMENT_POST_BEGIN,
 	COMMENT_POST_SUCCESS,
 	COMMENT_POST_ERROR,
+	CREATE_LIKE_BEGIN,
+	CREATE_LIKE_SUCCESS,
+	CREATE_LIKE_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 
@@ -344,11 +350,33 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			isLoading: false,
-			comments: action.payload.comments
+			commentsOfPost: action.payload.commentsOfPost
 		};
 	}
 
 	if (action.type === GET_COMMENTS_OF_POST_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+	
+	if (action.type === GET_COMMENTS_OF_COMMENT_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === GET_COMMENTS_OF_COMMENT_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			commentsOfComment: action.payload.commentsOfComment
+		};
+	}
+
+	if (action.type === GET_COMMENTS_OF_COMMENT_ERROR) {
 		return {
 			...state,
 			isLoading: false,
@@ -370,6 +398,27 @@ const reducer = (state, action) => {
 	}
 
 	if (action.type === COMMENT_POST_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+
+	if (action.type === CREATE_LIKE_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === CREATE_LIKE_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+
+	if (action.type === CREATE_LIKE_ERROR) {
 		return {
 			...state,
 			isLoading: false,

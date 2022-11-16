@@ -41,9 +41,15 @@ import {
 	GET_COMMENTS_OF_POST_BEGIN,
 	GET_COMMENTS_OF_POST_SUCCESS,
 	GET_COMMENTS_OF_POST_ERROR,
+	GET_COMMENTS_OF_COMMENT_BEGIN,
+	GET_COMMENTS_OF_COMMENT_SUCCESS,
+	GET_COMMENTS_OF_COMMENT_ERROR,
 	COMMENT_POST_BEGIN,
 	COMMENT_POST_SUCCESS,
 	COMMENT_POST_ERROR,
+	CREATE_LIKE_BEGIN,
+	CREATE_LIKE_SUCCESS,
+	CREATE_LIKE_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -60,7 +66,8 @@ const initialState = {
 	userProfile: null,
 	listConversations: [],
 	conversation: null,
-	comments: [],
+	commentsOfPost: [],
+	commentsOfComment: [],
 };
 
 const AppContext = React.createContext();
@@ -324,15 +331,33 @@ const AppProvider = ({ children }) => {
 	const getCommentsByPostId = async (postId, limit) => {
 		dispatch({ type: GET_COMMENTS_OF_POST_BEGIN });
 		try {
-			const {data} = await authFetch.get(`/comment/${postId}?limit=${limit}`);
+			const {data} = await authFetch.get(`/comment/post/${postId}?limit=${limit}`);
 			dispatch({
 				type: GET_COMMENTS_OF_POST_SUCCESS,
-				payload: { comments: data },
+				payload: { commentsOfPost: data },
 			});
 		} catch (error) {
 			if (error.response.status === 401) return;
 			dispatch({
 				type: GET_COMMENTS_OF_POST_ERROR,
+				payload: { msg: error.response.data.msg },
+			});
+		}
+		clearAlert();
+	};
+
+	const getCommentsByParentId = async (postId, limit) => {
+		dispatch({ type: GET_COMMENTS_OF_COMMENT_BEGIN });
+		try {
+			const {data} = await authFetch.get(`/comment/parent-comment/${postId}?limit=${limit}`);
+			dispatch({
+				type: GET_COMMENTS_OF_COMMENT_SUCCESS,
+				payload: { commentsOfComment: data },
+			});
+		} catch (error) {
+			if (error.response.status === 401) return;
+			dispatch({
+				type: GET_COMMENTS_OF_COMMENT_ERROR,
 				payload: { msg: error.response.data.msg },
 			});
 		}
@@ -350,6 +375,23 @@ const AppProvider = ({ children }) => {
 			if (error.response.status === 401) return;
 			dispatch({
 				type: COMMENT_POST_ERROR,
+				payload: { msg: error.response.data.msg },
+			});
+		}
+		clearAlert();
+	};
+
+	const createLike = async (like) => {
+		dispatch({ type: CREATE_LIKE_BEGIN });
+		try {
+			await authFetch.post('/like', like);
+			dispatch({
+				type: CREATE_LIKE_SUCCESS,
+			});
+		} catch (error) {
+			if (error.response.status === 401) return;
+			dispatch({
+				type: CREATE_LIKE_ERROR,
 				payload: { msg: error.response.data.msg },
 			});
 		}
@@ -374,7 +416,9 @@ const AppProvider = ({ children }) => {
 				getMyConversation,
 				getConversationFromTwoUser,
 				getCommentsByPostId,
+				getCommentsByParentId,
 				commentPost,
+				createLike,
 			}}
 		>
 			{children}

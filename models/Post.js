@@ -12,34 +12,14 @@ const PostSchema = new mongoose.Schema({
     status: {
         type: String,
     },
-    likes: [
-        {
-            user: {
-                type: mongoose.Types.ObjectId,
-            },
-        },
-    ],
-    comments: [
-        {
-            user: {
-                type: mongoose.Types.ObjectId,
-            },
-            text: {
-                type: String,
-                required: true,
-            },
-            name: {
-                type: String,
-            },
-            avatar: {
-                type: String,
-            },
-            date: {
-                type: Date,
-                default: Date.now,
-            },
-        },
-    ],
+    likes: {
+        type: Array,
+        default: [],
+    },
+    comments: {
+        type: Array,
+        default: [],
+    },
     createdAt: {
         type: Date,
         default: Date.now,
