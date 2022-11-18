@@ -15,6 +15,18 @@ const getCommentsByPostId = async (req, res) => {
     }
 };
 
+const getCommentsByParentId = async (req, res) => {
+    try {
+        const comments = await Comment.find({ parentId: req.params.parentId})
+                                        .populate(["comments", "commenter"])
+                                        .sort({ createdAt: -1 })
+        res.status(200).json(comments);
+    } catch (err) {
+        console.error(err.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
+
 const createComment = async (req, res) => {
     try {
         const newComment =new Comment({
@@ -32,7 +44,7 @@ const createComment = async (req, res) => {
         }
         const post = await Post.findOne({_id: req.body.postId});
         await post.updateOne({
-            $push: { comments: comment },
+            $push: { comments: comment._id },
         });
         res.status(200).json(comment);
     } catch (err) {
@@ -42,5 +54,6 @@ const createComment = async (req, res) => {
 };
 export {
     getCommentsByPostId,
+    getCommentsByParentId,
     createComment,
 };

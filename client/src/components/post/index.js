@@ -1,58 +1,105 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Carousel, Input } from "antd";
+import { Carousel, Input, Tooltip } from "antd";
+import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 import Comment from "../comment";
-import Emoji from "../emoji";
 import { getDateTime } from "../../helpers/formatDate";
 import { listPostsImages } from "../../utils";
 import { useAppContext } from "../../context/appContext";
 import "./post.scss";
 const { TextArea } = Input;
-function Post({post}) {
+function Post({ post }) {
     const slider = useRef();
-    const { user, commentPost , comments, getCommentsByPostId, listUsers, getAllUsers} = useAppContext();
+    const {
+        user,
+        userProfile,
+        getProfileById,
+        commentPost,
+        commentsOfPost,
+        getCommentsByPostId,
+        listUsers,
+        getAllUsers,
+        createLike,
+    } = useAppContext();
     const { text, createdAt, status } = post;
     const [showComment, setShowComment] = useState(false);
-    const [showEmoji, setShowEmoji] = useState(false);
     const [showHiddenPost, setShowHiddenPost] = useState(false);
     const [commentText, setCommentText] = useState("");
     const [limit, setLimit] = useState(5);
-    const postUser = listUsers.find(userInfo => userInfo.user._id === post.user._id)
-
-    const handleEnter = (e) => {
-        if (e.keyCode  === 13 && !e.shiftKey) {
-            e.preventDefault();
-        if(commentText !=="" ){
-            const newComment = {
-                postId: post._id,
-                text: commentText,
-            } 
-            handleCreateComment(newComment)
-            setCommentText("")
+    const [likeState, setLikeState] = useState(false);
+    const [numberOfLike, setNumberOfLike] = useState(post.likes.length);
+    const [numberOfComment, setNumberOfComment] = useState(post.comments.length);
+    const [ listToolTips, setListToolTips] = useState([]);
+    
+    const postUser = listUsers.find(
+        (userInfo) => userInfo.user._id === post.user._id
+    );
+    
+    useEffect(() => {
+        if (post.likes.includes(user._id)) {
+            setLikeState(true);
         }
-      }
-    }
+    }, []);
+    useEffect(() => {
+        getProfileById(user._id)
+        getAllUsers();
+        getCommentsByPostId(post._id, limit);
+    }, [limit]);
+    useEffect(() => {
+        setListToolTips([])
+        post.likes.map(userId => {
+            for(let i=0;i<listUsers.length;i++){
+                if(listUsers[i].user._id === userId){
+                    setListToolTips(listToolTips => [...listToolTips,listUsers[i]] );
+                }
+            }
+        })
+    }, [listUsers]);
+    const handleEnter = (e) => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+            if (commentText !== "") {
+                const newComment = {
+                    postId: post._id,
+                    text: commentText,
+                };
+                handleCreateComment(newComment);
+                setCommentText("");
+            }
+        }
+    };
     const handleCreateComment = (data) => {
         const comment = {
             postId: data.postId,
             text: data.text,
             parentId: data.parentId,
-        }
+        };
 
-        setShowComment(true)
-        commentPost(comment)
-        getCommentsByPostId(post._id, limit)
-    }
+        setShowComment(true);
+        commentPost(comment);
+        getCommentsByPostId(post._id, limit);
+        setNumberOfComment(numberOfComment+1)
+    };
     const handleOpenComment = () => {
-        if(!showComment){
-            getCommentsByPostId(post._id, limit)
+        if (!showComment) {
+            getCommentsByPostId(post._id, limit);
         }
-        setShowComment(!showComment)
-    }
-    useEffect(() => {
-        getAllUsers()
-        getCommentsByPostId(post._id, limit)
-    }, [limit]);
-    console.log(post);
+        setShowComment(!showComment);
+    };
+    const handleCreateLike = () => {
+        const like = {
+            postId: post._id,
+        };
+        createLike(like);
+        if(likeState){
+            setNumberOfLike(numberOfLike-1)
+            const user = listToolTips.filter((item) => item.user._id !== userProfile.user._id);
+            setListToolTips( user);
+        } else{
+            setNumberOfLike(numberOfLike+1)
+            setListToolTips(listToolTips => [...listToolTips,userProfile] );
+        }
+        setLikeState(!likeState);
+    };
     return (
         <div
             className={
@@ -73,12 +120,12 @@ function Post({post}) {
                         </div>
                         <div className="ms-3">
                             <a className="user-name" href="/">
-                                {postUser?.fullName !=="" ? postUser?.fullName: post.user.username}
+                                {postUser?.fullName !== ""
+                                    ? postUser?.fullName
+                                    : post.user.username}
                             </a>
                             <br />
-                            <span>
-                                {getDateTime(createdAt)}
-                            </span>
+                            <span>{getDateTime(createdAt)}</span>
                         </div>
                     </div>
                     <p className="mt-2">{text}</p>
@@ -115,39 +162,50 @@ function Post({post}) {
                 </div>
                 <div className="post-container__bottom mx-3">
                     <div className="d-flex align-item-center">
-                        <img
-                            className="img-circle"
-                            style={{ width: "20px" }}
-                            src={require("../../assets/images/like.png")}
-                            alt=""
-                        />
-                        <img
-                            className="img-circle"
-                            style={{ width: "20px" }}
-                            src={require("../../assets/images/heart.png")}
-                            alt=""
-                        />
-                        <img
-                            className="img-circle"
-                            style={{ width: "20px" }}
-                            src={require("../../assets/images/haha.png")}
-                            alt=""
-                        />
-                        <span className="ms-2">120</span>
-                        <span 
-                            className="ms-auto underline" 
-                            onClick={() => handleOpenComment()}
-                        >
-                            {post.comments.length} bình luận
-                        </span>
+                        {
+                            numberOfLike > 0 &&
+                            <Tooltip
+                                title={() => listToolTips.map(item=> 
+                                    <>{item.fullName !== "" ? item.fullName : item.user.username}<br/></>
+                                )}
+                                style={{ cursor: "pointer",  whiteSpace:"pre-wrap" }}
+                                className="underline"
+                            >
+                                <img
+                                    className="img-circle"
+                                    style={{ width: "20px" }}
+                                    src={require("../../assets/images/like.png")}
+                                    alt=""
+                                />
+                                <span className="ms-2">{numberOfLike}</span>
+                            </Tooltip>
+                        }
+                        {
+                            numberOfComment > 0 &&
+                            <div className="ms-auto underline">
+                                <span onClick={() => handleOpenComment()}>
+                                    {numberOfComment} bình luận
+                                </span>
+                            </div>
+                        }
                     </div>
                     <div className="post-container__bottom__action">
                         <div
-                            className="col-4"
-                            onMouseEnter={() => setShowEmoji(true)}
-                            onMouseLeave={() => setShowEmoji(false)}
+                            className={
+                                !likeState
+                                    ? "col-4 d-flex justify-content-center"
+                                    : "col-4 d-flex justify-content-center txt-blue"
+                            }
+                            onClick={() =>
+                                handleCreateLike({ postId: post._id })
+                            }
                         >
-                            <Emoji state={showEmoji} />
+                            {likeState ? (
+                                <LikeFilled className="icon" />
+                            ) : (
+                                <LikeOutlined className="icon" />
+                            )}
+
                             <p>Thích</p>
                         </div>
                         <div
@@ -163,28 +221,40 @@ function Post({post}) {
                     <div className="post-container__bottom__comment col-12">
                         <img className="img-circle" alt="" src={user.avatar} />
                         <div className="comment">
-                          <TextArea
-                              className="textarea"
-                              name="text"
-                              placeholder="Viết bình luận..."
-                              autoSize={{ maxRows: 5 }}
-                              onChange={(e) => {
-                                setCommentText(e.target.value);
-                              }}
-                              value={commentText}
-                              onKeyDown={(e) => handleEnter(e)}
-                              />
+                            <TextArea
+                                className="textarea"
+                                name="text"
+                                placeholder="Viết bình luận..."
+                                autoSize={{ maxRows: 5 }}
+                                onChange={(e) => {
+                                    setCommentText(e.target.value);
+                                }}
+                                value={commentText}
+                                onKeyDown={(e) => handleEnter(e)}
+                            />
                         </div>
                     </div>
-                    {showComment && comments?.length >0 &&
-                        comments.map((comment, index) => (
-                            comment.post === post._id &&
-                            <Comment comment={comment} handleCreateComment={handleCreateComment} />
-                        ))}
-                    { 
-                        limit < post.comments.length && showComment &&
-                        <p className="more-comment" onClick={() => setLimit(limit+5)}>Xem thêm bình luận</p>
-                    }
+                    {showComment &&
+                        commentsOfPost?.length > 0 &&
+                        commentsOfPost.map(
+                            (comment, index) =>
+                                comment.post === post._id && (
+                                    <Comment
+                                        comment={comment}
+                                        handleCreateComment={
+                                            handleCreateComment
+                                        }
+                                    />
+                                )
+                        )}
+                    {limit < post.comments.length && showComment && (
+                        <p
+                            className="more-comment"
+                            onClick={() => setLimit((prev) => prev + 5)}
+                        >
+                            Xem thêm bình luận
+                        </p>
+                    )}
                 </div>
             </div>
             <div className="post-overlay">

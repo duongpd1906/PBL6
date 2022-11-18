@@ -34,6 +34,17 @@ body {
             .col-4:hover {
                 background-color: #f0f2f5;
             }
+            .txt-blue {
+                p,.icon{
+                    color: #38b3ef;
+                }
+            }
+            .icon{
+                font-size: 16px;
+                margin: auto 0;
+                margin-right: 3px;
+                color: #65676b;
+            }
         }
         &__comment {
             display: flex;
@@ -156,4 +167,7 @@ body {
 .underline:hover{
     text-decoration: underline;
     cursor: pointer;
+}
+.ant-tooltip-inner{
+    border-radius: 10px !important;
 }
