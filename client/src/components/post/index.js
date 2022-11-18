@@ -20,7 +20,6 @@ function Post({ post }) {
         getAllUsers,
         createLike,
     } = useAppContext();
-    const { text, createdAt, status } = post;
     const [showComment, setShowComment] = useState(false);
     const [showHiddenPost, setShowHiddenPost] = useState(false);
     const [commentText, setCommentText] = useState("");
@@ -101,10 +100,11 @@ function Post({ post }) {
         setLikeState(!likeState);
     };
     return (
+        post && 
         <div
             className={
                 "post-container " +
-                (!showHiddenPost && status === "0" ? "is-hidden" : "")
+                (!showHiddenPost && post.status === "0" ? "is-hidden" : "")
             }
         >
             <div className="post-content">
@@ -125,10 +125,10 @@ function Post({ post }) {
                                     : post.user.username}
                             </a>
                             <br />
-                            <span>{getDateTime(createdAt)}</span>
+                            <span>{getDateTime(post.createdAt)}</span>
                         </div>
                     </div>
-                    <p className="mt-2">{text}</p>
+                    <p className="mt-2">{post.text}</p>
                 </div>
                 <div className="position-relative">
                     <Carousel

@@ -23,6 +23,9 @@ import {
 	GET_USER_PROFILE_BEGIN,
 	GET_USER_PROFILE_SUCCESS,
 	GET_USER_PROFILE_ERROR,
+	UPDATE_USER_PROFILE_BEGIN,
+	UPDATE_USER_PROFILE_SUCCESS,
+	UPDATE_USER_PROFILE_ERROR,
 	GET_ALL_USERS_BEGIN,
 	GET_ALL_USERS_SUCCESS,
 	GET_ALL_USERS_ERROR,
@@ -203,6 +206,23 @@ const AppProvider = ({ children }) => {
 		} catch (error) {
 			dispatch({
 				type: GET_USER_PROFILE_ERROR,
+				payload: { msg: error.response.data.msg },
+			});
+		}
+		clearAlert();
+	};
+
+	const updateUserProfile = async (userProfile) => {
+		dispatch({ type: UPDATE_USER_PROFILE_BEGIN });
+		try {
+			const { data } = await authFetch.put('/user', userProfile);
+			dispatch({
+				type: UPDATE_USER_PROFILE_SUCCESS,
+				payload: { userProfile: data },
+			});
+		} catch (error) {
+			dispatch({
+				type: UPDATE_USER_PROFILE_ERROR,
 				payload: { msg: error.response.data.msg },
 			});
 		}
@@ -407,6 +427,7 @@ const AppProvider = ({ children }) => {
 				loginUser,
 				logoutUser,
 				getProfileById,
+				updateUserProfile,
 				getAllUsers,
 				getAllPosts,
 				createPost,

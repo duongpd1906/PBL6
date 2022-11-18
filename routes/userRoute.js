@@ -6,6 +6,7 @@ import authenticateUser from "../middleware/auth.js";
 import {
     getAll,
     getProfileById,
+    updateUserProfile,
     updateUserAvatar,
     sendInvitation,
     acceptInvitation,
@@ -16,6 +17,7 @@ import {
 router.route("/").get(getAll);
 router.route("/byid/").get(getUserById);
 router.route("/:id").get(getProfileById);
+router.route("/").put(authenticateUser, updateUserProfile);
 router.route("/accept-invitation").patch(authenticateUser, acceptInvitation);
 router.route("/send-invitation").patch(authenticateUser, sendInvitation);
 router.route("/invitation/me").get(authenticateUser,getMyInvitation);
