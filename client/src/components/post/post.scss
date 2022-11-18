@@ -34,26 +34,57 @@ body {
             .col-4:hover {
                 background-color: #f0f2f5;
             }
+            .txt-blue {
+                p,.icon{
+                    color: #38b3ef;
+                }
+            }
+            .icon{
+                font-size: 16px;
+                margin: auto 0;
+                margin-right: 3px;
+                color: #65676b;
+            }
         }
         &__comment {
             display: flex;
             img {
                 width: 40px;
-            }
-            input {
-                margin-left: 10px;
                 height: 40px;
-                border-radius: 20px;
-                border: none;
-                width: 600px;
+            }    
+            .comment{
                 background-color: #f0f2f5;
-                padding: 0 15px;
+                border-radius: 20px;
+                padding: 5px 10px;
+                margin: auto 0;
+                width: 92%;
+                margin-left: auto;
+            }        
+            .textarea {
+                height: fit-content;
                 outline: none;
+                background-color: transparent;
             }
+            .textarea:hover {
+                border: none !important;
+            }
+            .ant-input:focus,
+            .ant-input:not(:hover) {
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+        .more-comment{
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+        }
+        .more-comment:hover{
+            text-decoration: underline;
+            
         }
     }
     &__list-images {
-        // max-height: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -85,6 +116,7 @@ body {
 
     .post-content {
         opacity: 1;
+        
     }
 
     .post-overlay {
@@ -94,7 +126,7 @@ body {
     &.is-hidden {
         position: relative;
         .post-content {
-            opacity: 0.2;
+            opacity: 0.1;
         }
         .post-overlay {
             display: flex;
@@ -133,3 +165,11 @@ body {
     align-items: center !important;
     justify-content: center !important;
 }
+.underline:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.ant-tooltip-inner{
+    border-radius: 10px !important;
+}
+

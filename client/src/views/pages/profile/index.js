@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { listFriendAvatar, listFriends } from "../../../utils";
 import Post from "../../../components/post";
 import Info from "../../../components/info";
 import FriendCard from "../../../components/friend/card";
@@ -13,11 +12,11 @@ const INFO_TAB = 2;
 const FRIEND_TAB = 3;
 
 function Profile() {
+    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
     const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
     const navigate = useNavigate();
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
     const userId = id ? id : user._id
     useEffect(() => {
         getProfileById(userId);
@@ -74,10 +73,10 @@ function Profile() {
                                     ? !userProfile?.invitation_receive.includes(user._id) 
                                         ? <div>
                                             <button onClick={handleSendInvitation}>Kết bạn</button>
-                                            <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                            <button className="btn-gray" onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                         </div>
                                         : <div>
-                                            <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                             <button onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                             <button onClick={handleSendInvitation} className="btn-gray">Hủy lời mời</button>
                                         </div>
                                     : 
@@ -86,7 +85,7 @@ function Profile() {
                                             <button className="btn-gray" onClick={() => navigate("/chat")}>Nhắn tin</button>
                                         </div>
                                 : <div>
-                                    <button onClick={() => navigate("/chat")}>Nhắn tin</button>
+                                     <button onClick={() => navigate("/chat", {state: {friend_id: userId}})}>Nhắn tin</button>
                                     <button className="btn-gray" onClick={handleAcceptInvitation}>Hủy kết bạn</button>
                                 </div>
 
@@ -122,9 +121,9 @@ function Profile() {
                 </div>
                 <div className="col-9 mb-5">
                     {tab === POST_TAB &&
-                        listPosts
-                            .filter((post) => post.user._id === userId)
-                            .map((post) => <Post data={post} />)}
+                        listPosts.length>0 &&
+                        listPosts.filter((post) => post.user._id === userId)
+                            .map((post) => <Post post={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&
                         listUsers.map((record) =>

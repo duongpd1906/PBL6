@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Radio, DatePicker, Form, Input } from "antd";
 import { CameraFilled } from "@ant-design/icons";
-import "./edit-profile.scss";
+import moment from 'moment'
 import { useAppContext } from "../../../context/appContext";
+import "./edit-profile.scss";
 
 function EditProfile({ isModalOpen, handleOpenModal }) {
+    const { updateAvatar, userProfile, updateUserProfile } = useAppContext();
+    const [selectedImage, setSelectedImage] = useState();
+
+
     const onSubmit = (values) => {
+        values.dayOfBirth = values.dayOfBirth ? values.dayOfBirth.toDate() : userProfile.dayOfBirth
         updateImage();
+        updateUserProfile(values)
+        window.location.reload(false)
     };
 
-    const { updateAvatar, user } = useAppContext();
-
-    const [selectedImage, setSelectedImage] = useState();
 
     const handleUploadImage = (e) => {
         const userAvatar = document.getElementById("user-avatar");
@@ -28,6 +33,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
     };
 
     return (
+        userProfile && 
         <Modal
             className="edit-profile"
             open={isModalOpen}
@@ -38,7 +44,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
             <div className="edit-profile__avatar">
                 <img
                     id="user-avatar"
-                    src={user.avatar}
+                    src={userProfile?.user.avatar}
                     alt=""
                 />
                 <label for="image-input">
@@ -56,46 +62,53 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Họ và tên</lable>
                     <div className="col-1"></div>
-                    <Form.Item name="name" className="col-8 mb-0">
-                        <Input defaultValue="Hieu" />
+                    <Form.Item name="fullName" className="col-8 mb-0">
+                        <Input defaultValue={userProfile?.fullName} />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Giới tính</lable>
                     <div className="col-1"></div>
                     <Form.Item name="gender" className="col-8 mb-0">
-                        <Radio.Group defaultValue={true}>
-                            <Radio value={true}>Nữ</Radio>
-                            <Radio value={false}>Nam</Radio>
+                        <Radio.Group defaultValue={userProfile?.gender}>
+                            <Radio value={false}>Nữ</Radio>
+                            <Radio value={true}>Nam</Radio>
                         </Radio.Group>
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Ngày sinh</lable>
                     <div className="col-1"></div>
-                    <Form.Item name="birthday" className="col-8 mb-0">
-                        <DatePicker className="col-12" />
+                    <Form.Item name="dayOfBirth" className="col-8 mb-0">
+                        <DatePicker
+                                className="col-12"
+                                defaultValue={moment(
+                                    new Date(userProfile?.dayOfBirth),
+                                    'YYYY/MM/DD',
+                                )}
+                                format="DD/MM/YYYY"
+                            />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Địa chỉ</lable>
                     <div className="col-1"></div>
                     <Form.Item name="address" className="col-8 mb-0">
-                        <Input defaultValue="Hue" />
+                        <Input defaultValue={userProfile?.address} />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Số điện thoại</lable>
                     <div className="col-1"></div>
-                    <Form.Item name="phone_number" className="col-8 mb-0">
-                        <Input defaultValue="0394285138" />
+                    <Form.Item name="phoneNumber" className="col-8 mb-0">
+                        <Input defaultValue={userProfile?.phoneNumber} />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__item">
                     <lable className="col-3">Sở thích</lable>
                     <div className="col-1"></div>
-                    <Form.Item name="hobbies" className="col-8 mb-0">
-                        <Input defaultValue="ngu" />
+                    <Form.Item name="hoppy" className="col-8 mb-0">
+                        <Input defaultValue={userProfile?.hobby} />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__footer">

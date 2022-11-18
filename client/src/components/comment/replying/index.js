@@ -1,12 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { useAppContext } from "../../../context/appContext";
+import { Input } from "antd";
 import "./replying-comment.scss";
-function ReplyingComment() {
+
+const { TextArea } = Input;
+function ReplyingComment({parentComment,handleCreateComment}) {
+    const { user } = useAppContext()
+    const [commentText, setCommentText] = useState("");
+    const handlerEnter = (e) => {
+        if (e.keyCode  === 13 && !e.shiftKey) {
+            e.preventDefault();
+        if(commentText !=="" ){
+            const comment = {
+                postId: parentComment.post,
+                text: commentText,
+                parentId: parentComment._id,
+            }
+            handleCreateComment(comment)
+            setCommentText("")
+        }
+      }
+    }
     return (
         <div className="replying-comment">
-            <img className="img-circle" alt="" src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/280374790_1477115089370427_2274356777150785265_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BGiT7grLdloAX9IRJ_q&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9cSGOCa9XgxlLhOaqjXNYXm19qGb65c2eSuzlvgQuLGQ&oe=63279F08"/>
-            <input placeholder="Viết bình luận..."/>
+            <img className="img-circle" alt="" src={user.avatar}/>
+            <div className="comment">
+                <TextArea
+                    className="textarea"
+                    name="text"
+                    placeholder="Viết bình luận..."
+                    autoSize={{ maxRows: 5 }}
+                    onChange={(e) => {
+                        setCommentText(e.target.value);
+                    }}
+                    value={commentText}
+                    onKeyDown={(e) => handlerEnter(e)}
+                    />
+            </div>
         </div>
     );
 }

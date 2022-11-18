@@ -9,14 +9,14 @@ function Info() {
             <div className="d-flex my-4">
                 <img src={require("../../assets/images/gender.png")} alt=""/>
                 <div className="ms-4">
-                    <p>{userProfile.gender}</p>
+                    <p>{userProfile.gender ? "Nam" : "Nữ"}</p>
                     <span className="text">Giới tính</span>
                 </div>
             </div>
             <div className="d-flex my-4">
                 <img src={require("../../assets/images/birthday.png")} alt=""/>
                 <div className="ms-4">
-                    <p>{userProfile.birthday}</p>
+                    <p>{(new Date(userProfile.dayOfBirth)).toLocaleDateString()}</p>
                     <span className="text">Ngày sinh</span>
                 </div>
             </div>
@@ -44,7 +44,7 @@ function Info() {
             <div className="d-flex my-4">
                 <img src={require("../../assets/images/love.png")} alt="" />
                 <div className="ms-4">
-                    <p>{userProfile.hobby}</p>
+                    <p>{userProfile.hoppy}</p>
                     <span className="text">Sở thích</span>
                 </div>
             </div>

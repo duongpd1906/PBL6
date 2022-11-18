@@ -22,7 +22,7 @@
         }
     }
     &__messanges {
-        height: 500px;
+        height: 515px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
@@ -30,10 +30,11 @@
 }
 .avatar {
     display: flex;
-    padding: 0 30px;
+    padding: 0 20px;
     img {
         margin: auto;
         height: 30px;
+        width: 30px;
         border-radius: 50%;
     }
 }

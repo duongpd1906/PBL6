@@ -27,7 +27,7 @@ function Posting() {
                     src={user.avatar}
                     alt=""
                 />
-                <Form.Item name="text" className="col-11">
+                <Form.Item name="text" style={{width: "90%"}}>
                     <TextArea
                         placeholder="Bạn đang nghĩ gì ?"
                         name="text"

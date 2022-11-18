@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import {useLocation, useNavigate} from 'react-router-dom';
 import Messages from "../../../components/messenger";
 import ChatBar from "../../../components/chat-bar";
 import "./chat.scss";
@@ -6,15 +7,16 @@ import { io } from "socket.io-client";
 import axios from "axios";
 import { useAppContext } from "../../../context/appContext";
 
-function Chat() {
+function Chat(props) {
 	const [currentChat, setCurrentChat] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const socket = useRef(io("ws://localhost:9000"));
-	const { user, getMyConversation, listConversations } = useAppContext();
+	const { user, conversation, getMyConversation, listConversations, getConversationFromTwoUser } = useAppContext();
 	const scrollRef = useRef();
-
+	const location = useLocation();
+	const navigate = useNavigate();
 	useEffect(() => {
 		getMyConversation();
 		socket.current = io("ws://localhost:9000");
@@ -25,23 +27,29 @@ function Chat() {
 				createdAt: Date.now(),
 			});
 		});
+		if(location.state?.friend_id){
+			getConversationFromTwoUser(user._id, location.state.friend_id)
+		}
+		
 	}, []);
-
+	useEffect(() => {
+		if (conversation) {
+			setCurrentChat(conversation)
+		} 
+	}, [conversation]);
 	useEffect(() => {
 		arrivalMessage &&
 			currentChat?.members.includes(arrivalMessage.sender) &&
 			setMessages((prev) => [...prev, arrivalMessage]);
-		console.log("ALO");
 	}, [arrivalMessage, currentChat]);
 
 	useEffect(() => {
 		socket.current.emit("addUser", user._id);
-		socket.current.on("getUsers", (users) => {
-			console.log(users);
-		});
+		socket.current.on("getUsers");
 	}, [user]);
 
 	useEffect(() => {
+		navigate("/chat", { replace: true });
 		const getMessages = async () => {
 			try {
 				const res = await axios.get("/api/message/" + currentChat?._id);
@@ -52,9 +60,7 @@ function Chat() {
 		};
 		getMessages();
 	}, [currentChat]);
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+	const handleSubmit = async () => {
 		if (newMessage === "") {
 			return;
 		}
@@ -64,7 +70,7 @@ function Chat() {
 			conversationId: currentChat._id,
 		};
 
-		const receiverId = currentChat.members.find(
+		const receiverId = currentChat.members?.find(
 			(member) => member !== user._id
 		);
 
@@ -91,11 +97,10 @@ function Chat() {
 		<div className="chat-container">
 			<div className="chat-content col-12">
 				<div className="border-right">
-					<div className="border-bottom py-3 text-center">
-						<div className="m-auto">
-							<h6 className="my-0">h_hiuu</h6>
-						</div>
-					</div>
+					<div className="search-bar col-11 m-auto my-2">
+                        <span role="img" aria-label="search" class="anticon anticon-search"><svg viewBox="64 64 896 896" focusable="false" data-icon="search" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path></svg></span>
+                        <input type="text" placeholder="Tìm kiếm"/>
+                    </div>
 					<div className="chat-bar">
 						{listConversations.map((c) => (
 							<div onClick={() => setCurrentChat(c)}>
@@ -112,9 +117,9 @@ function Chat() {
 					{currentChat ? (
 						<Messages
 							listmessages={messages}
-							friendId={currentChat.members.find(
-								(x) => x !== user._id
-							)}
+							friendId={currentChat.members?.find(
+										(x) => x !== user._id
+								)}
 							handleSubmit={handleSubmit}
 							setNewMessage = {setNewMessage}
 							newMessage = {newMessage}
