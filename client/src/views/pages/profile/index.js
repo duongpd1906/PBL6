@@ -12,11 +12,11 @@ const INFO_TAB = 2;
 const FRIEND_TAB = 3;
 
 function Profile() {
+    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
     const { id } = useParams();
     const [tab, setTab] = useState(POST_TAB);
     const navigate = useNavigate();
     const [isModalOpen, setisModalOpen] = useState(false);
-    const { user, userProfile, getProfileById, listPosts, getAllPosts, listUsers, getAllUsers, sendInvitation, acceptInvitation } = useAppContext();
     const userId = id ? id : user._id
     useEffect(() => {
         getProfileById(userId);
@@ -121,9 +121,9 @@ function Profile() {
                 </div>
                 <div className="col-9 mb-5">
                     {tab === POST_TAB &&
-                        listPosts
-                            .filter((post) => post.user._id === userId)
-                            .map((post) => <Post data={post} />)}
+                        listPosts.length>0 &&
+                        listPosts.filter((post) => post.user._id === userId)
+                            .map((post) => <Post post={post} />)}
                     {tab === INFO_TAB && <Info />}
                     {tab === FRIEND_TAB &&
                         listUsers.map((record) =>

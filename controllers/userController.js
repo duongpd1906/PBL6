@@ -95,6 +95,27 @@ const getProfileById = async (req, res) => {
 	}
 };
 
+const updateUserProfile = async (req, res) => {
+	try {
+		const userProfile = await Profile.findOne({
+			user: req.user.userId,
+		}).populate("user");
+		userProfile.fullName = req.body.fullName
+		userProfile.gender = req.body.gender
+		userProfile.address = req.body.address
+		userProfile.phoneNumber = req.body.phoneNumber
+		userProfile.hoppy = req.body.hoppy
+		userProfile.dayOfBirth = req.body.dayOfBirth
+		const updateUserProfile = await Profile.findOneAndUpdate(
+			{ _id: userProfile._id },
+			{ $set: userProfile },
+		).populate("user");
+		res.status(StatusCodes.OK).json(updateUserProfile);
+	} catch (error) {
+		console.error(error.message);
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+	}
+};
 const getMyInvitation = async (req, res) => {
 	try {
 		const myProfile = await Profile.findOne({
@@ -128,6 +149,7 @@ export {
 	acceptInvitation,
 	getAll,
 	getProfileById,
+	updateUserProfile,
 	getMyInvitation,
     getUserById,
 };

@@ -20,6 +20,9 @@ import {
 	GET_USER_PROFILE_BEGIN,
 	GET_USER_PROFILE_SUCCESS,
 	GET_USER_PROFILE_ERROR,
+	UPDATE_USER_PROFILE_BEGIN,
+	UPDATE_USER_PROFILE_SUCCESS,
+	UPDATE_USER_PROFILE_ERROR,
 	GET_ALL_USERS_BEGIN,
 	GET_ALL_USERS_SUCCESS,
 	GET_ALL_USERS_ERROR,
@@ -146,6 +149,27 @@ const reducer = (state, action) => {
 		};
 	}
 	if (action.type === GET_USER_PROFILE_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+		};
+	}
+
+	if (action.type === UPDATE_USER_PROFILE_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+		};
+	}
+
+	if (action.type === UPDATE_USER_PROFILE_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			userProfile: action.payload.userProfile,
+		};
+	}
+	if (action.type === UPDATE_USER_PROFILE_ERROR) {
 		return {
 			...state,
 			isLoading: false,
