@@ -81,6 +81,7 @@ const AppProvider = ({ children }) => {
 	// axios
 	const authFetch = axios.create({
 		baseURL: "/api",
+		timeout: 3000,
 	});
 	// request
 
@@ -136,6 +137,7 @@ const AppProvider = ({ children }) => {
 				currentUser
 			);
 			const { user, token } = response.data;
+			console.log(user);
 			dispatch({
 				type: REGISTER_USER_SUCCESS,
 				payload: {

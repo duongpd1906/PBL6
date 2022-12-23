@@ -128,7 +128,7 @@ function Post({ post }) {
                             <span>{getDateTime(post.createdAt)}</span>
                         </div>
                     </div>
-                    <p className="mt-2">{post.text}</p>
+                    <p className="post-text mt-2">{post.text}</p>
                 </div>
                 <div className="position-relative">
                     <Carousel
@@ -169,7 +169,7 @@ function Post({ post }) {
                                     <>{item.fullName !== "" ? item.fullName : item.user.username}<br/></>
                                 )}
                                 style={{ cursor: "pointer",  whiteSpace:"pre-wrap" }}
-                                className="underline"
+                                className="number-of-like underline"
                             >
                                 <img
                                     className="img-circle"
@@ -182,7 +182,7 @@ function Post({ post }) {
                         }
                         {
                             numberOfComment > 0 &&
-                            <div className="ms-auto underline">
+                            <div className="number-of-comment ms-auto underline">
                                 <span onClick={() => handleOpenComment()}>
                                     {numberOfComment} bình luận
                                 </span>
@@ -193,8 +193,8 @@ function Post({ post }) {
                         <div
                             className={
                                 !likeState
-                                    ? "col-4 d-flex justify-content-center"
-                                    : "col-4 d-flex justify-content-center txt-blue"
+                                    ? "like-post-state col-4 d-flex justify-content-center"
+                                    : "like-post-state col-4 d-flex justify-content-center txt-blue"
                             }
                             onClick={() =>
                                 handleCreateLike({ postId: post._id })

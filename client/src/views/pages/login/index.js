@@ -30,7 +30,7 @@ function Login() {
                     />
                 </div>
                 <div className="d-flex flex-column align-items-center col-6">
-                    <h1>WELCOME</h1>
+                    <h1 id="title">WELCOME</h1>
                     <Form
                         className="d-flex flex-column col-7 mt-5"
                         onFinish={onFinish}

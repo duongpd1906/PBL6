@@ -15,6 +15,7 @@
     "antd": "^4.23.1",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
+    "cypress": "^11.2.0",
     "font-awesome": "^4.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
