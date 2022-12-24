@@ -250,9 +250,13 @@ const AppProvider = ({ children }) => {
 	const createPost = async (post) => {
 		dispatch({ type: CREATE_POST_BEGIN });
 		try {
-			await authFetch.post("/post", post);
+			const response = await authFetch.post("/post", post);
+			if(response.status === 200){
+				await authFetch.patch(`/post/images/${response.data._id}`, post.images);
+			}
 			dispatch({ type: CREATE_POST_SUCCESS });
 		} catch (error) {
+			console.log(error);
 			if (error.response.status === 401) return;
 			dispatch({
 				type: CREATE_POST_ERROR,

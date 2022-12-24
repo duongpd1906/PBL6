@@ -5,26 +5,38 @@ import "./posting.scss";
 
 const { TextArea } = Input;
 function Posting() {
+    const { createPost, userProfile } = useAppContext();
     const [images, setImages] = useState([]);
-    const { createPost, user } = useAppContext();
+    const [showImages, setShowImages] = useState([]);
 
     const handleUploadImage = (e) => {
-        var listsImage = images.slice();
-        listsImage.push(URL.createObjectURL(e.target.files[0]));
-        setImages(listsImage);
+        var listsShowImage = showImages.slice();
+        listsShowImage.push(URL.createObjectURL(e.target.files[0]));
+        var listsImages = images.slice();
+        listsImages.push(e.target.files[0]);
+        setImages(listsImages);
+        setShowImages(listsShowImage);
     };
     const handleSubmit = (values) => {
-        const text = values.text
-        createPost({ text});
-        setTimeout(() => {
-            window.location.reload(false)
-        }, 1000);
+        if( (values.text && values.text !== "") || images.length > 0 ){
+            const formData = new FormData();
+            for (let i = 0; i < images.length; i++) {
+                formData.append("post-img", images[i]);
+            } 
+            createPost({
+                text: values.text,
+                images: formData
+            });
+            setTimeout(() => {
+                window.location.reload(false)
+            }, 1000);
+        }
     };
     return (
         <Form className="posting-container" onFinish={handleSubmit}>
             <div className="posting-container__top">
                 <img
-                    src={user.avatar}
+                    src={userProfile?.user.avatar}
                     alt=""
                 />
                 <Form.Item name="text" style={{width: "90%"}}>
@@ -37,12 +49,12 @@ function Posting() {
             </div>
             <div
                 className={
-                    images.length !== 0
+                    showImages.length !== 0
                         ? "posting-container__list-image"
                         : ""
                 }
             >
-                {images.map((image) => (
+                {showImages.map((image) => (
                     <img className="image" src={image} alt="" />
                 ))}
             </div>
