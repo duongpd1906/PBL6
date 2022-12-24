@@ -63,7 +63,7 @@ function ChangePassword({ isModalOpen, handleOpenModal }) {
                     <label className="col-4 mt-1">Nhập lại mất khẩu</label>
                     <Form.Item
                         className="col-8"
-                        name="comfirm_password"
+                        name="confirm_password"
                         dependencies={["password"]}
                         rules={[
                             {

@@ -10,9 +10,11 @@ const register = async (req, res, next) => {
     if (!username || !email || !password) {
         throw new BadRequestError("Please provide all values");
     }
-    const userAlreadyExists = await User.findOne({ email });
+    const userAlreadyExists = await User.findOne({ email: email });
+    console.log(userAlreadyExists);
     if (userAlreadyExists) {
         throw new BadRequestError("Email already in use");
+        return 
     }
 
     const avatar = normalize(
@@ -28,11 +30,7 @@ const register = async (req, res, next) => {
     await Profile.create({ user: user._id });
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({
-        user: {
-            email: user.email,
-            username: user.username,
-            avatar: user.avatar,
-        },
+        user: user,
         token,
     });
 };
