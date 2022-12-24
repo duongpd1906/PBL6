@@ -36,13 +36,6 @@ function SideBar() {
                     <p>Trang chủ</p>
                 </Menu.Item>
                 <Menu.Item
-                    key="2"
-                    className="item"
-                    icon={<CompassOutlined className="icon" />}
-                >
-                    <p>Khám phá</p>
-                </Menu.Item>
-                <Menu.Item
                     key="3"
                     className="item"
                     icon={<UsergroupAddOutlined className="icon" />}
@@ -54,6 +47,7 @@ function SideBar() {
                     key="4"
                     className="item"
                     icon={<BookOutlined className="icon" />}
+                    onClick={() => navigate("/posts-saved")}
                 >
                     <p>Đã lưu</p>
                 </Menu.Item>

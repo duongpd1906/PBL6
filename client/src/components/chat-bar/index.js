@@ -32,17 +32,17 @@ function ChatBar(props) {
 		getUserAndLastMessage();
 	}, [props.conversation, props.currentUser]);
 	return (
+		lastMessage &&
 		<div className="chat-bar-content px-3">
 			<div className="avatar">
 				<img src={user.avatar} alt="" />
 			</div>
 			<div className="name">
 				<div>{user.username}</div>
-				{lastMessage && (
 					<div>
 						{lastMessage.text}・{format(lastMessage.createdAt)}{" "}
 					</div>
-				)}
+				
 			</div>
 		</div>
 	);

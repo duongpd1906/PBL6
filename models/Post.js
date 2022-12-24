@@ -24,6 +24,14 @@ const PostSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    comments: {
+        type: Array,
+        default: [],
+    },
+    beSaved: {
+        type: Array,
+        default: [],
+    },
     createdAt: {
         type: Date,
         default: Date.now,

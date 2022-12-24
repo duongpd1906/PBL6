@@ -76,7 +76,7 @@ function Chat(props) {
 		const receiverId = currentChat.members?.find(
 			(member) => member !== user._id
 		);
-
+			console.log(receiverId);
 		socket.current.emit("sendMessage", {
 			senderId: user._id,
 			receiverId,
@@ -93,6 +93,7 @@ function Chat(props) {
 	};
 
 	useEffect(() => {
+		// console.log(arrivalMessage);
 		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
 
@@ -126,6 +127,7 @@ function Chat(props) {
 							handleSubmit={handleSubmit}
 							setNewMessage = {setNewMessage}
 							newMessage = {newMessage}
+							arrivalMessage={arrivalMessage}
 						/>
 					) : (
 						<div className="text-center m-auto">

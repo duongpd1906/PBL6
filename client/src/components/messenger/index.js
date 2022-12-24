@@ -10,10 +10,10 @@ function Messages(props) {
 	const [messageHeight, setMessageHeight] = useState(515);
 	const [friend, setFriend] = useState([]);
 	const bottomRef = useRef(null);
-	bottomRef.current?.scrollIntoView({block: "end"});
+	// bottomRef.current?.scrollIntoView({block: "start"});
 
 	useEffect(() => {
-		bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+		bottomRef.current?.scrollIntoView({block: "end", behavior: 'smooth'});
 	}, [props.newMessage]);
 
 	useEffect(() => {
@@ -42,7 +42,7 @@ function Messages(props) {
 				<div className="name">{friend.username}</div>
 				<AiOutlineInfoCircle className="icon" />
 			</div>
-			<div className="messages-content__messanges py-2" style={{height: messageHeight}}>
+			<div className="messages-content__messanges py-2" style={{height: messageHeight}} >
 				{props.listmessages.map((item) =>
 					item.sender !== props.friendId ? (
 						<MyMessages message={item.text} />
@@ -53,7 +53,7 @@ function Messages(props) {
 						/>
 					)
 				)}
-				<div ref={bottomRef} />
+				<div ref={bottomRef} ></div>
 			</div>
 			<ChatFooter
 				handleSubmit={props.handleSubmit}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input, Form } from "antd";
 import { useAppContext } from "../../context/appContext"
 import "./posting.scss";
+import axios from "axios";
 
 const { TextArea } = Input;
 function Posting() {
@@ -17,19 +18,35 @@ function Posting() {
         setImages(listsImages);
         setShowImages(listsShowImage);
     };
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         if( (values.text && values.text !== "") || images.length > 0 ){
             const formData = new FormData();
             for (let i = 0; i < images.length; i++) {
                 formData.append("post-img", images[i]);
             } 
-            createPost({
-                text: values.text,
-                images: formData
-            });
-            setTimeout(() => {
+            try {
+                const newPost = {
+                    text: values.text,
+                    images: formData
+                }
+                const response = await axios.post("/api/post", newPost, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    }
+                });
+                if(images.length>0 && response.status === 200){
+                    await axios.patch(`/api/post/images/${response.data._id}`, newPost.images, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        }
+                    });
+
+                }
                 window.location.reload(false)
-            }, 1000);
+
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
     return (
