@@ -15,7 +15,7 @@ import "./header.scss";
 
 function Header() {
     const navigate = useNavigate();
-    const { logoutUser, user } = useAppContext();
+    const { logoutUser, userProfile } = useAppContext();
     const [isModalOpen, setisModalOpen] = useState(false);
     const handleOpenModal = (state) => {
         setisModalOpen(state);
@@ -83,7 +83,7 @@ function Header() {
                 </div>
                 <Dropdown overlay={menu} trigger={["click"]}>
                     <div className="avatar">
-                        <img src={user.avatar} alt="" />
+                        <img src={userProfile?.user.avatar} alt="" />
                     </div>
                 </Dropdown>
             </div>

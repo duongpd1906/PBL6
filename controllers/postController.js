@@ -4,6 +4,7 @@ import Comment from "../models/Comment.js";
 import { StatusCodes } from "http-status-codes";
 import { spawn } from "child_process";
 import checkPermissions from "../utils/checkPermissions.js";
+import path from 'path'
 
 const getAllPosts = async (req, res) => {
     try {
@@ -44,12 +45,54 @@ const createPost = async (req, res) => {
         });
           newPost.status = predictionVal.substring(0,1);
           newPost.save();
-
         });
         res.status(StatusCodes.OK).json("Create post success");
     } catch (err) {
         console.error(err.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+};
+
+const updatePostImage = async (req, res) => {
+    try {
+        if (req.files) {
+            const postId = req.params.id
+            // Check if user exists
+            const dbPost = await Post.findById(req.params.id).populate("user");
+            if (dbPost) {
+                // Update post image in database
+                const listImages =[]
+                
+                for(let i=0; i<req.files.length; i++){
+                    const imageUrl = `http://127.0.0.1:5000/images/posts/${postId}_${req.files[i].originalname}`
+                    listImages.push(imageUrl)
+                }
+                const updatePost = {
+                    images: listImages,
+                }
+                await Post.findOneAndUpdate(
+                    { _id: dbPost.id },
+                    { $set: updatePost },
+                    {
+                        new: true,
+                    }
+                );
+            } else {
+                return res.status(404).json({
+                    message: 'Post not found!',
+                })
+            }
+        } else {
+            return res.status(400).json({
+                message: 'Image file not found!',
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: 'Something went wrong!',
+            error: error,
+        })
     }
 };
 
@@ -121,6 +164,7 @@ const predict = async (req, res) => {
 };
 export {
     createPost,
+    updatePostImage,
     getAllPosts,
     getPostById,
     updatePost,
