@@ -11,9 +11,6 @@ import {
 	GET_ALL_POSTS_BEGIN,
 	GET_ALL_POSTS_SUCCESS,
 	GET_ALL_POSTS_ERROR,
-	CREATE_POST_BEGIN,
-	CREATE_POST_SUCCESS,
-	CREATE_POST_ERROR,
 	UPDATE_AVATAR_BEGIN,
 	UPDATE_AVATAR_SUCCESS,
 	UPDATE_AVATAR_ERROR,
@@ -216,30 +213,6 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			isLoading: false,
-		};
-	}
-
-	if (action.type === CREATE_POST_BEGIN) {
-		return { ...state, isLoading: true };
-	}
-
-	if (action.type === CREATE_POST_SUCCESS) {
-		return {
-			...state,
-			isLoading: false,
-			showAlert: true,
-			alertType: "success",
-			alertText: "New Post Created!",
-		};
-	}
-
-	if (action.type === CREATE_POST_ERROR) {
-		return {
-			...state,
-			isLoading: false,
-			showAlert: true,
-			alertType: "danger",
-			alertText: action.payload.msg,
 		};
 	}
 

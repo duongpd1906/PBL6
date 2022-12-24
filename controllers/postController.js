@@ -37,16 +37,16 @@ const createPost = async (req, res) => {
     try {
         let predictionVal = "0";
         const python = spawn("python3", ["predict.py", req.body.text]);
-        python.stdout.on("data", (data) => {
-          predictionVal = data.toString();
+        // python.stdout.on("data", (data) => {
+        //   predictionVal = data.toString();
           const newPost = new Post({
             text: req.body.text,
             user: req.user.userId,
         });
-          newPost.status = predictionVal.substring(0,1);
-          newPost.save();
-        });
-        res.status(StatusCodes.OK).json("Create post success");
+        //   newPost.status = predictionVal.substring(0,1);
+          const post = await newPost.save();
+        // });
+        res.status(StatusCodes.OK).json(post);
     } catch (err) {
         console.error(err.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -70,13 +70,15 @@ const updatePostImage = async (req, res) => {
                 const updatePost = {
                     images: listImages,
                 }
+                
                 await Post.findOneAndUpdate(
                     { _id: dbPost.id },
                     { $set: updatePost },
                     {
                         new: true,
                     }
-                );
+                    );
+                res.status(StatusCodes.OK).json({message :'Upload images successfully !'});
             } else {
                 return res.status(404).json({
                     message: 'Post not found!',
@@ -104,11 +106,21 @@ const updatePost = async (req, res) => {
                 .status(StatusCodes.NOT_FOUND)
                 .json({ msg: "Post not found" });
         }
+        if(req.body.saver){
+            if(!post.beSaved.includes(req.body.saver)){
+                await post.updateOne({$push: { beSaved: req.user.userId }});
+                res.status(200).json("Save post success");
+            }
+            else {
+                await post.updateOne({$pull: { beSaved: req.user.userId }});
+                res.status(200).json("Unsave post success");
+            }
+        }
+        
         checkPermissions(req.user, post.user);
-
         const updatedPost = await Post.findOneAndUpdate(
             { _id: req.params.id },
-            req.body,
+            { text: req.body.text},
             {
                 new: true,
                 runValidators: true,

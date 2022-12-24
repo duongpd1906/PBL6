@@ -1,8 +1,13 @@
 body {
     background-color: #fafafa;
 }
-.post-container {
+.post{
     width: 100%;
+    padding-bottom: 50px;
+    height: fit-content;
+}
+.post-container {
+    width: 50%;
     background-color: #fff;
     border-radius: 10px;
     padding: 15px 0;
@@ -159,6 +164,29 @@ body {
             }
         }
     }
+    .icon-dots{
+        width: 34px;
+        height: 34px;
+        padding:  7px;
+        border-radius: 15px;
+        margin-left: auto;
+        margin-bottom: auto;
+        cursor: pointer;
+    }
+    .icon-dots:hover{
+        background-color: #f0f2f5;
+    }
+    .icon-edit, .icon-delete{
+        font-size: 18px;
+        padding: 0 5px;
+        cursor: pointer;
+        padding:  7px;
+        border-radius: 15px;
+    }
+    .icon-edit:hover, .icon-delete:hover{
+        background-color: #f0f2f5;
+    }
+    
 }
 .slick-track {
     display: flex !important;
