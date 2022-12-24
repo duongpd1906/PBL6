@@ -12,14 +12,15 @@ function Chat(props) {
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const [arrivalMessage, setArrivalMessage] = useState(null);
-	const socket = useRef(io("ws://localhost:9000"));
+	const ENDPOINT = "http://localhost:5000";
+	const socket = useRef(io(ENDPOINT));
 	const { user, conversation, getMyConversation, listConversations, getConversationFromTwoUser } = useAppContext();
 	const scrollRef = useRef();
 	const location = useLocation();
 	const navigate = useNavigate();
 	useEffect(() => {
 		getMyConversation();
-		socket.current = io("ws://localhost:9000");
+		socket.current = io(ENDPOINT);
 		socket.current.on("getMessage", (data) => {
 			setArrivalMessage({
 				sender: data.senderId,
@@ -45,7 +46,9 @@ function Chat(props) {
 
 	useEffect(() => {
 		socket.current.emit("addUser", user._id);
-		socket.current.on("getUsers");
+		socket.current.on("getUsers", (users) => {
+			console.log(users);
+		});
 	}, [user]);
 
 	useEffect(() => {

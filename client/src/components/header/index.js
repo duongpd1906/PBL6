@@ -27,11 +27,9 @@ function Header() {
     const menu = () => {
         return (
             <Menu class="header-menu">
-                <Menu.Item key="1" className="header-menu__item">
-                    <a href="/profile" className="tag-a">
+                <Menu.Item key="1" className="header-menu__item" onClick={() => navigate("/profile")}>
                         <UserOutlined className="icon" />
                         <span>Thông tin cá nhân</span>
-                    </a>
                 </Menu.Item>
                 <Menu.Item key="2" className="header-menu__item">
                     <LockOutlined className="icon" />
