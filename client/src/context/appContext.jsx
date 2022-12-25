@@ -14,9 +14,6 @@ import {
 	GET_ALL_POSTS_BEGIN,
 	GET_ALL_POSTS_SUCCESS,
 	GET_ALL_POSTS_ERROR,
-	CREATE_POST_BEGIN,
-	CREATE_POST_SUCCESS,
-	CREATE_POST_ERROR,
 	UPDATE_AVATAR_BEGIN,
 	UPDATE_AVATAR_ERROR,
 	UPDATE_AVATAR_SUCCESS,
@@ -81,6 +78,7 @@ const AppProvider = ({ children }) => {
 	// axios
 	const authFetch = axios.create({
 		baseURL: "/api",
+		timeout: 3000,
 	});
 	// request
 
@@ -136,6 +134,7 @@ const AppProvider = ({ children }) => {
 				currentUser
 			);
 			const { user, token } = response.data;
+			console.log(user);
 			dispatch({
 				type: REGISTER_USER_SUCCESS,
 				payload: {
@@ -206,7 +205,7 @@ const AppProvider = ({ children }) => {
 		} catch (error) {
 			dispatch({
 				type: GET_USER_PROFILE_ERROR,
-				payload: { msg: error.response.data.msg },
+				payload: { msg: error.response?.data },
 			});
 		}
 		clearAlert();
@@ -243,21 +242,6 @@ const AppProvider = ({ children }) => {
 				payload: { msg: error.response.data.msg },
 			});
 		}
-	};
-
-	const createPost = async (post) => {
-		dispatch({ type: CREATE_POST_BEGIN });
-		try {
-			await authFetch.post("/post", post);
-			dispatch({ type: CREATE_POST_SUCCESS });
-		} catch (error) {
-			if (error.response.status === 401) return;
-			dispatch({
-				type: CREATE_POST_ERROR,
-				payload: { msg: error.response.data.msg },
-			});
-		}
-		clearAlert();
 	};
 
 	const updateAvatar = async (file) => {
@@ -333,9 +317,10 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: GET_CONVERSATION_BEGIN });
 		try {
 			if(user_id && friend_id){
-				await authFetch.get(`/conversation/find/${user_id}/${friend_id}`);
+				const {data} = await authFetch.get(`/conversation/find/${user_id}/${friend_id}`);
 				dispatch({
 					type: GET_CONVERSATION_SUCCESS,
+					payload: { conversation: data },
 				});
 			}
 		} catch (error) {
@@ -430,7 +415,6 @@ const AppProvider = ({ children }) => {
 				updateUserProfile,
 				getAllUsers,
 				getAllPosts,
-				createPost,
 				updateAvatar,
 				sendInvitation,
 				acceptInvitation,

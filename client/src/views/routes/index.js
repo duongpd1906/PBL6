@@ -11,6 +11,8 @@ import Home from "../pages/home";
 import Profile from "../pages/profile";
 import Friends from "../pages/friend";
 import { io } from "socket.io-client";
+import PostsSaved from "../pages/posts-saved";
+import Post from "../../components/post";
 
 
 function AllRoutes() {
@@ -34,6 +36,14 @@ function AllRoutes() {
 				<Route
 					path="friend"
 					element={<MainLayout component={Friends} />}
+				/>
+				<Route
+					path="posts-saved"
+					element={<MainLayout component={PostsSaved} />}
+				/>
+				<Route
+					path="posts/:id"
+					element={<MainLayout component={Post} />}
 				/>
 			</Route>
 			<Route path="*" element={<Error />} />

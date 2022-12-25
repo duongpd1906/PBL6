@@ -12,14 +12,15 @@ function Chat(props) {
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const [arrivalMessage, setArrivalMessage] = useState(null);
-	const socket = useRef(io("ws://localhost:9000"));
+	const ENDPOINT = "http://localhost:5000";
+	const socket = useRef(io(ENDPOINT));
 	const { user, conversation, getMyConversation, listConversations, getConversationFromTwoUser } = useAppContext();
 	const scrollRef = useRef();
 	const location = useLocation();
 	const navigate = useNavigate();
 	useEffect(() => {
 		getMyConversation();
-		socket.current = io("ws://localhost:9000");
+		socket.current = io(ENDPOINT);
 		socket.current.on("getMessage", (data) => {
 			setArrivalMessage({
 				sender: data.senderId,
@@ -45,7 +46,9 @@ function Chat(props) {
 
 	useEffect(() => {
 		socket.current.emit("addUser", user._id);
-		socket.current.on("getUsers");
+		socket.current.on("getUsers", (users) => {
+			console.log(users);
+		});
 	}, [user]);
 
 	useEffect(() => {
@@ -73,7 +76,7 @@ function Chat(props) {
 		const receiverId = currentChat.members?.find(
 			(member) => member !== user._id
 		);
-
+			console.log(receiverId);
 		socket.current.emit("sendMessage", {
 			senderId: user._id,
 			receiverId,
@@ -90,6 +93,7 @@ function Chat(props) {
 	};
 
 	useEffect(() => {
+		// console.log(arrivalMessage);
 		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
 
@@ -123,6 +127,7 @@ function Chat(props) {
 							handleSubmit={handleSubmit}
 							setNewMessage = {setNewMessage}
 							newMessage = {newMessage}
+							arrivalMessage={arrivalMessage}
 						/>
 					) : (
 						<div className="text-center m-auto">

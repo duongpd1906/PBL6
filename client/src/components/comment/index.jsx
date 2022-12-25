@@ -43,7 +43,7 @@ function Comment({ comment, handleCreateComment }) {
     }, []);
     const handleCreateLike = () => {
         const like = {
-            commentId: comment._id,
+            comment_id: comment._id,
         };
         createLike(like);
         if(likeState){

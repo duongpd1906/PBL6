@@ -1,10 +1,11 @@
 .home-container {
     width: 100%;
+    height: fit-content;
     background-color: #fafafa;
     display: flex;
     flex-direction: row;
     &__posts {
-        margin: auto;
+        margin: 0 auto;
         padding-bottom: 50px;
     }
     &__list-friend {

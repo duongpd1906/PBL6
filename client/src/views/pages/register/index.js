@@ -136,7 +136,7 @@ function Register() {
                         >
                             <LockOutlined className="icon" />
                             <Form.Item
-                                name="comfirm-password"
+                                name="confirm-password"
                                 dependencies={["password"]}
                                 rules={[
                                     {

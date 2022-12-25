@@ -6,7 +6,7 @@ const updateUserAvatar = async (req, res) => {
 	try {
 		const currentUser = await User.findOne({ _id: req.user.userId });
 		currentUser.avatar =
-			"http://127.0.0.1:5000/images/" + req.file.filename;
+			"http://127.0.0.1:5000/images/avatars/" + req.file.filename;
 		await User.findOneAndUpdate(
 			{ _id: req.user.userId },
 			{ $set: currentUser },

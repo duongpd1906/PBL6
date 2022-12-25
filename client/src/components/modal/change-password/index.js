@@ -1,11 +1,23 @@
 import React from "react";
 import { Modal, Form, Input } from "antd";
 import { messages } from "../../../assets/lang/messages";
+import axios from 'axios'
+import { useAppContext } from "../../../context/appContext";
 import "./change-password.scss";
 
 function ChangePassword({ isModalOpen, handleOpenModal }) {
-    const onSubmit = (values) => {
-        
+    const onSubmit = async (values) => {
+        try {
+            const response = await axios.post("/api/auth/change-password", values, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            });
+            alert(response.data.message)
+            window.location.reload(false)
+        } catch (error) {
+            alert(error.response.data.message)
+        }
     };
     return (
         <Modal
@@ -21,7 +33,7 @@ function ChangePassword({ isModalOpen, handleOpenModal }) {
                     <label className="col-4 mt-1">Mật khẩu cũ</label>
                     <Form.Item
                         className="col-8"
-                        name="old_password"
+                        name="currentPassword"
                         rules={[
                             {
                                 required: true,
@@ -42,7 +54,7 @@ function ChangePassword({ isModalOpen, handleOpenModal }) {
                     <label className="col-4 mt-1">Mật khẩu mới</label>
                     <Form.Item
                         className="col-8"
-                        name="password"
+                        name="newPassword"
                         rules={[
                             {
                                 required: true,
@@ -63,8 +75,8 @@ function ChangePassword({ isModalOpen, handleOpenModal }) {
                     <label className="col-4 mt-1">Nhập lại mất khẩu</label>
                     <Form.Item
                         className="col-8"
-                        name="comfirm_password"
-                        dependencies={["password"]}
+                        name="confirmPassword"
+                        dependencies={["newPassword"]}
                         rules={[
                             {
                                 required: true,
@@ -74,7 +86,7 @@ function ChangePassword({ isModalOpen, handleOpenModal }) {
                                 validator(_, value) {
                                     if (
                                         !value ||
-                                        getFieldValue("password") === value
+                                        getFieldValue("newPassword") === value
                                     ) {
                                         return Promise.resolve();
                                     }

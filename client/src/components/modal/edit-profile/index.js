@@ -108,7 +108,7 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
                     <lable className="col-3">Sở thích</lable>
                     <div className="col-1"></div>
                     <Form.Item name="hoppy" className="col-8 mb-0">
-                        <Input defaultValue={userProfile?.hobby} />
+                        <Input defaultValue={userProfile?.hoppy} />
                     </Form.Item>
                 </div>
                 <div className="edit-profile__content__footer">
@@ -119,8 +119,6 @@ function EditProfile({ isModalOpen, handleOpenModal }) {
                         Thoát
                     </button>
                     <button
-                        type="primary"
-                        htmlType="submit"
                         className="btn-blue"
                     >
                         Lưu

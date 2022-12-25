@@ -1,0 +1,32 @@
+config:
+  target: "http://192.168.1.5:80"
+  phases:
+    - duration: 30
+      arrivalRate: 20
+ 
+scenarios:
+  - name: "Retrieve data"
+    flow:
+      - get:
+          url: "/api"
+
+
+# config:
+#   target: "http://192.168.1.5:1906"
+#   phases:
+#     - duration: 10
+#       arrivalRate: 20
+#   payload:
+#     path: "/home/duong/PBL6/auth.csv"
+#     fields:
+#       - "email"
+#       - "password"
+ 
+# scenarios:
+#   - name: "Authenticating users"
+#     flow:
+#       - post:
+#           url: "/api/auth/login"
+#           json:
+#             email: "nhientran2509@gmail.com"
+#             password: "123456"
