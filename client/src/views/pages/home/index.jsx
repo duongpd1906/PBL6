@@ -14,7 +14,7 @@ function Home() {
     }, []);
     return (
         <div className="home-container">
-            <div className="home-container__posts col-12">
+            <div className="home-container__posts col-6">
                 <Posting />
                 {listPosts.map((post) => (
                     <Post post={post}/>

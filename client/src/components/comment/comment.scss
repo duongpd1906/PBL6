@@ -1,5 +1,6 @@
 .comment-container {
   display: flex;
+  position: relative;
   img {
     width: 40px;
     height: 40px;
@@ -59,4 +60,54 @@
     margin-top: 10px;
     cursor: pointer;
   }
+  .comment-overlay{
+    .icons-show-comment{
+      position: absolute;
+      font-size: 18px;
+      color: #555;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 5px 7px;
+      border-radius: 50%;
+      border: 1px solid #a1dcf7;
+      background-color: #a1dcf7;
+    }
+    .icons-show-comment:hover {
+      color: #fff;
+      background-color: #38b3ef;
+    }
+  }
+}
+.ant-tooltip-inner{
+  background-color: #38b3ef !important;
+
+}
+.ant-tooltip-arrow-content {
+  --antd-arrow-background-color: #38b3ef
+}
+.hidden{
+  opacity: 0.1;
+  background-color: #777;
+  border-radius: 30px;
+}
+.icon-delete-content{
+  position: absolute;
+  color: #555;
+  right: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 30px;
+  display: flex;
+}
+.icon-delete-comment{
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  color: #555;
+}
+.icon-delete-comment:hover{
+  background-color: #e41e3f;
+  color: #fff;
+  font-size: 18px;
 }

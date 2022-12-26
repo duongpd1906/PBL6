@@ -34,141 +34,146 @@ const getPostById = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-	try {
-		const newPost = new Post({
-			text: req.body.text,
-			user: req.user.userId,
-			status: req.body.status,
-		});
-		const post = await newPost.save();
-		res.status(StatusCodes.OK).json(post);
-	} catch (err) {
-		console.error(err.message);
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
-	}
+    try {
+        const newPost = new Post({
+            text: req.body.text,
+            user: req.user.userId,
+            status: req.body.status,
+        });
+        const post = await newPost.save();
+        res.status(StatusCodes.OK).json(post);
+    } catch (err) {
+        console.error(err.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 };
 
 const updatePostImage = async (req, res) => {
-	try {
-		if (req.files) {
-			const postId = req.params.id;
-			// Check if user exists
-			const dbPost = await Post.findById(req.params.id).populate("user");
-			if (dbPost) {
-				// Update post image in database
-				const listImages = [];
+    try {
+        if (req.files) {
+            const postId = req.params.id;
+            // Check if user exists
+            const dbPost = await Post.findById(req.params.id).populate("user");
+            if (dbPost) {
+                // Update post image in database
+                const listImages = [];
 
-				for (let i = 0; i < req.files.length; i++) {
-					const imageUrl = `http://127.0.0.1:5000/images/posts/${postId}_${req.files[i].originalname}`;
-					listImages.push(imageUrl);
-				}
-				const updatePost = {
-					images: listImages,
-				};
+                for (let i = 0; i < req.files.length; i++) {
+                    const imageUrl = `http://127.0.0.1:5000/images/posts/${postId}_${req.files[i].originalname}`;
+                    listImages.push(imageUrl);
+                }
+                const updatePost = {
+                    images: listImages,
+                };
 
-				await Post.findOneAndUpdate(
-					{ _id: dbPost.id },
-					{ $set: updatePost },
-					{
-						new: true,
-					}
-				);
-				res.status(StatusCodes.OK).json({
-					message: "Upload images successfully !",
-				});
-			} else {
-				return res.status(404).json({
-					message: "Post not found!",
-				});
-			}
-		} else {
-			return res.status(400).json({
-				message: "Image file not found!",
-			});
-		}
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({
-			message: "Something went wrong!",
-			error: error,
-		});
-	}
+                await Post.findOneAndUpdate(
+                    { _id: dbPost.id },
+                    { $set: updatePost },
+                    {
+                        new: true,
+                    }
+                );
+                res.status(StatusCodes.OK).json({
+                    message: "Upload images successfully !",
+                });
+            } else {
+                return res.status(404).json({
+                    message: "Post not found!",
+                });
+            }
+        } else {
+            return res.status(400).json({
+                message: "Image file not found!",
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong!",
+            error: error,
+        });
+    }
 };
 
 const updatePost = async (req, res) => {
-	try {
-		const post = await Post.findById(req.params.id);
-		if (!post) {
-			return res
-				.status(StatusCodes.NOT_FOUND)
-				.json({ msg: "Post not found" });
-		}
-		if (req.body.saver) {
-			if (!post.beSaved.includes(req.body.saver)) {
-				await post.updateOne({ $push: { beSaved: req.user.userId } });
-				res.status(200).json("Save post success");
-			} else {
-				await post.updateOne({ $pull: { beSaved: req.user.userId } });
-				res.status(200).json("Unsave post success");
-			}
-		}
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res
+                .status(StatusCodes.NOT_FOUND)
+                .json({ msg: "Post not found" });
+        }
+        if (req.body.saver) {
+            if (!post.beSaved.includes(req.body.saver)) {
+                await post.updateOne({ $push: { beSaved: req.user.userId } });
+                res.status(200).json("Save post success");
+            } else {
+                await post.updateOne({ $pull: { beSaved: req.user.userId } });
+                res.status(200).json("Unsave post success");
+            }
+        }
 
-		checkPermissions(req.user, post.user);
-		const updatedPost = await Post.findOneAndUpdate(
-			{ _id: req.params.id },
-			{ text: req.body.text },
-			{
-				new: true,
-				runValidators: true,
-			}
-		);
-		res.status(StatusCodes.OK).json({ updatedPost });
-	} catch (err) {
-		console.error(err.message);
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
-	}
+        checkPermissions(req.user, post.user);
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: req.params.id },
+            { text: req.body.text },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+        res.status(StatusCodes.OK).json({ updatedPost });
+    } catch (err) {
+        console.error(err.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 };
 
 const deletePost = async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id);
 
-		if (!post) {
-			return res
-				.status(StatusCodes.NOT_FOUND)
-				.json({ msg: "Post not found" });
-		}
+        if (!post) {
+            return res
+                .status(StatusCodes.NOT_FOUND)
+                .json({ message: "Post not found!" });
+        }
 
 		checkPermissions(req.user, post.user);
 
 		await post.remove();
 
-		res.status(StatusCodes.OK).json({ msg: "Post removed" });
-	} catch (err) {
-		console.error(err.message);
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
-	}
+        res.status(StatusCodes.OK).json({
+            message: "Delete post successfully!",
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Something went wrong!",
+            error: err,
+        });
+    }
 };
 
 const predict = async (req, res) => {
-	try {
-		const text = req.body.text;
-		let predictionVal = "0";
-		const python = spawn("python3", ["./predict/script.py", text]);
-		python.stdout.on("data", (data) => {
-			console.log("python data: ", data.toString());
-			predictionVal = data.toString();
-		});
-		python.on("close", (code, signal) =>
-			console.log(`process closed: code ${code} and signal ${signal}`)
-		);
-		setTimeout(() => {
-			res.json(predictionVal.substring(0, 8));
-		}, 7000);
-	} catch (err) {
-		console.error(err.message);
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
-	}
+    try {
+        const text = req.body.text;
+        let predictionVal = "negative";
+        const python = spawn("python3", ["./predict/script.py", text]);
+        python.stdout.on("data", (data) => {
+            console.log("python data: ", data.toString());
+            predictionVal = data.toString();
+        });
+        python.on("close", (code, signal) =>
+            console.log(`process closed: code ${code} and signal ${signal}`)
+        );
+        setTimeout(() => {
+            res.json(predictionVal.substring(0, 8));
+        }, 3000);
+    } catch (err) {
+        console.error(err.message);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 };
 export {
 	createPost,

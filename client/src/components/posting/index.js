@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Form } from "antd";
+import { Input, Form, Spin } from "antd";
 import { useAppContext } from "../../context/appContext";
 import "./posting.scss";
 import axios from "axios";
@@ -9,6 +9,7 @@ function Posting() {
 	const { createPost, userProfile } = useAppContext();
 	const [images, setImages] = useState([]);
 	const [showImages, setShowImages] = useState([]);
+	const [responseState, setResponSate] = useState(false)
 
 	const handleUploadImage = (e) => {
 		var listsShowImage = showImages.slice();
@@ -25,6 +26,7 @@ function Posting() {
 				formData.append("post-img", images[i]);
 			}
 			try {
+				setResponSate(true)
 				await axios
 					.post("http://localhost:5000/api/post/predict", {
 						text: values.text,
@@ -33,7 +35,6 @@ function Posting() {
 						return respData.data;
 					})
 					.then((data) => {
-						console.log(data);
 						const newPost = {
 							text: values.text,
 							images: formData,
@@ -63,7 +64,7 @@ function Posting() {
 								}
 							);
 						}
-						// window.location.reload(false);
+						window.location.reload(false);
 					});
 			} catch (error) {
 				console.log(error);
@@ -71,6 +72,7 @@ function Posting() {
 		}
 	};
 	return (
+		<div className="d-flex flex-column">
 		<Form className="posting-container" onFinish={handleSubmit}>
 			<div className="posting-container__top">
 				<img src={userProfile?.user.avatar} alt="" />
@@ -127,7 +129,16 @@ function Posting() {
 			<button type="submit" className="btn-blue">
 				Đăng bài
 			</button>
+			
 		</Form>
+		{
+			responseState &&
+			<div className="posting-spin">
+				<Spin />
+				<p>Đang xử lí</p>
+			</div>
+		}
+		</div>
 	);
 }
 export default Posting;

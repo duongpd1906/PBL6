@@ -1,7 +1,7 @@
 textarea{
     height: inherit;
 }
-.posting-container{
+.edit-post-container{
     width: 100%;
     display: flex;
     height: fit-content;
@@ -10,7 +10,6 @@ textarea{
     padding-bottom: 0;
     margin: 20px auto;
     background-color: #fff;
-    border: 1px solid #dbdbdb;
     border-radius: 10px;
     &__top{
         width: 100%;
@@ -81,13 +80,11 @@ textarea{
         margin: 15px 0;
     }
 }
-.posting-spin{
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    p{
-        font-size: 14px;
-        color: #333;
+.edit-post-modal{
+    width: 43% !important;
+    min-width: 600px!important;
+    .ant-modal-body{
+        padding-bottom: 10px;
+        padding-top: 30px;
     }
 }

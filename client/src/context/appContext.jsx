@@ -352,21 +352,22 @@ const AppProvider = ({ children }) => {
 	};
 
 	const getCommentsByParentId = async (postId, limit) => {
-		dispatch({ type: GET_COMMENTS_OF_COMMENT_BEGIN });
-		try {
-			const {data} = await authFetch.get(`/comment/parent-comment/${postId}?limit=${limit}`);
-			dispatch({
-				type: GET_COMMENTS_OF_COMMENT_SUCCESS,
-				payload: { commentsOfComment: data },
-			});
-		} catch (error) {
-			if (error.response.status === 401) return;
-			dispatch({
-				type: GET_COMMENTS_OF_COMMENT_ERROR,
-				payload: { msg: error.response.data.msg },
-			});
-		}
-		clearAlert();
+		// dispatch({ type: GET_COMMENTS_OF_COMMENT_BEGIN });
+		// try {
+		// 	const {data} = await authFetch.get(`/comment/parent-comment/${postId}?limit=${limit}`);
+
+		// 	dispatch({
+		// 		type: GET_COMMENTS_OF_COMMENT_SUCCESS,
+		// 		payload: { commentsOfComment: data },
+		// 	});
+		// } catch (error) {
+		// 	if (error.response.status === 401) return;
+		// 	dispatch({
+		// 		type: GET_COMMENTS_OF_COMMENT_ERROR,
+		// 		payload: { msg: error.response.data.msg },
+		// 	});
+		// }
+		// clearAlert();
 	};
 
 	const commentPost = async (comment) => {

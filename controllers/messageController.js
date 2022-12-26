@@ -1,10 +1,11 @@
 import Message from "../models/Message.js";
 import User from "../models/User.js";
+import { spawn } from "child_process";
 
 const addMessage = async (req, res) => {
-	const newMessage = new Message(req.body);
-
+	
 	try {
+		const newMessage = new Message(req.body);
 		const savedMessage = await newMessage.save();
 		res.status(200).json(savedMessage);
 	} catch (err) {

@@ -45,10 +45,10 @@ function Messages(props) {
 			<div className="messages-content__messanges py-2" style={{height: messageHeight}} >
 				{props.listmessages.map((item) =>
 					item.sender !== props.friendId ? (
-						<MyMessages message={item.text} />
+						<MyMessages message={item}/>
 					) : (
 						<FriendMessages
-							message={item.text}
+							message={item}
 							avatar={friend.avatar}
 						/>
 					)

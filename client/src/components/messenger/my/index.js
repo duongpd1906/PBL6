@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { EyeOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 
 import "./my-messenger.scss";
 
-function MyMessages(props) {
+function MyMessages({ message }) {
+    const [showHiddenComment, setShowHiddenComment] = useState(false);
     return (
-        <div className="my-messages-content">
-            <div className="messange">{props.message}</div>
+        <div className={
+            showHiddenComment ? "my-messages-content" : "my-messages-content border"
+        }>
+            <div
+                className={
+                    !showHiddenComment && message.status === "negative"
+                        ? "messange hidden"
+                        : "messange"
+                }
+            >
+                {message.text}
+            </div>
+            {message.status === "negative" && !showHiddenComment && (
+                <div className="comment-overlay">
+                    <Tooltip title="View chat">
+                        <EyeOutlined
+                            className="icons-show-comment"
+                            onClick={() => setShowHiddenComment(true)}
+                        />
+                    </Tooltip>
+                </div>
+            )}
         </div>
     );
 }

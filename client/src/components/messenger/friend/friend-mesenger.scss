@@ -13,12 +13,43 @@
             border-radius: 50%;
         }
     }
+    &__text{
+        position: relative;   
+        border-radius: 30px;
+        padding: 1px;
+    }
+    .border{
+        border: 1px solid #efefef;
+        padding: 0;
+    }
     .messange {
-        height: fit-content;
+        height: 100%;
         margin: auto 0;
         padding: 10px 15px;
         border-radius: 30px;
         background-color: #efefef;
         font-size: 14px;
     }
+    .comment-overlay{
+        .icons-show-comment{
+          position: absolute;
+          font-size: 15px;
+          color: #555;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          padding: 3px 5px;
+          border-radius: 50%;
+          border: 1px solid #a1dcf7;
+          background-color: #a1dcf7;
+        }
+        .icons-show-comment:hover {
+          color: #fff;
+          background-color: #38b3ef;
+        }
+      }
 }
+.hidden{
+    opacity: 0.1;
+    background-color: #777;
+  }

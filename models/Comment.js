@@ -11,6 +11,9 @@ const CommentSchema = new mongoose.Schema({
         ref: "User",
         required: [true, "Please provide user"],
     },
+    status: {
+        type: String,
+    },
     text: {
         type: String,
     },
