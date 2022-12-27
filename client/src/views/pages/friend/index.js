@@ -9,11 +9,16 @@ const SUGGESTIONS_TAB = 3;
 
 function Friends() {
     const [tab, setTab] = useState(ALL_FRIENDS_TAB);
+    const [userProfile, setUserProfile] = useState();
     const { user, listUsers, getAllUsers } = useAppContext();
     useEffect(() => {
         getAllUsers();
     }, []);
+    useEffect(() => {
+        setUserProfile(listUsers?.find(item => item.user._id === user._id))
+    }, [listUsers]);
     return (
+        userProfile && listUsers &&
         <div className="friend-container col-8">
             <div className="friend-container__tabs">
                 <div
@@ -50,6 +55,7 @@ function Friends() {
                                       <FriendCard
                                           data={record}
                                           tabStatus={tab}
+                                          userProfile={userProfile}
                                       />
                                   )
                           )
@@ -64,13 +70,14 @@ function Friends() {
                                       <FriendCard
                                           data={record}
                                           tabStatus={tab}
+                                          userProfile={userProfile}
                                       />
                                   )
                           )
                     : listUsers.map(
                           (record) =>
                               record.friends.includes(user._id) && (
-                                  <FriendCard data={record} tabStatus={tab} />
+                                  <FriendCard data={record} tabStatus={tab} userProfile={userProfile}/>
                               )
                       )}
             </div>

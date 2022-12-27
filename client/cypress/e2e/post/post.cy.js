@@ -87,7 +87,6 @@ describe("Post spec", () => {
     });
 
     it("Check action like post", () => {
-        console.log(userProfile);
         listPosts.map((post, index) => {
             if (post.status === "1") {
                 cy.get(".post-container__bottom__action")

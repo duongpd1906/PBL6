@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import Like from "../models/Like.js";
 import Comment from "../models/Comment.js";
 import { StatusCodes } from "http-status-codes";
 import { spawn } from "child_process";
@@ -112,7 +113,6 @@ const updatePost = async (req, res) => {
                 res.status(200).json("Unsave post success");
             }
         }
-
         checkPermissions(req.user, post.user);
         const updatedPost = await Post.findOneAndUpdate(
             { _id: req.params.id },
@@ -140,7 +140,8 @@ const deletePost = async (req, res) => {
         }
 
 		checkPermissions(req.user, post.user);
-
+        await Comment.deleteMany({ post: post });
+        await Like.deleteMany({ post: post });
 		await post.remove();
 
         res.status(StatusCodes.OK).json({
@@ -169,7 +170,7 @@ const predict = async (req, res) => {
         );
         setTimeout(() => {
             res.json(predictionVal.substring(0, 8));
-        }, 3000);
+        }, 4000);
     } catch (err) {
         console.error(err.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");

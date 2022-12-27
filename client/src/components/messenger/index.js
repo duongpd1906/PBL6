@@ -7,13 +7,14 @@ import "./messenger.scss";
 import axios from "axios";
 
 function Messages(props) {
-	const [messageHeight, setMessageHeight] = useState(515);
+	const [messageHeight, setMessageHeight] = useState("700px");
 	const [friend, setFriend] = useState([]);
 	const bottomRef = useRef(null);
-	// bottomRef.current?.scrollIntoView({block: "start"});
+	bottomRef.current?.scrollIntoView();
 
 	useEffect(() => {
 		bottomRef.current?.scrollIntoView({block: "end", behavior: 'smooth'});
+		// console.log(props.arrivalMessages);
 	}, [props.newMessage]);
 
 	useEffect(() => {
@@ -31,7 +32,6 @@ function Messages(props) {
 	}, [props.friendId]);
 
 	const onHeightChange = (values) => {
-		setMessageHeight(515 - (values-32))
 	}
 	return (
 		<div className="messages-content">

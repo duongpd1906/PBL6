@@ -116,7 +116,7 @@ function Post({ post }) {
                         parentId: values.parentId,
                         status: data,
                     };
-                    const response = axios.post(
+                    axios.post(
                         "http://localhost:5000/api/comment",
                         comment,
                         {
@@ -126,7 +126,7 @@ function Post({ post }) {
                                 )}`,
                             },
                         }
-                    );
+                    ).then();
                     setResponSate(false)
                 });
                 setShowComment(true);
@@ -282,7 +282,7 @@ function Post({ post }) {
                                     </div>
                                 )}
                             </div>
-                            <p className="post-text mt-2">{currentPost.text}</p>
+                            <p className="post-text mt-2" dangerouslySetInnerHTML={{__html: currentPost.text.replace(/\n/g, '<br/>')}} />
                         </div>
                         <div className="position-relative">
                             {currentPost.images.length > 0 && (

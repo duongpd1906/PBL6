@@ -41,9 +41,6 @@ import {
 	GET_COMMENTS_OF_POST_BEGIN,
 	GET_COMMENTS_OF_POST_SUCCESS,
 	GET_COMMENTS_OF_POST_ERROR,
-	GET_COMMENTS_OF_COMMENT_BEGIN,
-	GET_COMMENTS_OF_COMMENT_SUCCESS,
-	GET_COMMENTS_OF_COMMENT_ERROR,
 	COMMENT_POST_BEGIN,
 	COMMENT_POST_SUCCESS,
 	COMMENT_POST_ERROR,
@@ -134,7 +131,6 @@ const AppProvider = ({ children }) => {
 				currentUser
 			);
 			const { user, token } = response.data;
-			console.log(user);
 			dispatch({
 				type: REGISTER_USER_SUCCESS,
 				payload: {

@@ -46,3 +46,7 @@ Ví dụ:  aaaaaa your commit
 - Gõ " git reset --soft bbbbbb"
 - Tới đây bắt đầu sửa code
 - Sửa code xong thì gõ " git push -f" để đưa code mới nhất lên remote
+
+source venv/bin/activate
+pip3 install -r  requirements.txt 
+node server.js

@@ -53,7 +53,7 @@ function Comment({ post, comment, handleCreateComment }) {
     }, []);
     const handleCreateLike = () => {
         const like = {
-            comment_id: comment._id,
+            commentId: comment._id,
         };
         createLike(like);
         if (likeState) {
@@ -106,7 +106,7 @@ function Comment({ post, comment, handleCreateComment }) {
                                     ? commenterUser?.fullName
                                     : comment.commenter.username}
                             </a>
-                            <p>{comment.text}</p>
+                            <p dangerouslySetInnerHTML={{__html: comment.text.replace(/\n/g, '<br/>')}} />
                             {numberOfLike > 0 && (
                                 <Tooltip
                                     title={() =>
