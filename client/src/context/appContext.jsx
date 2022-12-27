@@ -158,20 +158,20 @@ const AppProvider = ({ children }) => {
 			const { data } = await axios.post("/api/auth/login", currentUser);
 			const { user, token } = data;
 
-            dispatch({
-                type: LOGIN_USER_SUCCESS,
-                payload: { user, token },
-            });
-            getProfileById(user._id)
-            addUserToLocalStorage({ user, token });
-        } catch (error) {
-            dispatch({
-                type: LOGIN_USER_ERROR,
-                payload: { msg: error.response.data.msg },
-            });
-        }
-        clearAlert();
-    };
+			dispatch({
+				type: LOGIN_USER_SUCCESS,
+				payload: { user, token },
+			});
+			getProfileById(user._id);
+			addUserToLocalStorage({ user, token });
+		} catch (error) {
+			dispatch({
+				type: LOGIN_USER_ERROR,
+				payload: { msg: error.response.data.msg },
+			});
+		}
+		clearAlert();
+	};
 
 	const logoutUser = () => {
 		dispatch({ type: LOGOUT_USER });
@@ -214,11 +214,12 @@ const AppProvider = ({ children }) => {
 	const updateUserProfile = async (userProfile) => {
 		dispatch({ type: UPDATE_USER_PROFILE_BEGIN });
 		try {
-			const { data } = await authFetch.put('/user', userProfile);
+			const { data } = await authFetch.put("/user", userProfile);
 			dispatch({
 				type: UPDATE_USER_PROFILE_SUCCESS,
 				payload: { userProfile: data },
 			});
+			window.location.reload(false);
 		} catch (error) {
 			dispatch({
 				type: UPDATE_USER_PROFILE_ERROR,
@@ -316,8 +317,10 @@ const AppProvider = ({ children }) => {
 	const getConversationFromTwoUser = async (user_id, friend_id) => {
 		dispatch({ type: GET_CONVERSATION_BEGIN });
 		try {
-			if(user_id && friend_id){
-				const {data} = await authFetch.get(`/conversation/find/${user_id}/${friend_id}`);
+			if (user_id && friend_id) {
+				const { data } = await authFetch.get(
+					`/conversation/find/${user_id}/${friend_id}`
+				);
 				dispatch({
 					type: GET_CONVERSATION_SUCCESS,
 					payload: { conversation: data },
@@ -336,7 +339,9 @@ const AppProvider = ({ children }) => {
 	const getCommentsByPostId = async (postId, limit) => {
 		dispatch({ type: GET_COMMENTS_OF_POST_BEGIN });
 		try {
-			const {data} = await authFetch.get(`/comment/post/${postId}?limit=${limit}`);
+			const { data } = await authFetch.get(
+				`/comment/post/${postId}?limit=${limit}`
+			);
 			dispatch({
 				type: GET_COMMENTS_OF_POST_SUCCESS,
 				payload: { commentsOfPost: data },
@@ -355,7 +360,6 @@ const AppProvider = ({ children }) => {
 		// dispatch({ type: GET_COMMENTS_OF_COMMENT_BEGIN });
 		// try {
 		// 	const {data} = await authFetch.get(`/comment/parent-comment/${postId}?limit=${limit}`);
-
 		// 	dispatch({
 		// 		type: GET_COMMENTS_OF_COMMENT_SUCCESS,
 		// 		payload: { commentsOfComment: data },
@@ -373,7 +377,7 @@ const AppProvider = ({ children }) => {
 	const commentPost = async (comment) => {
 		dispatch({ type: COMMENT_POST_BEGIN });
 		try {
-			await authFetch.post('/comment', comment);
+			await authFetch.post("/comment", comment);
 			dispatch({
 				type: COMMENT_POST_SUCCESS,
 			});
@@ -390,7 +394,7 @@ const AppProvider = ({ children }) => {
 	const createLike = async (like) => {
 		dispatch({ type: CREATE_LIKE_BEGIN });
 		try {
-			await authFetch.post('/like', like);
+			await authFetch.post("/like", like);
 			dispatch({
 				type: CREATE_LIKE_SUCCESS,
 			});
