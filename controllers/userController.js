@@ -1,12 +1,21 @@
 import { StatusCodes } from "http-status-codes";
 import Profile from "../models/Profile.js";
 import User from "../models/User.js";
+import { uploadToCloudinary } from "../middleware/upload.js";
+import bufferToDataURI from "../utils/file.js";
 
 const updateUserAvatar = async (req, res) => {
 	try {
+		const { file } = req;
+		if (!file) throw new ErrorHandler(400, "Image is required");
+
+		const fileFormat = file.mimetype.split("/")[1];
+		const { base64 } = bufferToDataURI(fileFormat, file.buffer);
+
+		const imageDetails = await uploadToCloudinary(base64, fileFormat);
+
 		const currentUser = await User.findOne({ _id: req.user.userId });
-		currentUser.avatar =
-			"http://127.0.0.1:5000/images/avatars/" + req.file.filename;
+		currentUser.avatar = imageDetails.secure_url;
 		await User.findOneAndUpdate(
 			{ _id: req.user.userId },
 			{ $set: currentUser },
@@ -100,15 +109,15 @@ const updateUserProfile = async (req, res) => {
 		const userProfile = await Profile.findOne({
 			user: req.user.userId,
 		}).populate("user");
-		userProfile.fullName = req.body.fullName
-		userProfile.gender = req.body.gender
-		userProfile.address = req.body.address
-		userProfile.phoneNumber = req.body.phoneNumber
-		userProfile.hoppy = req.body.hoppy
-		userProfile.dayOfBirth = req.body.dayOfBirth
+		userProfile.fullName = req.body.fullName;
+		userProfile.gender = req.body.gender;
+		userProfile.address = req.body.address;
+		userProfile.phoneNumber = req.body.phoneNumber;
+		userProfile.hoppy = req.body.hoppy;
+		userProfile.dayOfBirth = req.body.dayOfBirth;
 		const updateUserProfile = await Profile.findOneAndUpdate(
 			{ _id: userProfile._id },
-			{ $set: userProfile },
+			{ $set: userProfile }
 		).populate("user");
 		res.status(StatusCodes.OK).json(updateUserProfile);
 	} catch (error) {
@@ -151,5 +160,5 @@ export {
 	getProfileById,
 	updateUserProfile,
 	getMyInvitation,
-    getUserById,
+	getUserById,
 };

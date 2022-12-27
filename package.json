@@ -27,8 +27,10 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "child_process": "^1.0.2",
+    "cloudinary": "^1.33.0",
     "concurrently": "^7.4.0",
     "cors": "^2.8.5",
+    "datauri": "^4.1.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
