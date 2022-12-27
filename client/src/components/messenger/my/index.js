@@ -17,7 +17,8 @@ function MyMessages({ message }) {
                         : "messange"
                 }
             >
-                {message.text}
+                <p dangerouslySetInnerHTML={{__html: message.text.replace(/\n/g, '<br/>')}} />
+            
             </div>
             {message.status === "negative" && !showHiddenComment && (
                 <div className="comment-overlay">

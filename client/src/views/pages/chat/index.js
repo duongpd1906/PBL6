@@ -45,23 +45,22 @@ function Chat(props) {
 	}, [arrivalMessage, currentChat]);
 
 	useEffect(() => {
-		socket.current.emit("addUser", user._id);
-		socket.current.on("getUsers", (users) => {
-			console.log(users);
-		});
-	}, [user]);
+		if(currentChat){
 
-	useEffect(() => {
-		navigate("/chat", { replace: true });
-		const getMessages = async () => {
-			try {
-				const res = await axios.get("/api/message/" + currentChat?._id);
-				setMessages(res.data);
-			} catch (err) {
-				console.log(err);
+			navigate("/chat", { replace: true });
+			const getMessages = async () => {
+				try {
+					const res = await axios.get("/api/message/" + currentChat?._id);
+					setMessages(res.data);
+				} catch (err) {
+					console.log(err);
 			}
 		};
 		getMessages();
+		currentChat.members.map((userId) => {
+			socket.current.emit("addUser", userId);
+		})
+	}
 	}, [currentChat]);
 	const handleSubmit = async () => {
 		if (newMessage === "") {
@@ -76,7 +75,6 @@ function Chat(props) {
 		const receiverId = currentChat.members?.find(
 			(member) => member !== user._id
 		);
-			console.log(receiverId);
 		socket.current.emit("sendMessage", {
 			senderId: user._id,
 			receiverId,
@@ -93,7 +91,6 @@ function Chat(props) {
 	};
 
 	useEffect(() => {
-		// console.log(arrivalMessage);
 		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
 

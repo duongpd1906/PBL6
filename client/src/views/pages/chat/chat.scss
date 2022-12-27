@@ -1,5 +1,5 @@
 .chat-container {
-    width: 900px;
+    min-width: 900px;
     margin: auto;
     display: flex;
     background-color: #fafafa;
@@ -47,7 +47,8 @@
     }
 
     .chat-bar {
-        height: 570px;
+        height: 80vh;
+        min-height: 570px;
         overflow-y: auto;
     }
 }

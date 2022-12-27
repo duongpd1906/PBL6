@@ -80,7 +80,7 @@ function RepliedComment({ post, repliedComment, handleDeleteCommnet }) {
                                 ? repliedUser.fullName
                                 : repliedUser.user.username}
                         </a>
-                        <p>{repliedComment.text}</p>
+                        <p dangerouslySetInnerHTML={{__html: repliedComment.text.replace(/\n/g, '<br/>')}} />
                         {numberOfLike > 0 && (
                             <Tooltip
                                 title={() =>

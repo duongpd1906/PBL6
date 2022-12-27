@@ -2,6 +2,7 @@ import Comment from "../models/Comment.js";
 import Post from "../models/Post.js";
 import { StatusCodes } from "http-status-codes";
 import { spawn } from "child_process";
+import Like from "../models/Like.js";
 
 const getCommentsByPostId = async (req, res) => {
     try {
@@ -33,7 +34,6 @@ const getCommentsByParentId = async (req, res) => {
 
 const createComment = async (req, res) => {
     try {
-        console.log(req.body.status);
         const newComment = new Comment({
             post: req.body.postId,
             commenter: req.user.userId,
@@ -69,6 +69,11 @@ const deleteComment = async (req, res) => {
                 .status(StatusCodes.NOT_FOUND)
                 .json({ message: "Comment not found!" });
         }
+        // Xoa like
+        for(let i=0;i<comment.comments;i++){
+            await Like.deleteMany({comment: comment.comments[0]._id.toString()})
+        }
+        await Like.deleteMany({comment: comment._id})
         const post = await Post.findOne({ _id: comment.post._id });
         var listComments = post.comments;
         if (comment.comments.length) {
@@ -94,7 +99,7 @@ const deleteComment = async (req, res) => {
                 $pull: { comments: comment },
             });
         }
-
+        
         await comment.remove();
         res.status(StatusCodes.OK).json({
             message: "Delete comment successfully!",

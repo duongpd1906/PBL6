@@ -1,23 +1,26 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import { Input } from "antd";
 import "./chat-footer.scss";
 
 const { TextArea } = Input;
 function ChatFooter(props) {
+	const [isNewLine, setIsNewLine] = useState()
 	const elementRef = useRef(null);
 	const handleSubmit = props.handleSubmit
 	const handlerEnter = (e) => {
-		if (e.key === 'Enter') {
-			handleSubmit(props.newMessage)
+		if (e.keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+			handleSubmit(props.newMessage.replace(/\n/g, "<br/>"))
+			props.onHeightChange(0)
 		}
 	}
 	useEffect(() => {
-		props.onHeightChange(elementRef.current.clientHeight)
-	  }, [elementRef?.current?.clientHeight]);
+		// props.onHeightChange(elementRef.current.clientHeight)	
+	  }, [elementRef.current?.clientHeight]);
 	
 	
 	return (
-		<div className="chat-footer-container m-auto">
+		<div className="chat-footer-container" style={{margin: " 10px auto"}}>
 			<div className="item">
 				<svg
 					aria-label="Emoji"

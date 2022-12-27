@@ -103,7 +103,7 @@ function Post({ post }) {
 		try {
 			setResponSate(true);
 			await axios
-				.post("http://localhost:5000/api/post/predict", {
+				.post("/api/post/predict", {
 					text: values.text,
 				})
 				.then((respData) => {
@@ -117,7 +117,7 @@ function Post({ post }) {
 						status: data,
 					};
 					const response = axios.post(
-						"http://localhost:5000/api/comment",
+						"/api/comment",
 						comment,
 						{
 							headers: {
